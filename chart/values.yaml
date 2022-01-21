@@ -1,0 +1,295 @@
+# -- Overrides the chart's name
+nameOverride: ""
+
+# -- Overrides the chart's computed fullname
+fullnameOverride: ""
+
+replicas: 1
+
+tempo:
+  # -- The Docker registry
+  # registry: registry1.dso.mil
+  # -- Docker image repository
+  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
+  # -- Overrides the image tag whose default is the chart's appVersion
+  tag: 1.2.1
+  # -- Docker image pull policy
+  pullPolicy: IfNotPresent
+  # -- Image pull secrets for Docker images
+  imagePullSecrets:
+  - name: private-registry
+
+  podSecurityContext:
+    fsGroup: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    runAsUser: 1001
+
+  # repository: grafana/tempo
+  # tag: 1.2.1
+  # pullPolicy: IfNotPresent
+
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+
+  updateStrategy: RollingUpdate
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+
+  #  requests:
+  #    cpu: 1000m
+  #    memory: 4Gi
+  #  limits:
+  #    cpu: 2000m
+  #    memory: 6Gi
+
+  # -- Readiness probe
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+
+  # -- Liveness probe
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+
+  memBallastSizeMbs: 1024
+  authEnabled: false
+  # -- If true, enables Tempo's native search
+  searchEnabled: false
+  ingester: {}
+  retention: 72h
+  overrides: {}
+
+  # Tempo server configuration
+  # Refers to https://grafana.com/docs/tempo/latest/configuration/#server
+  server:
+    # -- HTTP server listen port
+    http_listen_port: 3100
+  # tempo storage backend
+  # refer https://github.com/grafana/tempo/tree/master/docs/tempo/website/configuration
+  ## Use s3 for example
+  # backend: s3                                         # store traces in s3
+  #  s3:
+  #    bucket: tempo                                   # store traces in this bucket
+  #    endpoint: s3.dualstack.us-east-2.amazonaws.com  # api endpoint
+  #    access_key: ...                                 # optional. access key when using static credentials.
+  #    secret_key: ...                                 # optional. secret key when using static credentials.
+  #    insecure: false                                 # optional. enable if endpoint is http
+  ## end
+  storage:
+    trace:
+      backend: local
+      local:
+        path: /var/tempo/traces
+      wal:
+        path: /var/tempo/wal
+  # this configuration will listen on all ports and protocols that tempo is capable of.
+  # the receives all come from the OpenTelemetry collector.  more configuration information can
+  # be found there: https://github.com/open-telemetry/opentelemetry-collector/tree/master/receiver
+  receivers:
+    jaeger:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:14250
+        thrift_binary:
+          endpoint: 0.0.0.0:6832
+        thrift_compact:
+          endpoint: 0.0.0.0:6831
+        thrift_http:
+          endpoint: 0.0.0.0:14268
+    zipkin:
+    otlp:
+      protocols:
+        http:
+        grpc:
+    opencensus:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: "0.0.0.0:4317"
+        http:
+          endpoint: "0.0.0.0:4318"
+
+  ## Additional container arguments
+  extraArgs:
+    "distributor.log-received-traces": true
+  # -- Environment variables to add
+  extraEnv: []
+  # -- Volume mounts to add
+  extraVolumeMounts: []
+  # - name: extra-volume
+  #   mountPath: /mnt/volume
+  #   readOnly: true
+  #   existingClaim: volume-claim
+
+tempoQuery:
+  # -- The Docker registry
+  # registry: registry1.dso.mil
+  # -- Docker image repository
+  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
+  # -- Overrides the image tag whose default is the chart's appVersion
+  tag: 1.2.1
+  # -- Docker image pull policy
+  pullPolicy: IfNotPresent
+
+  # repository: grafana/tempo-query
+  # tag: 1.0.1
+  # pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+
+  # -- Readiness probe
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+
+  # -- Liveness probe
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: http-metrics
+    initialDelaySeconds: 45
+
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+  ## Additional container arguments
+  extraArgs: {}
+  # -- Environment variables to add
+  extraEnv: []
+  # -- Volume mounts to add
+  extraVolumeMounts: []
+  # - name: extra-volume
+  #   mountPath: /mnt/volume
+  #   readOnly: true
+  #   existingClaim: volume-claim
+
+serviceAccount:
+  # -- Specifies whether a ServiceAccount should be created
+  create: true
+  # -- The name of the ServiceAccount to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: null
+  # -- Image pull secrets for the service account
+  imagePullSecrets: []
+  # -- Annotations for the service account
+  annotations: {}
+
+service:
+  type: ClusterIP
+  annotations: {}
+  labels: {}
+
+serviceMonitor:
+  enabled: false
+  interval: ""
+  additionalLabels: {}
+  annotations: {}
+  # scrapeTimeout: 10s
+
+persistence:
+  enabled: true
+  # storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  size: 15Gi
+
+## Pod Annotations
+podAnnotations: {}
+#  prometheus.io/scrape: "true"
+#  prometheus.io/port: "http-metrics"
+
+## Pod (extra) Labels
+podLabels: {}
+
+# -- Volumes to add
+extraVolumes: []
+
+## Node labels for pod assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+#
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## Affinity for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+## Overrides configuration block
+## Tempo provides a overrides module for user to set global or per-tenant override settings.
+## Currenly only ingestion limits can be overridden.
+overrides:
+  ingestion_rate_limit_bytes: 30000000
+
+## OpenTelemetry-collector integration toggle
+## Required for processing zipkin output from Istio
+opentelemetryCollector:
+  enabled: false
+  podSecurityContext:
+    fsGroup: 1001
+    runAsGroup: 1001
+    runAsNonRoot: true
+    runAsUser: 1001
+  imagePullSecrets:
+  - name: private-registry
+  # -- Docker image repository
+  repository: registry1.dso.mil/ironbank/opensource/opentelemetry/opentelemetry-collector
+  # -- Overrides the image tag whose default is the chart's appVersion
+  tag: v0.38.0
+  # -- Docker image pull policy
+  pullPolicy: IfNotPresent
+  memBallastSizeMbs: 683
+
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+  extraArgs: {}
+
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+networkPolicy:
+  enabled: false
+
+networkPolicies:
+  enabled: false
+  # See `kubectl cluster-info` and then resolve to IP
+  controlPlaneCidr: 0.0.0.0/0
+
+istio:
+  enabled: false
+
+monitoring:
+  enabled: false
