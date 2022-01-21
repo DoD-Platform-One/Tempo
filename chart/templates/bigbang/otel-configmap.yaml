@@ -1,0 +1,30 @@
+{{- if .Values.opentelemetryCollector.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: otel-collector-conf
+ namespace: {{ .Release.Namespace }}
+ labels:
+   app: opentelemetry
+   component: otel-collector-conf
+data:
+ otel-collector-config: |
+   receivers:
+     zipkin:
+       endpoint: 0.0.0.0:9411
+   exporters:
+     otlp:
+       endpoint: {{ .Release.Name }}.{{ .Release.Namespace }}.svc:55680
+       tls:
+         insecure: true
+   extensions:
+      zpages: {}
+      memory_ballast:
+        # Memory Ballast size should be max 1/3 to 1/2 of memory.
+        size_mib: {{ .Values.opentelemetryCollector.memBallastSizeMbs }}
+   service:
+     pipelines:
+       traces:
+         receivers: [zipkin]
+         exporters: [otlp]
+{{- end }}
