@@ -18,7 +18,7 @@
         {
             "fileMatch": ["^chart/values\\.yaml$"],
             "matchStrings": [
-                "repository\\S*:\\s*(?<depName>\\S+).*\n\\s+tag:\\s*(?<currentValue>.+)"
+                "repository:\\s*(?<depName>.+)\n.*\n\\s+tag:\\s*(?<currentValue>.+)"
             ],
             "datasourceTemplate": "docker"
         },
