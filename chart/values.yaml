@@ -112,10 +112,6 @@ tempo:
         thrift_http:
           endpoint: 0.0.0.0:14268
     zipkin:
-    otlp:
-      protocols:
-        http:
-        grpc:
     opencensus:
     otlp:
       protocols:
