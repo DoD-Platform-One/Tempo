@@ -45,6 +45,10 @@ spec:
       labels:
         app: opentelemetry
         component: otel-collector
+      annotations:
+        {{- with .Values.podAnnotations }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- with .Values.opentelemetryCollector.imagePullSecrets }}
       imagePullSecrets:
