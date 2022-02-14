@@ -25,5 +25,5 @@ dependencies:
 annotations:
   bigbang.dev/applicationVersions: |
     - Tempo: 1.2.1
-    - Query: 1.2.1
-    - Open Telemetry: 0.38.0 
+    - Tempo Query: 1.2.1
+    - OpenTelemetry Collector: 0.38.0 

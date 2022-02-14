@@ -34,7 +34,7 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Query:\\s*(?<currentValue>.+)"
+                "- Tempo Query:\\s*(?<currentValue>.+)"
             ],
             "depNameTemplate": "ironbank/opensource/grafana/tempo-query",
             "datasourceTemplate": "docker",
@@ -43,7 +43,7 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
-                "- Open Telemetry:\\s*(?<currentValue>.+)"
+                "- OpenTelemetry Collector:\\s*(?<currentValue>.+)"
             ],
             "depNameTemplate": "ironbank/opensource/opentelemetry/opentelemetry-collector",
             "datasourceTemplate": "docker",
