@@ -30,6 +30,24 @@
             "depNameTemplate": "ironbank/opensource/grafana/tempo",
             "datasourceTemplate": "docker",
             "registryUrlTemplate": "https://registry1.dso.mil"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "- Tempo Query:\\s*(?<currentValue>.+)"
+            ],
+            "depNameTemplate": "ironbank/opensource/grafana/tempo-query",
+            "datasourceTemplate": "docker",
+            "registryUrlTemplate": "https://registry1.dso.mil"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "- OpenTelemetry Collector:\\s*(?<currentValue>.+)"
+            ],
+            "depNameTemplate": "ironbank/opensource/opentelemetry/opentelemetry-collector",
+            "datasourceTemplate": "docker",
+            "registryUrlTemplate": "https://registry1.dso.mil"
         }
     ],
     "separateMajorMinor": false
