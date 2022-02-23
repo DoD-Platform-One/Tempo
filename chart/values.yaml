@@ -67,7 +67,7 @@ tempo:
     initialDelaySeconds: 45
 
   memBallastSizeMbs: 1024
-  authEnabled: false
+  multitenancyEnabled: false
   # -- If true, enables Tempo's native search
   searchEnabled: false
   ingester: {}

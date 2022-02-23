@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.12.2-bb.4](https://img.shields.io/badge/Version-0.12.2--bb.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.2.1](https://img.shields.io/badge/AppVersion-1.2.1-informational?style=flat-square)
+![Version: 0.14.1-bb.0](https://img.shields.io/badge/Version-0.14.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.1](https://img.shields.io/badge/AppVersion-1.3.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -39,7 +39,7 @@ helm install tempo chart/
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` |  |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
-| tempo.tag | string | `"1.2.1"` | Overrides the image tag whose default is the chart's appVersion |
+| tempo.tag | string | `"1.3.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for Docker images |
 | tempo.podSecurityContext.fsGroup | int | `1001` |  |
@@ -56,7 +56,7 @@ helm install tempo chart/
 | tempo.readinessProbe.initialDelaySeconds | int | `45` |  |
 | tempo.livenessProbe | object | `{"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}` | Liveness probe |
 | tempo.memBallastSizeMbs | int | `1024` |  |
-| tempo.authEnabled | bool | `false` |  |
+| tempo.multitenancyEnabled | bool | `false` |  |
 | tempo.searchEnabled | bool | `false` | If true, enables Tempo's native search |
 | tempo.ingester | object | `{}` |  |
 | tempo.retention | string | `"72h"` |  |
@@ -77,7 +77,7 @@ helm install tempo chart/
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
-| tempoQuery.tag | string | `"1.2.1"` | Overrides the image tag whose default is the chart's appVersion |
+| tempoQuery.tag | string | `"1.3.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.resources.limits.cpu | string | `"300m"` |  |
 | tempoQuery.resources.limits.memory | string | `"256Mi"` |  |
