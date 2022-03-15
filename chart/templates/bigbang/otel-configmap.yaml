@@ -17,6 +17,11 @@ data:
        endpoint: {{ .Release.Name }}.{{ .Release.Namespace }}.svc:55680
        tls:
          insecure: true
+        sending_queue:
+          num_consumers: 4
+          queue_size: 100
+        retry_on_failure:
+          enabled: true
    extensions:
       zpages: {}
       memory_ballast:
