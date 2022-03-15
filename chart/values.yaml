@@ -69,9 +69,12 @@ tempo:
   memBallastSizeMbs: 1024
   multitenancyEnabled: false
   # -- If true, enables Tempo's native search
-  searchEnabled: false
-  ingester: {}
-  retention: 72h
+  searchEnabled: true
+  ingester:
+    trace_idle_period: 10s
+    max_block_bytes: 1_000_000
+    max_block_duration: 5m
+  retention: 336h #2 weeks retention
   overrides: {}
 
   # Tempo server configuration
@@ -112,6 +115,7 @@ tempo:
         thrift_http:
           endpoint: 0.0.0.0:14268
     zipkin:
+      endpoint: 0.0.0.0:9411
     opencensus:
     otlp:
       protocols:
@@ -275,17 +279,36 @@ opentelemetryCollector:
       memory: 256Mi
   extraArgs: {}
 
-## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
-networkPolicy:
-  enabled: false
-
-networkPolicies:
-  enabled: false
-  # See `kubectl cluster-info` and then resolve to IP
-  controlPlaneCidr: 0.0.0.0/0
-
+# -- Domain used for BigBang created exposed services
+domain: bigbang.dev
+# -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
 istio:
   enabled: false
 
+  # -- Tempo-Query specific VirtualService values
+  tempoQuery:
+    # -- Toggle VirtualService creation
+    enabled: true
+    annotations: {}
+    labels: {}
+    gateways:
+      - istio-system/main
+    hosts:
+      - tracing.{{ .Values.domain }}
+
+# -- Toggle for BigBang specific NetworkPolicies.
+# If disabled no NetworkPolicies will be installed with package
+# ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+networkPolicies:
+  enabled: false
+  # -- Istio IngressGateway labels for VirtualService external routing to app UI
+  ingressLabels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  # -- Use `kubectl cluster-info` and then resolve to IP for kube-api.
+  # Review value description in BigBang README.md
+  controlPlaneCidr: 0.0.0.0/0
+
+# -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
 monitoring:
   enabled: false

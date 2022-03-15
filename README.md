@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.14.1-bb.0](https://img.shields.io/badge/Version-0.14.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.1](https://img.shields.io/badge/AppVersion-1.3.1-informational?style=flat-square)
+![Version: 0.14.1-bb.1](https://img.shields.io/badge/Version-0.14.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.1](https://img.shields.io/badge/AppVersion-1.3.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -38,7 +38,7 @@ helm install tempo chart/
 | nameOverride | string | `""` | Overrides the chart's name |
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` |  |
-| tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
+| tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
 | tempo.tag | string | `"1.3.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for Docker images |
@@ -51,15 +51,15 @@ helm install tempo chart/
 | tempo.resources.limits.memory | string | `"1024Mi"` |  |
 | tempo.resources.requests.cpu | string | `"500m"` |  |
 | tempo.resources.requests.memory | string | `"1024Mi"` |  |
-| tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
-| tempo.readinessProbe.httpGet.port | string | `"http-metrics"` |  |
-| tempo.readinessProbe.initialDelaySeconds | int | `45` |  |
+| tempo.readinessProbe | object | `{"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}` | Readiness probe |
 | tempo.livenessProbe | object | `{"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}` | Liveness probe |
 | tempo.memBallastSizeMbs | int | `1024` |  |
 | tempo.multitenancyEnabled | bool | `false` |  |
-| tempo.searchEnabled | bool | `false` | If true, enables Tempo's native search |
-| tempo.ingester | object | `{}` |  |
-| tempo.retention | string | `"72h"` |  |
+| tempo.searchEnabled | bool | `true` | If true, enables Tempo's native search |
+| tempo.ingester.trace_idle_period | string | `"10s"` |  |
+| tempo.ingester.max_block_bytes | int | `1000000` |  |
+| tempo.ingester.max_block_duration | string | `"5m"` |  |
+| tempo.retention | string | `"336h"` |  |
 | tempo.overrides | object | `{}` |  |
 | tempo.server.http_listen_port | int | `3100` | HTTP server listen port |
 | tempo.storage.trace.backend | string | `"local"` |  |
@@ -69,14 +69,14 @@ helm install tempo chart/
 | tempo.receivers.jaeger.protocols.thrift_binary.endpoint | string | `"0.0.0.0:6832"` |  |
 | tempo.receivers.jaeger.protocols.thrift_compact.endpoint | string | `"0.0.0.0:6831"` |  |
 | tempo.receivers.jaeger.protocols.thrift_http.endpoint | string | `"0.0.0.0:14268"` |  |
-| tempo.receivers.zipkin | string | `nil` |  |
+| tempo.receivers.zipkin.endpoint | string | `"0.0.0.0:9411"` |  |
 | tempo.receivers.opencensus | string | `nil` |  |
 | tempo.receivers.otlp.protocols.grpc.endpoint | string | `"0.0.0.0:4317"` |  |
 | tempo.receivers.otlp.protocols.http.endpoint | string | `"0.0.0.0:4318"` |  |
 | tempo.extraArgs."distributor.log-received-traces" | bool | `true` |  |
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
-| tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
+| tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
 | tempoQuery.tag | string | `"1.3.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.resources.limits.cpu | string | `"300m"` |  |
@@ -124,11 +124,14 @@ helm install tempo chart/
 | opentelemetryCollector.resources.requests.cpu | string | `"300m"` |  |
 | opentelemetryCollector.resources.requests.memory | string | `"256Mi"` |  |
 | opentelemetryCollector.extraArgs | object | `{}` |  |
-| networkPolicy.enabled | bool | `false` |  |
-| networkPolicies.enabled | bool | `false` |  |
-| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` |  |
-| istio.enabled | bool | `false` |  |
-| monitoring.enabled | bool | `false` |  |
+| domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services |
+| istio | object | `{"enabled":false,"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
+| istio.tempoQuery | object | `{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}` | Tempo-Query specific VirtualService values |
+| istio.tempoQuery.enabled | bool | `true` | Toggle VirtualService creation |
+| networkPolicies | object | `{"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
+| networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio IngressGateway labels for VirtualService external routing to app UI |
+| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Use `kubectl cluster-info` and then resolve to IP for kube-api. Review value description in BigBang README.md |
+| monitoring | object | `{"enabled":false}` | Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status |
 
 ## Contributing
 
