@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.14.2-bb.0](https://img.shields.io/badge/Version-0.14.2--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
+![Version: 0.14.2-bb.1](https://img.shields.io/badge/Version-0.14.2--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -48,9 +48,9 @@ helm install tempo chart/
 | tempo.podSecurityContext.runAsUser | int | `1001` |  |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
-| tempo.resources.limits.memory | string | `"1024Mi"` |  |
+| tempo.resources.limits.memory | string | `"4Gi"` |  |
 | tempo.resources.requests.cpu | string | `"500m"` |  |
-| tempo.resources.requests.memory | string | `"1024Mi"` |  |
+| tempo.resources.requests.memory | string | `"4Gi"` |  |
 | tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
 | tempo.readinessProbe.httpGet.port | string | `"http-metrics"` |  |
 | tempo.readinessProbe.initialDelaySeconds | int | `45` |  |
