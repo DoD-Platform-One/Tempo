@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.14.2-bb.1]
 ### Changed
 - Increased default resources for tempo container to prevent OOMKilled
+### Added
+- Added networkpolicy for ingress traffic from kiali
 
 ## [0.14.2-bb.0]
 ### Changed
