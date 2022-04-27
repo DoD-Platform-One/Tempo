@@ -23,7 +23,7 @@ describe('Tempo Test', function() {
       })
     })
 
-    if (Cypress.env("check_grafana")) {
+    if (Cypress.env("check_datasource")) {
 
         it('Check Tempo is available as a data source in grafana ', function() {
             cy.visit(Cypress.env('grafana_url'))
@@ -46,7 +46,7 @@ describe('Tempo Test', function() {
             cy.get('.css-nl2m7').click()
             // Enter tempo-test for datasource name
             cy.get('.max-width-30 > [style="flex-grow: 1;"] > .gf-form-input').clear().type('tempo-test')
-            cy.get('.css-aq4c43 > [style="flex-grow: 1;"] > .gf-form-input').clear().type('http://tempo.tempo.svc:3100')
+            cy.get('.css-aq4c43 > [style="flex-grow: 1;"] > .gf-form-input').clear().type(Cypress.env('tempo_datasource'))
             // // Click on the 'Save & test` button
             cy.get('.css-1e07s1o-button > .css-1mhnkuh').click()
             // Check to ensure the data source is working
