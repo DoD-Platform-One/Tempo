@@ -15,4 +15,10 @@ spec:
     - namespaceSelector:
         matchLabels:
           app.kubernetes.io/name: monitoring
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: grafana
+    ports:
+    - port: 80
+      protocol: TCP
 {{- end }}
