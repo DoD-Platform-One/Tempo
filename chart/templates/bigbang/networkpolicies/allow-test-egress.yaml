@@ -1,6 +1,3 @@
-{{- $bbtests := .Values.bbtests | default dict -}}
-{{- $enabled := (hasKey $bbtests "enabled") -}}
-{{- if $enabled }}
 {{- if and .Values.networkPolicies.enabled .Values.bbtests.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -18,8 +15,4 @@ spec:
     - namespaceSelector:
         matchLabels:
           app.kubernetes.io/name: monitoring
-    ports:
-    - port: 80
-      protocol: TCP
-{{- end }}
 {{- end }}
