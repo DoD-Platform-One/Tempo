@@ -319,6 +319,6 @@ bbtests:
     artifacts: true
     envs:
       cypress_url: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
-      cypress_check_grafana: 'false'
-      cypress_grafana_url: 'http://monitoring-monitoring-grafana.monitoring.svc.cluster.local'
+      cypress_check_grafana: 'true'
+      cypress_grafana_url: 'http://monitoring-grafana.monitoring.svc.cluster.local'
 
