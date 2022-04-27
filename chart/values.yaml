@@ -312,3 +312,13 @@ networkPolicies:
 # -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
 monitoring:
   enabled: false
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
+      cypress_check_grafana: false
+      cypress_grafana_url: 'http://monitoring-monitoring-grafana.monitoring.svc.cluster.local'
+
