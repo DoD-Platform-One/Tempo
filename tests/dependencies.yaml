@@ -1,4 +1,4 @@
 monitoring:
   git: "https://repo1.dso.mil/platform-one/big-bang/apps/core/monitoring.git"
   namespace: "monitoring"
-  branch: "main"
+  branch: "testing_netpols_update"
