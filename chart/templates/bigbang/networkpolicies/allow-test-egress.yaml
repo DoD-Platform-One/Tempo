@@ -16,6 +16,7 @@ spec:
     - namespaceSelector:
         matchLabels:
           app.kubernetes.io/name: monitoring
+      podSelector: {}
   policyTypes:
   - Egress
 {{- end }}
