@@ -2,7 +2,7 @@ networkPolicies:
   enabled: true
 
 monitoring:
-  enabled: true
+  enabled: false
 
 persistence:
   enabled: true
