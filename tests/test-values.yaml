@@ -1,9 +1,6 @@
 networkPolicies:
   enabled: true
 
-monitoring:
-  enabled: false
-
 persistence:
   enabled: true
   # storageClassName: local-path
