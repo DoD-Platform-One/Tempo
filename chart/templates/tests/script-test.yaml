@@ -1,7 +1,7 @@
-{{- include "gluon.tests.script-configmap.overrides" (list . "twistlock-test.script-configmap") }}
-{{- define "twistlock-test.script-configmap" }}
+{{- include "gluon.tests.script-configmap.overrides" (list . "tempo-test.script-configmap") }}
+{{- define "tempo-test.script-configmap" }}
 {{- end }}
 ---
-{{- include "gluon.tests.script-runner.overrides" (list . "twistlock-test.script-runner") -}}
-{{- define "twistlock-test.script-runner" -}}
+{{- include "gluon.tests.script-runner.overrides" (list . "tempo-test.script-runner") -}}
+{{- define "tempo-test.script-runner" -}}
 {{- end }}
