@@ -1,15 +1,26 @@
 #!/bin/bash
 
-# Pause for readiness checks
-sleep 10
+set -e
 
-echo "Checking for tempo readiness"
-if [ $(curl -sw '%{http_code}' "${TEMPO_METRICS_URL}/ready" -o /dev/null) -ne 200 ]; then
-  echo "Failed readiness endpoint check"
+tempo_timeout=$((6*60))
+echo "Hitting tempo /ready endpoint..."
+time curl --retry-delay 2 --retry-max-time ${tempo_timeout} --retry $((tempo_timeout/2)) --retry-connrefused -sIS "${TEMPO_METRICS_URL}/ready" 1>/dev/null || tempo_ec=$?
+# time output shows up a bit after the next two echoes, sleep for formatting
+sleep .1
+if [ -n "${tempo_ec}" ]; then
+  echo "curl returned exit code ${tempo_ec}, see above for error message and curl's elapsed wait time (timeout is ${tempo_timeout}s)"
   exit 1
-else
-  echo "Test 1 Success: Tempo is ready and healthy"
 fi
+echo "Test 1 Success: tempo is up, see above for curl's elapsed wait time."
+
+
+
+# echo "Checking for tempo readiness"
+# if [ $(curl -sw '%{http_code}' "${TEMPO_METRICS_URL}/ready" -o /dev/null) -ne 200 ]; then
+#   echo "Failed readiness endpoint check"
+#   exit 1  
+# fi
+# echo "Test 1 Success: Tempo is ready and healthy"
 
 echo "Checking echo endpoint"
 echo_response=$(curl "${TEMPO_METRICS_URL}/api/echo" 2>/dev/null)
