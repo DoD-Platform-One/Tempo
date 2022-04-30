@@ -325,4 +325,4 @@ bbtests:
   scripts:
     image: registry1.dso.mil/ironbank/big-bang/base:1.2.0
     envs:
-      TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:16687'
+      TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
