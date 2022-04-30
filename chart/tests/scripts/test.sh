@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Pause for readiness checks
+sleep 10
+
 echo "Checking for tempo readiness"
 if [ $(curl -sw '%{http_code}' "${TEMPO_METRICS_URL}/ready" -o /dev/null) -ne 200 ]; then
   echo "Failed readiness endpoint check"
