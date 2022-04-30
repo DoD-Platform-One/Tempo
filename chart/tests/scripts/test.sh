@@ -13,15 +13,6 @@ if [ -n "${tempo_ec}" ]; then
 fi
 echo "Test 1 Success: tempo is up, see above for curl's elapsed wait time."
 
-
-
-# echo "Checking for tempo readiness"
-# if [ $(curl -sw '%{http_code}' "${TEMPO_METRICS_URL}/ready" -o /dev/null) -ne 200 ]; then
-#   echo "Failed readiness endpoint check"
-#   exit 1  
-# fi
-# echo "Test 1 Success: Tempo is ready and healthy"
-
 echo "Checking echo endpoint"
 echo_response=$(curl "${TEMPO_METRICS_URL}/api/echo" 2>/dev/null)
 if [ ${echo_response} != "echo" ]; then
