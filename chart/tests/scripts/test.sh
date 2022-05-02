@@ -26,7 +26,7 @@ echo "Checking for the status of all services to be running"
 status_response=$(curl "${TEMPO_METRICS_URL}/status/services" 2>/dev/null | tail -n +5 | head -n -1)
 while IFS= read -r line; do
     VAR+="$line"
-    echo "$line" | grep 
+    echo "$line" | grep Running
     status=$?
     if [ ${status} -eq 1 ]; then
         exit 1
