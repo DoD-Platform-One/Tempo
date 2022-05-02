@@ -24,12 +24,12 @@ echo "Test 2 Success: echo endpoint responded as expected"
 echo "Checking for the status of all services to be running"
 # Tempo returns a text/plain response via API's, will have to parse. Start by trimming table headers and footer
 status_response=$(curl "${TEMPO_METRICS_URL}/status/services" 2>/dev/null | tail -n +5 | head -n -1)
-while read line; do
-    echo "$line" | grep Running
+while IFS= read -r line; do
+    VAR+="$line"
+    echo "$line" | grep 
     status=$?
     if [ ${status} -eq 1 ]; then
-        echo "Service did not report 'Running'"
         exit 1
     fi
-done < $status_response
+done < <(printf '%s\n' "$status_response")
 echo "Test 3 Success: All services are in a 'Running' state"
