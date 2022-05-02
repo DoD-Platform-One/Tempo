@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.14.2-bb.1](https://img.shields.io/badge/Version-0.14.2--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
+![Version: 0.14.2-bb.2](https://img.shields.io/badge/Version-0.14.2--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -134,6 +134,11 @@ helm install tempo chart/
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio IngressGateway labels for VirtualService external routing to app UI |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Use `kubectl cluster-info` and then resolve to IP for kube-api. Review value description in BigBang README.md |
 | monitoring | object | `{"enabled":false}` | Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status |
+| bbtests.enabled | bool | `false` |  |
+| bbtests.cypress.artifacts | bool | `true` |  |
+| bbtests.cypress.envs.cypress_url | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686"` |  |
+| bbtests.cypress.envs.cypress_check_grafana | bool | `false` |  |
+| bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-monitoring-grafana.monitoring.svc.cluster.local"` |  |
 
 ## Contributing
 

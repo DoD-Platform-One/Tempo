@@ -312,3 +312,17 @@ networkPolicies:
 # -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
 monitoring:
   enabled: false
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
+      cypress_tempo_datasource: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
+      cypress_check_datasource: 'false'
+      cypress_grafana_url: 'http://monitoring-grafana.monitoring.svc.cluster.local'
+  scripts:
+    image: registry1.dso.mil/ironbank/big-bang/base:1.2.0
+    envs:
+      TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
