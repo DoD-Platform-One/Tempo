@@ -15,7 +15,7 @@ echo "Test 1 Success: tempo is up, see above for curl's elapsed wait time."
 
 echo "Checking echo endpoint"
 echo_response=$(curl "${TEMPO_METRICS_URL}/api/echo" 2>/dev/null)
-if [ ${echo_response} != "echo" ]; then
+if [ "${echo_response}" != "echo" ]; then
     echo "${TEMPO_METRICS_URL}/api/echo returned ${echo_response} - instead of the expected 'echo' response"
     exit 1
 fi
@@ -28,7 +28,7 @@ while IFS= read -r line; do
     VAR+="$line"
     echo "$line" | grep Running
     status=$?
-    if [ ${status} -eq 1 ]; then
+    if [ "${status}" -eq 1 ]; then
         exit 1
     fi
 done < <(printf '%s\n' "$status_response")
