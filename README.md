@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.14.2-bb.3](https://img.shields.io/badge/Version-0.14.2--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
+![Version: 0.15.0-bb.0](https://img.shields.io/badge/Version-0.15.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -39,7 +39,7 @@ helm install tempo chart/
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` |  |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
-| tempo.tag | string | `"1.3.2"` | Overrides the image tag whose default is the chart's appVersion |
+| tempo.tag | string | `"1.4.0"` | Overrides the image tag whose default is the chart's appVersion |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for Docker images |
 | tempo.podSecurityContext.fsGroup | int | `1001` |  |
