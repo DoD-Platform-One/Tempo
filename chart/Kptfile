@@ -1,11 +1,11 @@
 apiVersion: kpt.dev/v1alpha1
 kind: Kptfile
 metadata:
-    name: chart
+  name: chart
 upstream:
   type: git
   git:
-    commit: b3f2c9be43bad7814417c8b526d4be3e206da59a
+    commit: d291c16c32a9ba55e785abeca1187add434a276e
     repo: https://github.com/grafana/helm-charts
     directory: /charts/tempo
-    ref: tempo-0.14.2
+    ref: tempo-0.15.0
