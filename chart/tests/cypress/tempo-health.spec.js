@@ -40,8 +40,8 @@ describe('Tempo Test', function() {
           cy.get('input[placeholder="Search by name or type"]')
           .type('tempo')
           // Click on the tempo datasource
-          cy.get('.css-nl2m7').contains('Tempo')
-          cy.get('.css-nl2m7').click()
+          cy.get('.css-1cqw476').contains('Tempo')
+          cy.get('.css-1cqw476').click()
           // Click on the 'Save & test` button
           cy.get('button[type="submit"] > .css-1mhnkuh').click()
           // Check to ensure the data source is working
