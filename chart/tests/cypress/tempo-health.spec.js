@@ -37,7 +37,7 @@ describe('Tempo Test', function() {
           cy.visit(`${Cypress.env('grafana_url')}/datasources`)
           
           // // Enter 'tempo' in the search field and 
-          cy.get('intput[placeholder="Search by name or type"]')
+          cy.get('input[placeholder="Search by name or type"]')
           .type('tempo')
           // Click on the tempo datasource
           cy.get('.css-nl2m7').contains('Tempo')
