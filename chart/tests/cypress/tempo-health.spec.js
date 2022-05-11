@@ -37,13 +37,13 @@ describe('Tempo Test', function() {
           cy.visit(`${Cypress.env('grafana_url')}/datasources`)
           
           // // Enter 'tempo' in the search field and 
-          cy.get('.css-1haxx2a-input-input')
+          cy.get('input[placeholder="Search by name or type"]')
           .type('tempo')
           // Click on the tempo datasource
-          cy.get('.css-nl2m7').contains('Tempo')
-          cy.get('.css-nl2m7').click()
+          cy.get('.css-1cqw476').contains('Tempo')
+          cy.get('.css-1cqw476').click()
           // Click on the 'Save & test` button
-          cy.get('.css-1e07s1o-button > .css-1mhnkuh').click()
+          cy.get('button[type="submit"] > .css-1mhnkuh').click()
           // Check to ensure the data source is working
           cy.get('.p-t-2').contains('Data source is working', {timeout: 10000})
         })
