@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.0-bb.1](https://img.shields.io/badge/Version-0.15.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+![Version: 0.15.1-bb.0](https://img.shields.io/badge/Version-0.15.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -39,7 +39,7 @@ helm install tempo chart/
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` |  |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
-| tempo.tag | string | `"1.4.0"` | Overrides the image tag whose default is the chart's appVersion |
+| tempo.tag | string | `"1.4.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for Docker images |
 | tempo.podSecurityContext.fsGroup | int | `1001` |  |
@@ -79,7 +79,7 @@ helm install tempo chart/
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
-| tempoQuery.tag | string | `"1.3.2"` | Overrides the image tag whose default is the chart's appVersion |
+| tempoQuery.tag | string | `"1.4.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.resources.limits.cpu | string | `"300m"` |  |
 | tempoQuery.resources.limits.memory | string | `"256Mi"` |  |
@@ -140,7 +140,7 @@ helm install tempo chart/
 | bbtests.cypress.envs.cypress_tempo_datasource | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 | bbtests.cypress.envs.cypress_check_datasource | string | `"false"` |  |
 | bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-grafana.monitoring.svc.cluster.local"` |  |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:1.2.0"` |  |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:1.16.0"` |  |
 | bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 
 ## Contributing
