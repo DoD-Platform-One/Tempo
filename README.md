@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.1-bb.0](https://img.shields.io/badge/Version-0.15.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 0.15.1-bb.1](https://img.shields.io/badge/Version-0.15.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -38,7 +38,7 @@ helm install tempo chart/
 | nameOverride | string | `""` | Overrides the chart's name |
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` |  |
-| tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
+| tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
 | tempo.tag | string | `"1.4.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for Docker images |
@@ -51,9 +51,7 @@ helm install tempo chart/
 | tempo.resources.limits.memory | string | `"4Gi"` |  |
 | tempo.resources.requests.cpu | string | `"500m"` |  |
 | tempo.resources.requests.memory | string | `"4Gi"` |  |
-| tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
-| tempo.readinessProbe.httpGet.port | string | `"http-metrics"` |  |
-| tempo.readinessProbe.initialDelaySeconds | int | `45` |  |
+| tempo.readinessProbe | object | `{"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}` | Readiness probe |
 | tempo.livenessProbe | object | `{"httpGet":{"path":"/ready","port":"http-metrics"},"initialDelaySeconds":45}` | Liveness probe |
 | tempo.memBallastSizeMbs | int | `1024` |  |
 | tempo.multitenancyEnabled | bool | `false` |  |
@@ -78,7 +76,7 @@ helm install tempo chart/
 | tempo.extraArgs."distributor.log-received-traces" | bool | `true` |  |
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
-| tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | The Docker registry registry: registry1.dso.mil -- Docker image repository |
+| tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
 | tempoQuery.tag | string | `"1.4.1"` | Overrides the image tag whose default is the chart's appVersion |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.resources.limits.cpu | string | `"300m"` |  |
