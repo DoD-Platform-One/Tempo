@@ -1,0 +1,53 @@
+component-definition:
+  uuid: 623DF5DB-52DD-4D9C-B4B9-6E1D9BA141A7
+  metadata: 
+    title: Tempo Component
+    last-modified: '2021-10-19T12:00:00Z'
+    version: 20211019
+    oscal-version: 1.0.0
+    parties:
+      # Should be consistent across all of the packages, but where is ground truth?
+    - uuid: 72134592-08C2-4A77-ABAD-C880F109367A 
+      type: organization
+      name: Platform One
+      links:
+      - href: <https://p1.dso.mil>
+        rel: website
+  components:
+  - uuid: AE3E8F16-D93B-4594-82A3-5DA38AC066BF
+    type: software
+    title: Tempo
+    description: |
+      Grafana Tempo is an open source, easy-to-use, and high-scale distributed tracing backend
+    purpose: Implementation of Service Mesh
+    responsible-roles:
+    - role-id: provider
+      party-uuid: 72134592-08C2-4A77-ABAD-C880F109367A # matches parties entry for p1
+    control-implementations:
+    - uuid: ED0CF1C6-F869-4B7F-8652-464DDD9873D4
+      source: https://raw.githubusercontent.com/usnistgov/oscal-content/master/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+      description:
+        Controls implemented by Tempo for inheritance by applications
+      implemented-requirements:
+      - uuid: D0EE25CB-DAA8-4298-BBB9-A5AC72034020
+        control-id: si-4.4
+        description: >-
+          Jaeger is used, in conjunction with Istio configurations, to collect and aggregate network communications within the system.  This allows the moniotiring of inbound/outbound traffic and payloads within the deployed environment.
+      - uuid: 3C102ED9-4CE5-4AB1-ABE5-78426DF15BBE
+        control-id: au-4
+        description: >-
+          Uses scalable object storage
+      - uuid: 9904027A-28A8-4808-8617-D0DD29BF9B8B
+        control-id: au-12.1
+        description: >-
+          Provides time-series event compilation capabilities
+  back-matter: 
+      resources:
+      - uuid: 0DA4FE66-9000-49DF-B896-938C94AAE89C
+        title: Tempo
+        rlinks:
+        - href: https://grafana.com/oss/tempo/
+      - uuid: 745E3948-04EE-40E4-9D6A-4F663342A031
+        title: Big Bang Tempo package
+        rlinks:
+          - href: https://repo1.dso.mil/platform-one/big-bang/apps/sandbox/tempo
