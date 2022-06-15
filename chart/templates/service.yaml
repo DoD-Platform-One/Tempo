@@ -32,24 +32,24 @@ spec:
   {{- end }}
 {{- end }}
   ports:
-  - name: tempo-prom-metrics
+  - name: tcp-tempo-prom-metrics
     port: 3100
     targetPort: 3100
-  - name: jaeger-metrics
+  - name: tcp-jaeger-metrics
     port: 16687
     targetPort: 16687
-  - name: tempo-query-jaeger-ui
+  - name: http-tempo-query-jaeger-ui
     port: 16686
     targetPort: 16686
-  - name: tempo-jaeger-thrift-compact
+  - name: udp-tempo-jaeger-thrift-compact
     port: 6831
     protocol: UDP
     targetPort: 6831
-  - name: tempo-jaeger-thrift-binary
+  - name: udp-tempo-jaeger-thrift-binary
     port: 6832
     protocol: UDP
     targetPort: 6832
-  - name: tempo-jaeger-thrift-http
+  - name: tcp-tempo-jaeger-thrift-http
     port: 14268
     protocol: TCP
     targetPort: 14268
@@ -57,15 +57,15 @@ spec:
     port: 14250
     protocol: TCP
     targetPort: 14250
-  - name: tempo-zipkin
+  - name: tcp-tempo-zipkin
     port: 9411
     protocol: TCP
     targetPort: 9411
-  - name: tempo-otlp-legacy
+  - name: tcp-tempo-otlp-legacy
     port: 55680
     protocol: TCP
     targetPort: 55680
-  - name: tempo-otlp-http
+  - name: tcp-tempo-otlp-http
     port: 4318
     protocol: TCP
     targetPort: 4318
@@ -73,7 +73,7 @@ spec:
     port: 4317
     protocol: TCP
     targetPort: 4317
-  - name: tempo-opencensus
+  - name: tcp-tempo-opencensus
     port: 55678
     protocol: TCP
     targetPort: 55678

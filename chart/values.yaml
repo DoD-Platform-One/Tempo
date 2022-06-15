@@ -17,7 +17,7 @@ tempo:
   pullPolicy: IfNotPresent
   # -- Image pull secrets for Docker images
   imagePullSecrets:
-  - name: private-registry
+    - name: private-registry
 
   podSecurityContext:
     fsGroup: 1001
@@ -220,7 +220,8 @@ persistence:
   size: 15Gi
 
 ## Pod Annotations
-podAnnotations: {}
+podAnnotations:
+  traffic.sidecar.istio.io/includeInboundPorts: "16686,3100"
 #  prometheus.io/scrape: "true"
 #  prometheus.io/port: "http-metrics"
 
@@ -261,7 +262,7 @@ opentelemetryCollector:
     runAsNonRoot: true
     runAsUser: 1001
   imagePullSecrets:
-  - name: private-registry
+    - name: private-registry
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/opentelemetry/opentelemetry-collector
   # -- Overrides the image tag whose default is the chart's appVersion
@@ -284,6 +285,11 @@ domain: bigbang.dev
 # -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
 istio:
   enabled: false
+  # -- Default peer authentication values
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
 
   # -- Tempo-Query specific VirtualService values
   tempoQuery:
@@ -320,8 +326,8 @@ bbtests:
     envs:
       cypress_url: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
       cypress_tempo_datasource: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
-      cypress_check_datasource: 'false'
-      cypress_grafana_url: 'http://monitoring-grafana.monitoring.svc.cluster.local'
+      cypress_check_datasource: "false"
+      cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
   scripts:
     image: registry1.dso.mil/ironbank/big-bang/base:1.16.0
     envs:
