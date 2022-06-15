@@ -2,7 +2,7 @@ apiVersion: v2
 name: tempo
 description: Grafana Tempo Single Binary Mode
 type: application
-version: 0.15.1-bb.1
+version: 0.15.1-bb.2
 appVersion: 1.4.1
 engine: gotpl
 home: https://grafana.net
@@ -19,9 +19,9 @@ maintainers:
   - name: dgzlopes
   - name: mapno
 dependencies:
-- name: gluon
-  version: "0.2.4"
-  repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
+  - name: gluon
+    version: "0.2.4"
+    repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
 annotations:
   bigbang.dev/applicationVersions: |
     - Tempo: 1.4.1

@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.1-bb.1](https://img.shields.io/badge/Version-0.15.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 0.15.1-bb.2](https://img.shields.io/badge/Version-0.15.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -125,7 +125,9 @@ helm install tempo chart/
 | opentelemetryCollector.resources.requests.memory | string | `"256Mi"` |  |
 | opentelemetryCollector.extraArgs | object | `{}` |  |
 | domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services |
-| istio | object | `{"enabled":false,"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
+| istio | object | `{"enabled":false,"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default peer authentication values |
+| istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.tempoQuery | object | `{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}` | Tempo-Query specific VirtualService values |
 | istio.tempoQuery.enabled | bool | `true` | Toggle VirtualService creation |
 | networkPolicies | object | `{"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
