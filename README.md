@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.1-bb.2](https://img.shields.io/badge/Version-0.15.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 0.15.1-bb.3](https://img.shields.io/badge/Version-0.15.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -102,7 +102,7 @@ helm install tempo chart/
 | persistence.enabled | bool | `true` |  |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.size | string | `"15Gi"` |  |
-| podAnnotations | object | `{}` |  |
+| podAnnotations."traffic.sidecar.istio.io/includeInboundPorts" | string | `"16686,3100"` |  |
 | podLabels | object | `{}` |  |
 | extraVolumes | list | `[]` | Volumes to add |
 | nodeSelector | object | `{}` |  |
@@ -140,6 +140,7 @@ helm install tempo chart/
 | bbtests.cypress.envs.cypress_tempo_datasource | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 | bbtests.cypress.envs.cypress_check_datasource | string | `"false"` |  |
 | bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-grafana.monitoring.svc.cluster.local"` |  |
+| bbtests.scripts.enabled | bool | `true` |  |
 | bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:1.16.0"` |  |
 | bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 
