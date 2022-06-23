@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.1-bb.3](https://img.shields.io/badge/Version-0.15.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 0.15.1-bb.4](https://img.shields.io/badge/Version-0.15.1--bb.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -109,21 +109,6 @@ helm install tempo chart/
 | tolerations | list | `[]` |  |
 | affinity | object | `{}` |  |
 | overrides.ingestion_rate_limit_bytes | int | `30000000` |  |
-| opentelemetryCollector.enabled | bool | `false` |  |
-| opentelemetryCollector.podSecurityContext.fsGroup | int | `1001` |  |
-| opentelemetryCollector.podSecurityContext.runAsGroup | int | `1001` |  |
-| opentelemetryCollector.podSecurityContext.runAsNonRoot | bool | `true` |  |
-| opentelemetryCollector.podSecurityContext.runAsUser | int | `1001` |  |
-| opentelemetryCollector.imagePullSecrets[0].name | string | `"private-registry"` |  |
-| opentelemetryCollector.repository | string | `"registry1.dso.mil/ironbank/opensource/opentelemetry/opentelemetry-collector"` | Docker image repository |
-| opentelemetryCollector.tag | string | `"v0.38.0"` | Overrides the image tag whose default is the chart's appVersion |
-| opentelemetryCollector.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| opentelemetryCollector.memBallastSizeMbs | int | `683` |  |
-| opentelemetryCollector.resources.limits.cpu | string | `"300m"` |  |
-| opentelemetryCollector.resources.limits.memory | string | `"256Mi"` |  |
-| opentelemetryCollector.resources.requests.cpu | string | `"300m"` |  |
-| opentelemetryCollector.resources.requests.memory | string | `"256Mi"` |  |
-| opentelemetryCollector.extraArgs | object | `{}` |  |
 | domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services |
 | istio | object | `{"enabled":false,"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
 | istio.mtls | object | `{"mode":"STRICT"}` | Default peer authentication values |
@@ -141,7 +126,7 @@ helm install tempo chart/
 | bbtests.cypress.envs.cypress_check_datasource | string | `"false"` |  |
 | bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-grafana.monitoring.svc.cluster.local"` |  |
 | bbtests.scripts.enabled | bool | `true` |  |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:1.16.0"` |  |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:1.18.0"` |  |
 | bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 
 ## Contributing

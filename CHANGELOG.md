@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 ## [0.15.1-bb.3]
+### Removed
+- Removed Open Telemetry since it is no longer used
+### Changed
+- Updated BB base image to 1.18.0
+- Fixed OSCAL validation issues
+
+## [0.15.1-bb.3]
 ### Added
 - Added `bbtests.scripts.enabled` value to conditionally enable script helm tests
 
