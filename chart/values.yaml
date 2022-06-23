@@ -252,34 +252,6 @@ affinity: {}
 overrides:
   ingestion_rate_limit_bytes: 30000000
 
-## OpenTelemetry-collector integration toggle
-## Required for processing zipkin output from Istio
-opentelemetryCollector:
-  enabled: false
-  podSecurityContext:
-    fsGroup: 1001
-    runAsGroup: 1001
-    runAsNonRoot: true
-    runAsUser: 1001
-  imagePullSecrets:
-    - name: private-registry
-  # -- Docker image repository
-  repository: registry1.dso.mil/ironbank/opensource/opentelemetry/opentelemetry-collector
-  # -- Overrides the image tag whose default is the chart's appVersion
-  tag: v0.38.0
-  # -- Docker image pull policy
-  pullPolicy: IfNotPresent
-  memBallastSizeMbs: 683
-
-  resources:
-    limits:
-      cpu: 300m
-      memory: 256Mi
-    requests:
-      cpu: 300m
-      memory: 256Mi
-  extraArgs: {}
-
 # -- Domain used for BigBang created exposed services
 domain: bigbang.dev
 # -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
@@ -330,6 +302,6 @@ bbtests:
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
   scripts:
     enabled: true
-    image: registry1.dso.mil/ironbank/big-bang/base:1.16.0
+    image: registry1.dso.mil/ironbank/big-bang/base:1.18.0
     envs:
       TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
