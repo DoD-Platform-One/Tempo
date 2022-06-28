@@ -302,6 +302,6 @@ bbtests:
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
   scripts:
     enabled: true
-    image: registry1.dso.mil/ironbank/big-bang/base:1.18.0
+    image: registry1.dso.mil/ironbank/big-bang/base:2.0.0
     envs:
       TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
