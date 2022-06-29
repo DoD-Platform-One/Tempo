@@ -3,7 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [0.15.1-bb.3]
+## [0.15.1-bb.5]
+### Changed
+- Updated bb base image to 2.0.0
+- Updated gluon to 0.2.10
+
+## [0.15.1-bb.4]
 ### Removed
 - Removed Open Telemetry since it is no longer used
 ### Changed
