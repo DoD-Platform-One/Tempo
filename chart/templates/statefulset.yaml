@@ -73,6 +73,11 @@ spec:
           {{- if .Values.tempo.extraEnv }}
             {{- toYaml .Values.tempo.extraEnv | nindent 12 }}
           {{- end }}
+        {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
+        envFrom:
+        - secretRef:
+            name: tempo-object-storage 
+        {{- end }}
         volumeMounts:
         {{- if .Values.tempo.extraVolumeMounts -}}
           {{ toYaml .Values.tempo.extraVolumeMounts | nindent 8 }}

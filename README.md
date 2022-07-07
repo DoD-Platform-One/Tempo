@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.15.1-bb.5](https://img.shields.io/badge/Version-0.15.1--bb.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 0.15.1-bb.6](https://img.shields.io/badge/Version-0.15.1--bb.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -115,6 +115,8 @@ helm install tempo chart/
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.tempoQuery | object | `{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}` | Tempo-Query specific VirtualService values |
 | istio.tempoQuery.enabled | bool | `true` | Toggle VirtualService creation |
+| objectStorage.access_key_id | string | `""` | AWS access_key_id for External ObjectStorage configuration |
+| objectStorage.secret_access_key | string | `""` | AWS secret_access_key for External ObjectStorage configuration |
 | networkPolicies | object | `{"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio IngressGateway labels for VirtualService external routing to app UI |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Use `kubectl cluster-info` and then resolve to IP for kube-api. Review value description in BigBang README.md |

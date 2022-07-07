@@ -274,6 +274,12 @@ istio:
     hosts:
       - tracing.{{ .Values.domain }}
 
+objectStorage:
+  # -- AWS access_key_id for External ObjectStorage configuration
+  access_key_id: ""
+  # -- AWS secret_access_key for External ObjectStorage configuration
+  secret_access_key: ""
+
 # -- Toggle for BigBang specific NetworkPolicies.
 # If disabled no NetworkPolicies will be installed with package
 # ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
