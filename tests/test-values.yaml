@@ -16,17 +16,8 @@ tempo:
     requests:
       cpu: 200m
       memory: 128Mi
-
+ 
 tempoQuery:
-  resources:
-    limits:
-      cpu: 200m
-      memory: 128Mi
-    requests:
-      cpu: 200m
-      memory: 128Mi
-
-opentelemetryCollector:
   resources:
     limits:
       cpu: 200m

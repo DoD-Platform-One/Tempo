@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.15.1-bb.6]
+### Added
+- NetworkPolicy Template to allow egress to external services like AWS S3
+- `objectStorage` values to feed in to enable external storage for Tempo
+
 ## [0.15.1-bb.5]
 ### Changed
 - Updated bb base image to 2.0.0
