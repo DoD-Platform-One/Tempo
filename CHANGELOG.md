@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.15.1-bb.7]
+### Added
+- Network policy to support Authservice egress
+- Authorization policy to support Kiali/Prometheus/Tempo communications when SSO is enabled
+- mTLS exception for metrics
+### Fixed
+- Fixed service monitor mismatch in port naming
+
 ## [0.15.1-bb.6]
 ### Added
 - NetworkPolicy Template to allow egress to external services like AWS S3

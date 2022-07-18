@@ -297,6 +297,10 @@ networkPolicies:
 monitoring:
   enabled: false
 
+# -- SSO toggle. Intended to be controlled via BigBang passthrough, only affects network/auth policies.
+sso:
+  enabled: false
+
 bbtests:
   enabled: false
   cypress:
