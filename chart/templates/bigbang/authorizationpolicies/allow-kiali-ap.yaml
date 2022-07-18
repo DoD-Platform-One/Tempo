@@ -1,0 +1,22 @@
+{{- if and .Values.sso.enabled .Values.istio.enabled }}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: kiali-ap
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "tempo.selectorLabels" . | nindent 6 }}
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/kiali/sa/kiali-service-account"]
+    - source:
+        namespaces: ["kiali"]
+    to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/*"]  
+{{- end }}

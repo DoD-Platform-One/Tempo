@@ -1,0 +1,29 @@
+{{- if and .Values.istio.enabled .Values.sso.enabled .Values.monitoring.enabled .Values.serviceMonitor.enabled }}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: monitoring-ap
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "tempo.selectorLabels" . | nindent 6 }}
+  action: ALLOW
+  # Allow all GET traffic on port 3100 from monitoring ns to support both Grafana and Prometheus traffic
+  rules:
+  - from:
+    - source:
+        namespaces:
+        - monitoring
+    to:
+    - operation:
+        methods:
+        - GET
+        ports:
+        - "3100"
+  # Allow traffic to port 3100 to support Prometheus' direct endpoint scraping, see https://github.com/istio/istio/issues/19975 for a discussion of this
+  - to:
+    - operation:
+        ports:
+        - "3100"
+{{- end }}

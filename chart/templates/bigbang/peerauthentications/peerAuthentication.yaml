@@ -7,4 +7,4 @@ metadata:
 spec:
   mtls:
     mode: {{ .Values.istio.mtls.mode }}
- {{- end }}
+{{- end }}
