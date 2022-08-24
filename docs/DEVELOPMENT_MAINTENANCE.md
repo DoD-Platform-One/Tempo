@@ -32,21 +32,28 @@
 - Add cypress testing configuration and tests
 - Add scripts for testing
 
+## chart/templates/service.yaml
+
+- Added protocols to each port name (i.e. tcp, http, etc)
+
+## chart/templates/servicemonitor.yaml
+
+- Modified ports to match naming convention with `http-` prefix
+
+## chart/templates/statefulset.yaml
+
+- Add in envFrom section to the tempo container
+    ```
+            {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
+            envFrom:
+            - secretRef:
+                name: tempo-object-storage
+            {{- end }}
+    ```
+
 # Testing new Tempo Version
 
 - Deploy tempo as a part of BigBang with istio and monitoring enabled, but with jaeger DISabled
 - Visit `https://tracing.bigbang.dev` and ensure Services are listed and traces are being rendered
 - Check the logs for the tempo pod and condainer and ensure traceIDs are getting sent over from the istio mesh
 - Visit `https://grafana.bigbang.dev` > Login > Gear icon > Data Sources > Tempo > click `Test` datasource at the bottom
-
-## chart/templates/statefulset.yaml
-
-- Add in envFrom section on lines 76-80
-```
-        {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
-        envFrom:
-        - secretRef:
-            name: tempo-object-storage
-        {{- end }}
-```
-Tempo does not have built-in support for envFrom and consuming cloud credentials as secrets.

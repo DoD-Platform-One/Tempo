@@ -23,14 +23,14 @@ spec:
     matchNames:
       - {{ .Release.Namespace | quote }}
   endpoints:
-    - port: tcp-tempo-prom-metrics
+    - port: http-tempo-prom-metrics
       {{- if .Values.serviceMonitor.interval }}
       interval: {{ .Values.serviceMonitor.interval }}
       {{- end }}
       {{- if .Values.serviceMonitor.scrapeTimeout }}
       scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
       {{- end }}
-    - port: tcp-jaeger-metrics
+    - port: http-jaeger-metrics
       {{- if .Values.serviceMonitor.interval }}
       interval: {{ .Values.serviceMonitor.interval }}
       {{- end }}
