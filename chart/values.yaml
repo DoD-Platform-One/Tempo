@@ -5,29 +5,13 @@ nameOverride: ""
 fullnameOverride: ""
 
 replicas: 1
-
 tempo:
-  # -- The Docker registry
-  # registry: registry1.dso.mil
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
-  # -- Overrides the image tag whose default is the chart's appVersion
-  tag: 1.4.1
+  # -- Docker image tag
+  tag: 1.5.0
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
-  # -- Image pull secrets for Docker images
-  imagePullSecrets:
-    - name: private-registry
-
-  podSecurityContext:
-    fsGroup: 1001
-    runAsGroup: 1001
-    runAsNonRoot: true
-    runAsUser: 1001
-
-  # repository: grafana/tempo
-  # tag: 1.4.0
-  # pullPolicy: IfNotPresent
 
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -45,36 +29,27 @@ tempo:
       cpu: 500m
       memory: 4Gi
 
-  #  requests:
-  #    cpu: 1000m
-  #    memory: 4Gi
-  #  limits:
-  #    cpu: 2000m
-  #    memory: 6Gi
-
-  # -- Readiness probe
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-
-  # -- Liveness probe
-  livenessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-
   memBallastSizeMbs: 1024
   multitenancyEnabled: false
   # -- If true, enables Tempo's native search
   searchEnabled: true
+  metricsGenerator:
+    # -- If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/)
+    enabled: false
+    remoteWriteUrl: "http://prometheus.monitoring:9090/api/v1/write"
+  # -- Configuration options for the ingester
   ingester:
     trace_idle_period: 10s
     max_block_bytes: 1_000_000
     max_block_duration: 5m
-  retention: 336h #2 weeks retention
+  # -- Configuration options for the querier
+  querier: {}
+  # -- Configuration options for the query-fronted
+  queryFrontend: {}
+  retention: 336h # 2 weeks retention
+  # Global overrides
+  global_overrides:
+    per_tenant_override_config: /conf/overrides.yaml
   overrides: {}
 
   # Tempo server configuration
@@ -82,19 +57,19 @@ tempo:
   server:
     # -- HTTP server listen port
     http_listen_port: 3100
-  # tempo storage backend
-  # refer https://github.com/grafana/tempo/tree/master/docs/tempo/website/configuration
-  ## Use s3 for example
-  # backend: s3                                         # store traces in s3
-  #  s3:
-  #    bucket: tempo                                   # store traces in this bucket
-  #    endpoint: s3.dualstack.us-east-2.amazonaws.com  # api endpoint
-  #    access_key: ...                                 # optional. access key when using static credentials.
-  #    secret_key: ...                                 # optional. secret key when using static credentials.
-  #    insecure: false                                 # optional. enable if endpoint is http
-  ## end
   storage:
     trace:
+      # tempo storage backend
+      # refer https://github.com/grafana/tempo/tree/master/docs/tempo/website/configuration
+      ## Use s3 for example
+      # backend: s3
+      # store traces in s3
+      # s3:
+      #   bucket: tempo                                   # store traces in this bucket
+      #   endpoint: s3.dualstack.us-east-2.amazonaws.com  # api endpoint
+      #   access_key: ...                                 # optional. access key when using static credentials.
+      #   secret_key: ...                                 # optional. secret key when using static credentials.
+      #   insecure: false                                 # optional. enable if endpoint is http
       backend: local
       local:
         path: /var/tempo/traces
@@ -123,7 +98,12 @@ tempo:
           endpoint: "0.0.0.0:4317"
         http:
           endpoint: "0.0.0.0:4318"
-
+  securityContext: {}
+    # allowPrivilegeEscalation: false
+    #  capabilities:
+    #    drop:
+    #    - ALL
+    # readOnlyRootFilesystem: true
   ## Additional container arguments
   extraArgs:
     "distributor.log-received-traces": true
@@ -136,48 +116,57 @@ tempo:
   #   readOnly: true
   #   existingClaim: volume-claim
 
+# -- Tempo configuration file contents
+# @default -- Dynamically generated tempo configmap
+config: |
+    multitenancy_enabled: {{ .Values.tempo.multitenancyEnabled }}
+    search_enabled: {{ .Values.tempo.searchEnabled }}
+    metrics_generator_enabled: {{ .Values.tempo.metricsGenerator.enabled }}
+    compactor:
+      compaction:
+        compacted_block_retention: {{ .Values.tempo.retention }}
+    distributor:
+      receivers:
+        {{- toYaml .Values.tempo.receivers | nindent 8 }}
+    ingester:
+      {{- toYaml .Values.tempo.ingester | nindent 6 }}
+    server:
+      {{- toYaml .Values.tempo.server | nindent 6 }}
+    storage:
+      {{- toYaml .Values.tempo.storage | nindent 6 }}
+    querier:
+      {{- toYaml .Values.tempo.querier | nindent 6 }}
+    query_frontend:
+      {{- toYaml .Values.tempo.queryFrontend | nindent 6 }}
+    overrides:
+      {{- toYaml .Values.tempo.global_overrides | nindent 6 }}
+      {{- if .Values.tempo.metricsGenerator.enabled }}
+          metrics_generator_processors:
+          - 'service-graphs'
+          - 'span-metrics'
+    metrics_generator:
+          storage:
+            path: "/tmp/tempo"
+            remote_write:
+              - url: {{ .Values.tempo.metricsGenerator.remoteWriteUrl }}
+      {{- end }}
+
 tempoQuery:
-  # -- The Docker registry
-  # registry: registry1.dso.mil
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
-  # -- Overrides the image tag whose default is the chart's appVersion
-  tag: 1.4.1
+  # -- Docker image tag
+  tag: 1.5.0
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
-
-  # repository: grafana/tempo-query
-  # tag: 1.0.1
-  # pullPolicy: IfNotPresent
-
-  resources:
-    limits:
-      cpu: 300m
-      memory: 256Mi
-    requests:
-      cpu: 300m
-      memory: 256Mi
-
-  # -- Readiness probe
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-
-  # -- Liveness probe
-  livenessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # pullSecrets:
   #   - myRegistryKeySecretName
+
+  # -- if False the tempo-query container is not deployed
+  enabled: true
   ## Additional container arguments
   extraArgs: {}
   # -- Environment variables to add
@@ -188,6 +177,27 @@ tempoQuery:
   #   mountPath: /mnt/volume
   #   readOnly: true
   #   existingClaim: volume-claim
+  securityContext: {}
+    # allowPrivilegeEscalation: false
+    #  capabilities:
+    #    drop:
+    #    - ALL
+    # readOnlyRootFilesystem: false # fails if true, do not enable
+  # -- Resource for query container
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+
+# -- securityContext for pod
+securityContext:
+  fsGroup: 1001
+  runAsGroup: 1001
+  runAsNonRoot: true
+  runAsUser: 1001
 
 serviceAccount:
   # -- Specifies whether a ServiceAccount should be created
@@ -196,7 +206,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: null
   # -- Image pull secrets for the service account
-  imagePullSecrets: []
+  imagePullSecrets:
+    - name: private-registry
   # -- Annotations for the service account
   annotations: {}
 
@@ -219,38 +230,27 @@ persistence:
     - ReadWriteOnce
   size: 15Gi
 
-## Pod Annotations
+# -- Pod Annotations
 podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16686,3100"
-#  prometheus.io/scrape: "true"
-#  prometheus.io/port: "http-metrics"
 
-## Pod (extra) Labels
+# -- Pod (extra) Labels
 podLabels: {}
 
 # -- Volumes to add
 extraVolumes: []
 
-## Node labels for pod assignment
-## ref: https://kubernetes.io/docs/user-guide/node-selection/
-#
+# -- Node labels for pod assignment. See: https://kubernetes.io/docs/user-guide/node-selection/
 nodeSelector: {}
 
-## Tolerations for pod assignment
-## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-##
+# -- Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 tolerations: []
 
-## Affinity for pod assignment
-## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
-##
+# -- Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
 
-## Overrides configuration block
-## Tempo provides a overrides module for user to set global or per-tenant override settings.
-## Currenly only ingestion limits can be overridden.
-overrides:
-  ingestion_rate_limit_bytes: 30000000
+# -- The name of the PriorityClass
+priorityClassName: null
 
 # -- Domain used for BigBang created exposed services
 domain: bigbang.dev
@@ -262,7 +262,6 @@ istio:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
-
   # -- Tempo-Query specific VirtualService values
   tempoQuery:
     # -- Toggle VirtualService creation
