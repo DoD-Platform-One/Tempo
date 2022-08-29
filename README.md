@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.16.1-bb.0](https://img.shields.io/badge/Version-0.16.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 0.16.1-bb.1](https://img.shields.io/badge/Version-0.16.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -69,7 +69,7 @@ helm install tempo chart/
 | tempo.receivers.opencensus | string | `nil` |  |
 | tempo.receivers.otlp.protocols.grpc.endpoint | string | `"0.0.0.0:4317"` |  |
 | tempo.receivers.otlp.protocols.http.endpoint | string | `"0.0.0.0:4318"` |  |
-| tempo.securityContext | object | `{}` |  |
+| tempo.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | tempo.extraArgs."distributor.log-received-traces" | bool | `true` |  |
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
@@ -81,7 +81,7 @@ helm install tempo chart/
 | tempoQuery.extraArgs | object | `{}` |  |
 | tempoQuery.extraEnv | list | `[]` | Environment variables to add |
 | tempoQuery.extraVolumeMounts | list | `[]` | Volume mounts to add |
-| tempoQuery.securityContext | object | `{}` |  |
+| tempoQuery.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | tempoQuery.resources | object | `{"limits":{"cpu":"300m","memory":"256Mi"},"requests":{"cpu":"300m","memory":"256Mi"}}` | Resource for query container |
 | securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for pod |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
