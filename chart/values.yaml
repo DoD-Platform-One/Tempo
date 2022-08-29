@@ -98,7 +98,10 @@ tempo:
           endpoint: "0.0.0.0:4317"
         http:
           endpoint: "0.0.0.0:4318"
-  securityContext: {}
+  securityContext:
+     capabilities:
+       drop:
+       - ALL
     # allowPrivilegeEscalation: false
     #  capabilities:
     #    drop:
@@ -177,7 +180,10 @@ tempoQuery:
   #   mountPath: /mnt/volume
   #   readOnly: true
   #   existingClaim: volume-claim
-  securityContext: {}
+  securityContext:
+     capabilities:
+       drop:
+       - ALL
     # allowPrivilegeEscalation: false
     #  capabilities:
     #    drop:
