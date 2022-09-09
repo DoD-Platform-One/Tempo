@@ -9,7 +9,7 @@ spec:
     matchLabels:
       {{- include "tempo.selectorLabels" . | nindent 6 }}
   action: ALLOW
-  # Allow all GET traffic on port 3100 from monitoring ns to support both Grafana and Prometheus traffic
+  # Allow all GET traffic on port 3100 and 16687 from monitoring ns to support both Grafana and Prometheus traffic
   rules:
   - from:
     - source:
@@ -21,9 +21,17 @@ spec:
         - GET
         ports:
         - "3100"
-  # Allow traffic to port 3100 to support Prometheus' direct endpoint scraping, see https://github.com/istio/istio/issues/19975 for a discussion of this
+    - operation:
+        methods:
+        - GET
+        ports:
+        - "16687"
+  # Allow traffic to port 3100 and 16687 to support Prometheus' direct endpoint scraping, see https://github.com/istio/istio/issues/19975 for a discussion of this
   - to:
     - operation:
         ports:
         - "3100"
+    - operation:
+        ports:
+        - "16687"
 {{- end }}

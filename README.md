@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.16.1-bb.1](https://img.shields.io/badge/Version-0.16.1--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 0.16.1-bb.2](https://img.shields.io/badge/Version-0.16.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -95,10 +95,12 @@ helm install tempo chart/
 | serviceMonitor.interval | string | `""` |  |
 | serviceMonitor.additionalLabels | object | `{}` |  |
 | serviceMonitor.annotations | object | `{}` |  |
+| serviceMonitor.scheme | string | `""` |  |
+| serviceMonitor.tlsConfig | object | `{}` |  |
 | persistence.enabled | bool | `true` |  |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.size | string | `"15Gi"` |  |
-| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"16686,3100"}` | Pod Annotations |
+| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"16687,16686,3100"}` | Pod Annotations |
 | podLabels | object | `{}` | Pod (extra) Labels |
 | extraVolumes | list | `[]` | Volumes to add |
 | nodeSelector | object | `{}` | Node labels for pod assignment. See: https://kubernetes.io/docs/user-guide/node-selection/ |
