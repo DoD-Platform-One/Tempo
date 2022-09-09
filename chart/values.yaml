@@ -227,6 +227,8 @@ serviceMonitor:
   interval: ""
   additionalLabels: {}
   annotations: {}
+  scheme: ""
+  tlsConfig: {}
   # scrapeTimeout: 10s
 
 persistence:
@@ -238,7 +240,7 @@ persistence:
 
 # -- Pod Annotations
 podAnnotations:
-  traffic.sidecar.istio.io/includeInboundPorts: "16686,3100"
+  traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
 
 # -- Pod (extra) Labels
 podLabels: {}
