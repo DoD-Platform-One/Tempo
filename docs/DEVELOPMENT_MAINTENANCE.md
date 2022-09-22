@@ -55,5 +55,5 @@
 
 - Deploy tempo as a part of BigBang with istio and monitoring enabled, but with jaeger DISabled
 - Visit `https://tracing.bigbang.dev` and ensure Services are listed and traces are being rendered
-- Check the logs for the tempo pod and condainer and ensure traceIDs are getting sent over from the istio mesh
+- Check the logs for the tempo pod and container and ensure traceIDs are getting sent over from the istio mesh
 - Visit `https://grafana.bigbang.dev` > Login > Gear icon > Data Sources > Tempo > click `Test` datasource at the bottom
