@@ -26,3 +26,8 @@ annotations:
   bigbang.dev/applicationVersions: |
     - Tempo: 1.5.0
     - Tempo Query: 1.5.0
+  helm.sh/images: |
+    - name: tempo
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo:1.5.0
+    - name: tempo-query
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:1.5.0
