@@ -49,6 +49,13 @@
             "depNameTemplate": "ironbank/opensource/opentelemetry/opentelemetry-collector",
             "datasourceTemplate": "docker",
             "registryUrlTemplate": "https://registry1.dso.mil"
+        },
+        {
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
+            ],
+            "datasourceTemplate": "docker"
         }
     ],
     "separateMajorMinor": false
