@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 0.16.1-bb.3](https://img.shields.io/badge/Version-0.16.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 1.0.0-bb.0](https://img.shields.io/badge/Version-1.0.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -37,9 +37,10 @@ helm install tempo chart/
 |-----|------|---------|-------------|
 | nameOverride | string | `""` | Overrides the chart's name |
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
-| replicas | int | `1` |  |
+| replicas | int | `1` | Define the amount of instances |
+| annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"1.5.0"` | Docker image tag |
+| tempo.tag | string | `"2.0.0"` | Docker image tag |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
@@ -48,7 +49,7 @@ helm install tempo chart/
 | tempo.resources.requests.memory | string | `"4Gi"` |  |
 | tempo.memBallastSizeMbs | int | `1024` |  |
 | tempo.multitenancyEnabled | bool | `false` |  |
-| tempo.searchEnabled | bool | `true` | If true, enables Tempo's native search |
+| tempo.reportingEnabled | bool | `true` | If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs |
 | tempo.metricsGenerator.enabled | bool | `false` | If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/) |
 | tempo.metricsGenerator.remoteWriteUrl | string | `"http://prometheus.monitoring:9090/api/v1/write"` |  |
 | tempo.ingester | object | `{"max_block_bytes":1000000,"max_block_duration":"5m","trace_idle_period":"10s"}` | Configuration options for the ingester |
@@ -70,12 +71,13 @@ helm install tempo chart/
 | tempo.receivers.otlp.protocols.grpc.endpoint | string | `"0.0.0.0:4317"` |  |
 | tempo.receivers.otlp.protocols.http.endpoint | string | `"0.0.0.0:4318"` |  |
 | tempo.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| tempo.extraArgs."distributor.log-received-traces" | bool | `true` |  |
+| tempo.extraArgs | list | `[]` |  |
 | tempo.extraEnv | list | `[]` | Environment variables to add |
+| tempo.extraEnvFrom | list | `[]` | Environment variables from secrets or configmaps to add to the ingester pods |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"1.5.0"` | Docker image tag |
+| tempoQuery.tag | string | `"2.0.0"` | Docker image tag |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.enabled | bool | `true` | if False the tempo-query container is not deployed |
 | tempoQuery.extraArgs | object | `{}` |  |
@@ -88,6 +90,8 @@ helm install tempo chart/
 | serviceAccount.name | string | `nil` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template |
 | serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
+| serviceAccount.labels | object | `{}` | Labels for the service account |
+| serviceAccount.automountServiceAccountToken | bool | `true` |  |
 | service.type | string | `"ClusterIP"` |  |
 | service.annotations | object | `{}` |  |
 | service.labels | object | `{}` |  |
