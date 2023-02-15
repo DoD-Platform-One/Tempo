@@ -1,4 +1,4 @@
-{{- if and .Values.istio.enabled .Values.istio.tempoQuery.enabled .Values.tempo.searchEnabled -}}
+{{- if and .Values.istio.enabled .Values.istio.tempoQuery.enabled -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
