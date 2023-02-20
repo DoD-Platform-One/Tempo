@@ -78,7 +78,6 @@ spec:
           {{- end }}
         {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
         envFrom:
-          {{- toYaml . | nindent 10 }}
         - secretRef:
             name: tempo-object-storage
         {{- end }}
