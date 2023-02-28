@@ -1,0 +1,23 @@
+{{ if and .Values.networkPolicies.enabled .Values.monitoring.enabled }}
+# Allow Traffic to authservice
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: egress-tempo-prometheus
+  namespace: {{ .Release.Namespace }}
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    - port: 9090
+      protocol: TCP
+    to:
+    - podSelector:
+        matchLabels:
+          app: prometheus
+      namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: monitoring
+{{- end }}
