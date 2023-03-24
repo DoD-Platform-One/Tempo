@@ -2,8 +2,8 @@ apiVersion: v2
 name: tempo
 description: Grafana Tempo Single Binary Mode
 type: application
-version: 1.0.0-bb.3
-appVersion: 2.0.0
+version: 1.0.2-bb.0
+appVersion: 2.0.1
 engine: gotpl
 home: https://grafana.net
 icon: https://raw.githubusercontent.com/grafana/tempo/master/docs/tempo/website/logo_and_name.png
@@ -24,10 +24,10 @@ dependencies:
     repository: oci://registry1.dso.mil/bigbang
 annotations:
   bigbang.dev/applicationVersions: |
-    - Tempo: 2.0.0
-    - Tempo Query: 2.0.0
+    - Tempo: 2.0.1
+    - Tempo Query: 2.0.1
   helm.sh/images: |
     - name: tempo
-      image: registry1.dso.mil/ironbank/opensource/grafana/tempo:2.0.0
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo:2.0.1
     - name: tempo-query
-      image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:2.0.0
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:2.0.1
