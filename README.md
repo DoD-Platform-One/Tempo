@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.0.0-bb.3](https://img.shields.io/badge/Version-1.0.0--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+![Version: 1.0.2-bb.0](https://img.shields.io/badge/Version-1.0.2--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -40,7 +40,7 @@ helm install tempo chart/
 | replicas | int | `1` | Define the amount of instances |
 | annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"2.0.0"` | Docker image tag |
+| tempo.tag | string | `"2.0.1"` | Docker image tag |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
@@ -71,21 +71,21 @@ helm install tempo chart/
 | tempo.receivers.otlp.protocols.grpc.endpoint | string | `"0.0.0.0:4317"` |  |
 | tempo.receivers.otlp.protocols.http.endpoint | string | `"0.0.0.0:4318"` |  |
 | tempo.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| tempo.extraArgs | list | `[]` |  |
+| tempo.extraArgs | object | `{}` |  |
 | tempo.extraEnv | list | `[]` | Environment variables to add |
 | tempo.extraEnvFrom | list | `[]` | Environment variables from secrets or configmaps to add to the ingester pods |
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"2.0.0"` | Docker image tag |
+| tempoQuery.tag | string | `"2.0.1"` | Docker image tag |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.enabled | bool | `true` | if False the tempo-query container is not deployed |
+| tempoQuery.resources | object | `{"limits":{"cpu":"300m","memory":"256Mi"},"requests":{"cpu":"300m","memory":"256Mi"}}` | Resource for query container |
 | tempoQuery.extraArgs | object | `{}` |  |
 | tempoQuery.extraEnv | list | `[]` | Environment variables to add |
 | tempoQuery.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | tempoQuery.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| tempoQuery.resources | object | `{"limits":{"cpu":"300m","memory":"256Mi"},"requests":{"cpu":"300m","memory":"256Mi"}}` | Resource for query container |
-| securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for pod |
+| securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for container |
 | serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
 | serviceAccount.name | string | `nil` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template |
 | serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |

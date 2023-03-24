@@ -14,7 +14,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.0.0
+  tag: 2.0.1
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -113,7 +113,7 @@ tempo:
     #    - ALL
     # readOnlyRootFilesystem: true
   ## Additional container arguments
-  extraArgs: []
+  extraArgs: {}
   # -- Environment variables to add
   extraEnv: []
   # -- Environment variables from secrets or configmaps to add to the ingester pods
@@ -164,7 +164,7 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.0.0
+  tag: 2.0.1
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
@@ -177,6 +177,15 @@ tempoQuery:
   # -- if False the tempo-query container is not deployed
   enabled: true
 
+  # -- Resource for query container
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+      
   ## Additional container arguments
   extraArgs: {}
   # -- Environment variables to add
@@ -196,16 +205,8 @@ tempoQuery:
     #    drop:
     #    - ALL
     # readOnlyRootFilesystem: false # fails if true, do not enable
-  # -- Resource for query container
-  resources:
-    limits:
-      cpu: 300m
-      memory: 256Mi
-    requests:
-      cpu: 300m
-      memory: 256Mi
 
-# -- securityContext for pod
+# -- securityContext for container
 securityContext:
   fsGroup: 1001
   runAsGroup: 1001
