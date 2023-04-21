@@ -11,7 +11,7 @@ component-definition:
       type: organization
       name: Platform One
       links:
-      - href: <https://p1.dso.mil>
+      - href: https://p1.dso.mil
         rel: website
   components:
   - uuid: AE3E8F16-D93B-4594-82A3-5DA38AC066BF
