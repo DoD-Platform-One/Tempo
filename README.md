@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.0.2-bb.0](https://img.shields.io/badge/Version-1.0.2--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
+![Version: 1.2.0-bb.0](https://img.shields.io/badge/Version-1.2.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.1.1](https://img.shields.io/badge/AppVersion-2.1.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -40,7 +40,7 @@ helm install tempo chart/
 | replicas | int | `1` | Define the amount of instances |
 | annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"2.0.1"` | Docker image tag |
+| tempo.tag | string | `"2.1.1"` | Docker image tag |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
@@ -77,9 +77,18 @@ helm install tempo chart/
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"2.0.1"` | Docker image tag |
+| tempoQuery.tag | string | `"2.1.1"` | Docker image tag |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.enabled | bool | `true` | if False the tempo-query container is not deployed |
+| tempoQuery.service.port | int | `16686` |  |
+| tempoQuery.ingress.enabled | bool | `false` |  |
+| tempoQuery.ingress.annotations | object | `{}` |  |
+| tempoQuery.ingress.labels | object | `{}` |  |
+| tempoQuery.ingress.path | string | `"/"` |  |
+| tempoQuery.ingress.pathType | string | `"Prefix"` |  |
+| tempoQuery.ingress.hosts[0] | string | `"query.tempo.example.com"` |  |
+| tempoQuery.ingress.extraPaths | list | `[]` |  |
+| tempoQuery.ingress.tls | list | `[]` |  |
 | tempoQuery.resources | object | `{"limits":{"cpu":"300m","memory":"256Mi"},"requests":{"cpu":"300m","memory":"256Mi"}}` | Resource for query container |
 | tempoQuery.extraArgs | object | `{}` |  |
 | tempoQuery.extraEnv | list | `[]` | Environment variables to add |
