@@ -32,18 +32,17 @@ describe('Tempo Test', function() {
           cy.get('input[name="password"]')
             .type('prom-operator')
           cy.contains("Log in").click()
-          cy.get('.page-toolbar').contains('General', {timeout: 30000})
+          cy.get('.page-dashboard').contains('General', {timeout: 30000})
           // Visit the datasources page
-          cy.visit(`${Cypress.env('grafana_url')}/datasources`)
+          cy.visit(`${Cypress.env('grafana_url')}/connections/your-connections/datasources`)
           
           // // Enter 'tempo' in the search field and 
           cy.get('input[placeholder="Search by name or type"]')
           .type('tempo')
           // Click on the tempo datasource
-          cy.get('.css-1cqw476').contains('Tempo')
-          cy.get('.css-1cqw476').click()
+          cy.get('a').contains('Tempo').click()
           // Click on the 'Save & test` button
-          cy.get('button[type="submit"] > .css-1mhnkuh').click()
+          cy.get('button[type="submit"]').click()
           // Check to ensure the data source is working
           cy.get('.p-t-2').contains('Data source is working', {timeout: 10000})
         })
