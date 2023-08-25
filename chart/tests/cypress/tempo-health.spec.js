@@ -12,7 +12,22 @@ describe('Tempo Test', function() {
 
   // Basic test that validates pages are accessible, basic error check
   it('Check Tempo is accessible w/ services', function() {
-    cy.visit(Cypress.env('url'))
+    cy.visit(Cypress.env('url'), {failOnStatusCode: false})
+    if (Cypress.env('keycloak_test_enable')) {
+      cy.get('input[id="username"]')
+        .type(Cypress.env('tnr_username'))
+        .should('have.value', Cypress.env('tnr_username'));
+
+      cy.get('input[id="password"]')
+        .type(Cypress.env('tnr_password'))
+        .should('have.value', Cypress.env('tnr_password'));
+            
+      cy.get('form').submit(); 
+
+      cy.get('input[id="kc-accept"]').click();
+
+      cy.get('input[id="kc-login"]').click();
+    }
     cy.title().should('contain', 'Jaeger UI')
     // Check to ensure more than zero services are populated
     cy.get(':nth-child(1) > .ant-form-item-label > label > :nth-child(1) > .SearchForm--labelCount').should(item => {
