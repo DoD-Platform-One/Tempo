@@ -1,7 +1,8 @@
 beforeEach(function () {
   cy.getCookies().then(cookies => {
     const namesOfCookies = cookies.map(cm => cm.name)
-    Cypress.Cookies.preserveOnce(...namesOfCookies)
+    cy.session(namesOfCookies, () => {
+    })
   })
 })
 

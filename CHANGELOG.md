@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.2.0-bb.6] - 2022-08-28
+### Changed
+- Cypress modernization updates
+- Updated gluon to 0.4.0
+- Added npm package files, updated cypress file sturcture and file names to meet cypress 12.x requirements
+
 ## [1.2.0-bb.5] - 2022-08-24
 ### Changed
 - Changed grafana cypress test to match new grafana update
