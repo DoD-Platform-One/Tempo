@@ -125,6 +125,17 @@ annotations:
       memory: 256Mi
 ```
 
+- line 181, ensure `tempoQuery.enabled` is true
+
+Note: [this](https://github.com/grafana/helm-charts/commit/4c77fa7b3a54977d094071b446ff8b5b86982858) upstream commit disabled `tempo-query` by default in the chart. Evidently this is because `tempo-query` was always meant as a shim between Tempo and Grafana, but it hasn't been necessary [since 7.5.0](https://github.com/grafana/tempo/issues/456#issuecomment-815813684), as Grafana is capable of querying Tempo directly now.
+
+Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect a basic web interface for Tempo without Grafana (Tempo has non natively, only a HTTP API). This may be changed in an upcoming release, but we will keep utilizing `tempo-query` for the benefits of the interface.
+```yaml
+  enabled: true
+```
+
+
+
 - line 199, ensure `tempoQuery.securityContext` is set
 ```
   securityContext:

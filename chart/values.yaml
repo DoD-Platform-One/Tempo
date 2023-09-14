@@ -7,6 +7,9 @@ fullnameOverride: ""
 # -- Define the amount of instances
 replicas: 1
 
+# -- Number of old history to retain to allow rollback (If not set, default Kubernetes value is set to 10)
+# revisionHistoryLimit: 1
+
 # -- Annotations for the StatefulSet
 annotations: {}
 
@@ -14,7 +17,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.1.1
+  tag: 2.2.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -164,7 +167,7 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.1.1
+  tag: 2.2.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.

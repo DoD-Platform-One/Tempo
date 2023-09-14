@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.6.1-bb.0] - 2022-09-13
+### Changed
+- Bumped chart version to 1.6.1
+- Bumped images tag to 2.2.2
+
 ## [1.2.0-bb.7] - 2022-08-29
 ### Changed
 - Fixed Cypress test in the BigBang pipeline
