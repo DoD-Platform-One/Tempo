@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.6.1-bb.2](https://img.shields.io/badge/Version-1.6.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
+![Version: 1.6.1-bb.3](https://img.shields.io/badge/Version-1.6.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.2](https://img.shields.io/badge/AppVersion-2.2.2-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -100,7 +100,7 @@ helm install tempo chart/
 | serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
 | serviceAccount.annotations | object | `{}` | Annotations for the service account |
 | serviceAccount.labels | object | `{}` | Labels for the service account |
-| serviceAccount.automountServiceAccountToken | bool | `true` |  |
+| serviceAccount.automountServiceAccountToken | bool | `false` |  |
 | service.type | string | `"ClusterIP"` |  |
 | service.annotations | object | `{}` |  |
 | service.labels | object | `{}` |  |
