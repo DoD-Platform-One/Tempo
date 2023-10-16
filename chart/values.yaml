@@ -272,7 +272,7 @@ serviceAccount:
   annotations: {}
   # -- Labels for the service account
   labels: {}
-  automountServiceAccountToken: true
+  automountServiceAccountToken: false
 
 service:
   type: ClusterIP

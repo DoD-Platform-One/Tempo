@@ -177,6 +177,12 @@ podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
 ```
 
+- line 262, ensure `serviceAccount.automountServiceAccountToken` is set to `false`
+This helps maintain our NSA hardening guide-compliance
+```yaml
+  automountServiceAccountToken: false
+``` 
+
 - EOF, add default bigbang.dev hostname and addditional Big Bang values
 
 
