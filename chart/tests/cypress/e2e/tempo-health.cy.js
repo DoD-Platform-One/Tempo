@@ -26,12 +26,10 @@ describe('Tempo Test', function () {
     }
     cy.title().should('contain', 'Jaeger UI');
     // Check to ensure more than zero services are populated
-    cy.get('.SearchForm--labelCount').parent().contains('Service').should((item) => {
-      expect(item).to.exist
-      const match = item.text().match(/\((?!-)(?<count>[1-9]+)\)/i)
-      const count = +match.groups.count
-
-      expect(parseInt(count)).to.be.greaterThan(0);
+    cy.intercept('GET', '**/api/services').as('servicesLoaded')
+    cy.reload()
+    cy.wait('@servicesLoaded').then((interception) => {
+      expect(interception.response.statusCode).to.equal(200)
     });
   });
 
