@@ -43,6 +43,10 @@ describe('Tempo Test', function () {
       // Visit the datasources page
       cy.visit(`${Cypress.env('grafana_url')}/connections/datasources`);
 
+      // Set constant for output options to save/test data source
+      const saveOutputOptions = ['Data source is working', 'Data source successfully connected']
+      const saveOutput = new RegExp(`${saveOutputOptions.join('|')}`, 'g')
+
       // Enter 'tempo' in the search field and
       cy.get('input[placeholder="Search by name or type"]').type('tempo');
       // Click on the tempo datasource
@@ -50,7 +54,7 @@ describe('Tempo Test', function () {
       // Click on the 'Save & test` button
       cy.get('button[type="submit"]').click();
       // Check to ensure the data source is working
-      cy.get('.p-t-2').contains('Data source is working', { timeout: 10000 });
+      cy.get('.p-t-2').contains(saveOutput, { timeout: 10000 });
     });
 
     after(function () {
