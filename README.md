@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.7.0-bb.2](https://img.shields.io/badge/Version-1.7.0--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.0](https://img.shields.io/badge/AppVersion-2.3.0-informational?style=flat-square)
+![Version: 1.7.0-bb.3](https://img.shields.io/badge/Version-1.7.0--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.0](https://img.shields.io/badge/AppVersion-2.3.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -141,7 +141,7 @@ helm install tempo chart/
 | bbtests.cypress.envs.cypress_check_datasource | string | `"false"` |  |
 | bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-grafana.monitoring.svc.cluster.local"` |  |
 | bbtests.scripts.enabled | bool | `true` |  |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:2.0.0"` |  |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:2.1.0"` |  |
 | bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
 
 ## Contributing
