@@ -25,23 +25,23 @@ component-definition:
       party-uuids:
         - 72134592-08C2-4A77-ABAD-C880F109367A # matches parties entry for p1
     control-implementations:
-    - uuid: ED0CF1C6-F869-4B7F-8652-464DDD9873D4
-      source: https://raw.githubusercontent.com/usnistgov/oscal-content/master/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+    - uuid: d2afb4c4-2cd8-5305-a6cc-d1bc7b388d0c
+      source: https://raw.githubusercontent.com/GSA/fedramp-automation/93ca0e20ff5e54fc04140613476fba80f08e3c7d/dist/content/rev5/baselines/json/FedRAMP_rev5_HIGH-baseline-resolved-profile_catalog.json
       description:
         Controls implemented by Tempo for inheritance by applications
       implemented-requirements:
-      - uuid: D0EE25CB-DAA8-4298-BBB9-A5AC72034020
-        control-id: si-4.4
-        description: >-
-          Jaeger is used, in conjunction with Istio configurations, to collect and aggregate network communications within the system.  This allows the moniotiring of inbound/outbound traffic and payloads within the deployed environment.
       - uuid: 3C102ED9-4CE5-4AB1-ABE5-78426DF15BBE
         control-id: au-4
         description: >-
-          Uses scalable object storage
+          Uses scalable object storage to allocate audits logs.
       - uuid: 9904027A-28A8-4808-8617-D0DD29BF9B8B
         control-id: au-12.1
         description: >-
-          Provides time-series event compilation capabilities
+          Provides a time-series event compilation audit trail capabilities.
+      - uuid: D0EE25CB-DAA8-4298-BBB9-A5AC72034020
+        control-id: si-4.4
+        description: >-
+          Jaeger is used, in conjunction with Istio configurations, to collect and aggregate network communications within the system.  This allows the monitoring of inbound/outbound traffic and payloads within the deployed environment.
   back-matter: 
       resources:
       - uuid: 0DA4FE66-9000-49DF-B896-938C94AAE89C
