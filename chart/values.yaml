@@ -326,6 +326,18 @@ domain: bigbang.dev
 istio:
   enabled: false
   # -- Default peer authentication values
+  hardened:
+    enabled: false
+    customAuthorizationPolicies: []
+    # - name: "allow-nothing"
+    #   enabled: true
+    #   spec: {}
+    tempo:
+        enabled: false
+        namespaces:
+        - tempo
+        principals:
+        - cluster.local/ns/tempo/sa/tempo-tempo  
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
@@ -377,6 +389,13 @@ bbtests:
       cypress_tempo_datasource: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
       cypress_check_datasource: "false"
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
+    resources:
+      requests:
+        cpu: "1"
+        memory: "1Gi"
+      limits:
+        cpu: "2"
+        memory: "2Gi"
   scripts:
     enabled: true
     image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
