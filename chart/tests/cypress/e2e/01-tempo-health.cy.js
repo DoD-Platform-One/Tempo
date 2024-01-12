@@ -14,15 +14,7 @@ describe('Tempo Test', function () {
   it('Check Tempo is accessible w/ services', function () {
     cy.visit(Cypress.env('url'), { failOnStatusCode: false });
     if (Cypress.env('keycloak_test_enable')) {
-      cy.get('input[id="username"]').type(Cypress.env('tnr_username')).should('have.value', Cypress.env('tnr_username'));
-
-      cy.get('input[id="password"]').type(Cypress.env('tnr_password')).should('have.value', Cypress.env('tnr_password'));
-
-      cy.get('form').submit();
-
-      cy.get('input[id="kc-accept"]').click();
-
-      cy.get('input[id="kc-login"]').click();
+      cy.performKeycloakLogin(Cypress.env('tnr_username'), Cypress.env('tnr_password'))
     }
     cy.title().should('contain', 'Jaeger UI');
     // Check to ensure more than zero services are populated
@@ -36,10 +28,7 @@ describe('Tempo Test', function () {
   if (Cypress.env('check_datasource')) {
     it('Check Tempo is available as a data source in grafana ', function () {
       cy.visit(Cypress.env('grafana_url'));
-      cy.get('input[name="user"]').type('admin');
-      cy.get('input[name="password"]').type('prom-operator');
-      cy.contains('Log in').click();
-      cy.get('.page-dashboard').contains('Welcome', { timeout: 30000 });
+      cy.performGrafanaLogin('admin', 'prom-operator')
       // Visit the datasources page
       cy.visit(`${Cypress.env('grafana_url')}/connections/datasources`);
 
