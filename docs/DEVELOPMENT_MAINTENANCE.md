@@ -1,37 +1,58 @@
 # How to upgrade the Tempo Package chart
 
-Check the [upstream release notes](https://grafana.com/docs/tempo/next/release-notes/)
+1. Navigate to the upstream [chart repo and folder](https://github.com/grafana/helm-charts/tree/main/charts/tempo) and find the tag that corresponds with the new chart version for this update
+    - Check the [upstream release notes](https://grafana.com/docs/tempo/next/release-notes/) for upgrade notices.
 
-# Upgrade
+2. Checkout the `renovate/ironbank` branch
 
-Find the tempo helm release version in the [grafana helm charts repo](https://github.com/grafana/helm-charts/tree/main/charts/tempo) that corresponds with the app version identified by Rennovate
+3. From the root of the repo run `kpt pkg update chart@<tag> --strategy alpha-git-patch`, where tag is found in step 1 (Tempo ref: `tempo-<tag>`)
 
-Run a KPT package update
+    - Run a KPT package update
+    ```shell
+    kpt pkg update chart@tempo-<tag> --strategy alpha-git-patch
+    ```
 
-```shell
-kpt pkg update chart@tempo-${chart.version} --strategy alpha-git-patch
-```
+    - Restore all BigBang added templates and tests:
+    ```shell
+    git checkout chart/templates/bigbang/
+    git checkout chart/tests/
+    git checkout chart/templates/tests
+    ```
+    - Follow the `Modifications made to upstream` section of this document for a list of changes per file to be aware of, for how Big Bang differs from upstream.
 
-Restore all BigBang added templates and tests:
-```shell
-git checkout chart/templates/bigbang/
-git checkout chart/tests/
-git checkout chart/templates/tests
-```
+4. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream. See `Update main chart` section of this document.
 
-## Update binaries
-If needed, log into registry1
-```
-helm registry login https://registry1.dso.mil -u ${registry1.username}
-helm registry logout https://registry1.dso.mil
-```
+5. Update dependencies and binaries using `helm dependency update ./chart`
 
-Pull assets and commit the binaries as well as the Chart.lock file that was generated.
-```
-export HELM_EXPERIMENTAL_OCI=1
-helm dependency update ./chart
-```
+    - If needed, log into registry1
+      ```shell
+      helm registry login https://registry1.dso.mil -u ${registry1.username}
+      helm registry logout https://registry1.dso.mil
+      ```
 
+      Pull assets and commit the binaries as well as the Chart.lock file that was generated.
+      ```shell
+      export HELM_EXPERIMENTAL_OCI=1
+      helm dependency update ./chart
+      ```
+      Then log out.
+      ```shell
+      helm registry logout https://registry1.dso.mil
+      ```
+
+6. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+
+7. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+
+8. Push up your changes, add upgrade notices if applicable, validate that CI passes. 
+
+    - If there are any failures, follow the information in the pipeline to make the necessary updates. 
+
+    - Add the `debug` label to the MR for more detailed information. 
+    
+    - Reach out to the CODEOWNERS if needed.
+
+9. Follow the `Testing new Tempo Version` section of this document for manual testing.
 
 ## Update main chart
 
@@ -59,18 +80,18 @@ annotations:
       image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:$TEMPO_VERSION
 ```
 
-# Modifications made to upstream 
+## Modifications made to upstream 
 
 ```chart/values.yaml```
 
 - line 14, update `tempo.repository` to pull hardened images from registry1
-```
+```yaml
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
 ```
 
 - line 29, ensure `tempo.resources` requests and limits are set
-```
+```yaml
   resources:
     limits:
       cpu: 500m
@@ -81,7 +102,7 @@ annotations:
 ```
 
 - line 46, ensure `tempo.ingester` values are set
-```
+```yaml
   ingester:
     trace_idle_period: 10s
     max_block_bytes: 1_000_000
@@ -89,18 +110,18 @@ annotations:
 ```
 
 - line 54, ensure `tempo.retention` is set to `336h`
-```
+```yaml
   retention: 336h # 2 weeks retention
 ```
 
 - line 97, ensure `tempo.receivers` contains values for `zipkin`
-```
+```yaml
     zipkin:
       endpoint: 0.0.0.0:9411
 ```
 
 - line 106, ensure `tempo.securityContext` is set
-```
+```yaml
   securityContext:
      capabilities:
        drop:
@@ -108,13 +129,13 @@ annotations:
 ```
 
 - line 165, update `tempoQuery.repository` to pull hardened images from registry1
-```
+```yaml
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
 ```
 
 - line 180, ensure `tempoQuery.resources` requests and limits are set
-```
+```yaml
   # -- Resource for query container
   resources:
     limits:
@@ -137,7 +158,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
 
 
 - line 199, ensure `tempoQuery.securityContext` is set
-```
+```yaml
   securityContext:
      capabilities:
        drop:
@@ -145,7 +166,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
 ```
 
 - line 209, ensure `securityContext` for containers is set
-```
+```yaml
 # -- securityContext for container
 securityContext:
   fsGroup: 1001
@@ -155,14 +176,14 @@ securityContext:
 ```
 
 - line 223, ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
-```
+```yaml
   # -- Image pull secrets for the service account
   imagePullSecrets:
     - name: private-registry
 ```
 
 - line 245, ensure `persistence` is enabled and size is increased to `15Gi`
-```
+```yaml
 persistence:
   enabled: true
   # storageClassName: local-path
@@ -172,7 +193,7 @@ persistence:
 ```
 
 - line 253, ensure `podAnnotations` includes istio inbound ports
-```
+```yaml
 podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
 ```
@@ -212,12 +233,12 @@ Modified ports to match naming convention with `http-` prefix
 ```chart/templates/statefulset.yaml```
 
 - line 79-83, add in envFrom section to the tempo container
-    ```
-            {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
-            envFrom:
-            - secretRef:
-                name: tempo-object-storage
-            {{- end }}
+    ```yaml
+    {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
+    envFrom:
+    - secretRef:
+        name: tempo-object-storage
+    {{- end }}
     ```
 
 ## chart/templates/bigbang/*
@@ -232,8 +253,55 @@ Modified ports to match naming convention with `http-` prefix
 - Add scripts for testing
 
 # Testing new Tempo Version
+> NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Loki to your branch. For an upgrade do an install with Loki pointing to the latest tag, then perform a helm upgrade with Loki pointing to your branch.
 
-- Deploy tempo as a part of BigBang with istio and monitoring enabled, but with jaeger DISabled
-- Visit `https://tracing.bigbang.dev` and ensure Services are listed and traces are being rendered
-- Check the logs for the tempo pod and container and ensure traceIDs are getting sent over from the istio mesh
-- Visit `https://grafana.bigbang.dev` > Login > Gear icon > Data Sources > Tempo > click `Test` datasource at the bottom
+You will want to install with:
+- Tempo, monitoring and Istio packages enabled, but with Jaeger Disabled
+
+`overrides/loki.yaml`
+```yaml
+domain: bigbang.dev
+
+flux:
+  interval: 1m
+  rollback:
+    cleanupOnFail: false
+
+clusterAuditor:
+  enabled: false
+
+gatekeeper:
+  enabled: false
+
+istioOperator:
+  enabled: true
+
+istio:
+  enabled: true
+
+monitoring:
+  enabled: true
+
+loki:
+  enabled: false
+  
+promtail:
+  enabled: false
+
+tempo:
+  enabled: true
+  git:
+    tag: null
+    branch: "renovate/ironbank"
+
+jaeger:
+  enabled: false
+```
+
+- Visit `https://tracing.bigbang.dev` 
+  - Ensure Services are listed and traces are being rendered
+  - Check the logs for the tempo pod and container and ensure traceIDs are getting sent over from the istio mesh
+- Visit `https://grafana.bigbang.dev` and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+  - Search for Data Sources -> click Tempo -> click `Save & Test` datasource at the bottom
+
+> When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.
