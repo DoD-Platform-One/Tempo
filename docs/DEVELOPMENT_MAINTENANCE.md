@@ -256,9 +256,10 @@ Modified ports to match naming convention with `http-` prefix
 > NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Loki to your branch. For an upgrade do an install with Loki pointing to the latest tag, then perform a helm upgrade with Loki pointing to your branch.
 
 You will want to install with:
-- Tempo, monitoring and Istio packages enabled, but with Jaeger Disabled
+- Tempo, monitoring and Istio packages enabled
+- Jaeger disabled
 
-`overrides/loki.yaml`
+`overrides/tempo.yaml`
 ```yaml
 domain: bigbang.dev
 
