@@ -1,4 +1,4 @@
-{{- if and .Values.istio.enabled .Values.sso.enabled .Values.monitoring.enabled .Values.serviceMonitor.enabled }}
+{{- if and (or .Values.sso.enabled .Values.istio.hardened.enabled) .Values.istio.enabled .Values.monitoring.enabled .Values.serviceMonitor.enabled }}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -15,6 +15,8 @@ spec:
     - source:
         namespaces:
         - monitoring
+        principals:
+        - cluster.local/ns/monitoring/sa/monitoring-*
     to:
     - operation:
         methods:
