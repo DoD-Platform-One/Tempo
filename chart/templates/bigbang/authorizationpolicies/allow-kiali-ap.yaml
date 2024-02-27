@@ -1,4 +1,4 @@
-{{- if and .Values.sso.enabled .Values.istio.enabled }}
+{{- if and (or .Values.sso.enabled .Values.istio.hardened.enabled) .Values.istio.enabled }}
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
