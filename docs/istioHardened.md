@@ -28,6 +28,8 @@ istio:
          hosts:
            - google.com
          location: MESH_EXTERNAL
+         exportTo: 
+         - "."
          ports:
            - number: 443
              protocol: TLS
@@ -46,6 +48,8 @@ spec:
   hosts:
   - google.com
   location: MESH_EXTERNAL
+  exportTo: 
+  - "."
   ports:
   - name: https
     number: 443

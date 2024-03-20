@@ -28,6 +28,7 @@ spec:
         - GET
         ports:
         - "16687"
+        - "16686"
   # Allow traffic to port 3100 and 16687 to support Prometheus' direct endpoint scraping, see https://github.com/istio/istio/issues/19975 for a discussion of this
   - to:
     - operation:
@@ -36,4 +37,5 @@ spec:
     - operation:
         ports:
         - "16687"
+        - "16686"
 {{- end }}
