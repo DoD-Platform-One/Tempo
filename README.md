@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.7.1-bb.4](https://img.shields.io/badge/Version-1.7.1--bb.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.1](https://img.shields.io/badge/AppVersion-2.3.1-informational?style=flat-square)
+![Version: 1.7.1-bb.5](https://img.shields.io/badge/Version-1.7.1--bb.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.1](https://img.shields.io/badge/AppVersion-2.3.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -147,6 +147,7 @@ helm install tempo chart/
 | bbtests.scripts.enabled | bool | `true` |  |
 | bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:2.1.0"` |  |
 | bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ template \"tempo.fullname\" . }}.{{ .Release.Namespace }}.svc:3100"` |  |
+| openshift | bool | `false` | Toggle or openshift specific config |
 
 ## Contributing
 
