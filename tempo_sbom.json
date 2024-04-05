@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:35ea1406-168a-4de7-9fd1-c3dc06fd2c3a",
+  "serialNumber": "urn:uuid:4e044ea8-c08b-4912-aa38-5d7e785a4ef8",
   "version": 1,
   "metadata": {
     "tools": null,
@@ -3826,11 +3826,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/evanphx/json-patch@v4.12.0\u002Bincompatible?package-id=884ae744c55d1c3a",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/evanphx/json-patch@v4.12.0%2Bincompatible?package-id=884ae744c55d1c3a",
           "name": "github.com/evanphx/json-patch",
           "version": "v4.12.0\u002Bincompatible",
           "cpe": "cpe:2.3:a:evanphx:json-patch:v4.12.0\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/evanphx/json-patch@v4.12.0\u002Bincompatible",
+          "purl": "pkg:golang/github.com/evanphx/json-patch@v4.12.0%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -12296,11 +12296,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/uber/jaeger-client-go@v2.30.0\u002Bincompatible?package-id=d5105b563f805652",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/uber/jaeger-client-go@v2.30.0%2Bincompatible?package-id=d5105b563f805652",
           "name": "github.com/uber/jaeger-client-go",
           "version": "v2.30.0\u002Bincompatible",
           "cpe": "cpe:2.3:a:uber:jaeger-client-go:v2.30.0\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/uber/jaeger-client-go@v2.30.0\u002Bincompatible",
+          "purl": "pkg:golang/github.com/uber/jaeger-client-go@v2.30.0%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -12350,11 +12350,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/uber/jaeger-lib@v2.4.1\u002Bincompatible?package-id=b12421999d29aab5",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/uber/jaeger-lib@v2.4.1%2Bincompatible?package-id=b12421999d29aab5",
           "name": "github.com/uber/jaeger-lib",
           "version": "v2.4.1\u002Bincompatible",
           "cpe": "cpe:2.3:a:uber:jaeger-lib:v2.4.1\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/uber/jaeger-lib@v2.4.1\u002Bincompatible",
+          "purl": "pkg:golang/github.com/uber/jaeger-lib@v2.4.1%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -12454,11 +12454,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/willf/bloom@v2.0.3\u002Bincompatible?package-id=f850b6f9c45110d8",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/willf/bloom@v2.0.3%2Bincompatible?package-id=f850b6f9c45110d8",
           "name": "github.com/willf/bloom",
           "version": "v2.0.3\u002Bincompatible",
           "cpe": "cpe:2.3:a:willf:bloom:v2.0.3\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/willf/bloom@v2.0.3\u002Bincompatible",
+          "purl": "pkg:golang/github.com/willf/bloom@v2.0.3%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -19669,7 +19669,7 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:rpm/rhel/libstdc\u002B\u002B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3\u0026package-id=67a908dedb55a534",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:rpm/rhel/libstdc%2B%2B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3\u0026package-id=67a908dedb55a534",
           "publisher": "Red Hat, Inc.",
           "name": "libstdc\u002B\u002B",
           "version": "11.4.1-2.1.el9",
@@ -19681,7 +19681,7 @@
             }
           ],
           "cpe": "cpe:2.3:a:libstdc\\\u002B\\\u002B:libstdc\\\u002B\\\u002B:11.4.1-2.1.el9:*:*:*:*:*:*:*",
-          "purl": "pkg:rpm/rhel/libstdc\u002B\u002B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3",
+          "purl": "pkg:rpm/rhel/libstdc%2B%2B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -29041,11 +29041,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/olivere/elastic@v6.2.37\u002Bincompatible?package-id=0eff6a98fb1570d7",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/olivere/elastic@v6.2.37%2Bincompatible?package-id=0eff6a98fb1570d7",
           "name": "github.com/olivere/elastic",
           "version": "v6.2.37\u002Bincompatible",
           "cpe": "cpe:2.3:a:olivere:elastic:v6.2.37\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/olivere/elastic@v6.2.37\u002Bincompatible",
+          "purl": "pkg:golang/github.com/olivere/elastic@v6.2.37%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -29619,11 +29619,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/pierrec/lz4@v2.6.1\u002Bincompatible?package-id=69d74e568c524f4c",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/pierrec/lz4@v2.6.1%2Bincompatible?package-id=69d74e568c524f4c",
           "name": "github.com/pierrec/lz4",
           "version": "v2.6.1\u002Bincompatible",
           "cpe": "cpe:2.3:a:pierrec:lz4:v2.6.1\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/pierrec/lz4@v2.6.1\u002Bincompatible",
+          "purl": "pkg:golang/github.com/pierrec/lz4@v2.6.1%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -30849,11 +30849,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/uber/jaeger-client-go@v2.30.0\u002Bincompatible?package-id=f92914bf699f2b92",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/uber/jaeger-client-go@v2.30.0%2Bincompatible?package-id=f92914bf699f2b92",
           "name": "github.com/uber/jaeger-client-go",
           "version": "v2.30.0\u002Bincompatible",
           "cpe": "cpe:2.3:a:uber:jaeger-client-go:v2.30.0\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/uber/jaeger-client-go@v2.30.0\u002Bincompatible",
+          "purl": "pkg:golang/github.com/uber/jaeger-client-go@v2.30.0%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -30903,11 +30903,11 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/uber/jaeger-lib@v2.4.1\u002Bincompatible?package-id=c21fb24876861d83",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/github.com/uber/jaeger-lib@v2.4.1%2Bincompatible?package-id=c21fb24876861d83",
           "name": "github.com/uber/jaeger-lib",
           "version": "v2.4.1\u002Bincompatible",
           "cpe": "cpe:2.3:a:uber:jaeger-lib:v2.4.1\\\u002Bincompatible:*:*:*:*:*:*:*",
-          "purl": "pkg:golang/github.com/uber/jaeger-lib@v2.4.1\u002Bincompatible",
+          "purl": "pkg:golang/github.com/uber/jaeger-lib@v2.4.1%2Bincompatible",
           "properties": [
             {
               "name": "syft:package:foundBy",
@@ -36635,7 +36635,7 @@
         },
         {
           "type": "library",
-          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:rpm/rhel/libstdc\u002B\u002B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3\u0026package-id=67a908dedb55a534",
+          "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:rpm/rhel/libstdc%2B%2B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3\u0026package-id=67a908dedb55a534",
           "publisher": "Red Hat, Inc.",
           "name": "libstdc\u002B\u002B",
           "version": "11.4.1-2.1.el9",
@@ -36647,7 +36647,7 @@
             }
           ],
           "cpe": "cpe:2.3:a:libstdc\\\u002B\\\u002B:libstdc\\\u002B\\\u002B:11.4.1-2.1.el9:*:*:*:*:*:*:*",
-          "purl": "pkg:rpm/rhel/libstdc\u002B\u002B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3",
+          "purl": "pkg:rpm/rhel/libstdc%2B%2B@11.4.1-2.1.el9?arch=x86_64\u0026upstream=gcc-11.4.1-2.1.el9.src.rpm\u0026distro=rhel-9.3",
           "properties": [
             {
               "name": "syft:package:foundBy",
