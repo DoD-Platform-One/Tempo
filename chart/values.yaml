@@ -384,6 +384,7 @@ networkPolicies:
   # -- Use `kubectl cluster-info` and then resolve to IP for kube-api.
   # Review value description in BigBang README.md
   controlPlaneCidr: 0.0.0.0/0
+  additionalPolicies: []
 
 # -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
 monitoring:
