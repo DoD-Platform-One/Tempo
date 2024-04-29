@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added custom network policies
 
+## [1.7.1-bb.6] - 2024-04-11
+### Changed
+- Changing type of Openshift SCC in clusterrolebinding
+
 ## [1.7.1-bb.5] - 2024-03-13
 ### Changed
 - Updating IstioHardened.md to include exportTo
