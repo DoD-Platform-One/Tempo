@@ -1,7 +1,7 @@
 {
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
-  "serialNumber": "urn:uuid:4e044ea8-c08b-4912-aa38-5d7e785a4ef8",
+  "serialNumber": "urn:uuid:a6e8b92a-dfdb-419c-807d-486fa1d98fd6",
   "version": 1,
   "metadata": {
     "tools": null,
@@ -2877,7 +2877,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/github.com/aws/aws-sdk-go@v1.44.321?package-id=43679d22d4860381",
           "name": "github.com/aws/aws-sdk-go",
           "version": "v1.44.321",
-          "cpe": "cpe:2.3:a:aws:aws-sdk-go:v1.44.321:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:amazon:aws_software_development_kit:v1.44.321:*:*:*:*:go:*:*",
           "purl": "pkg:golang/github.com/aws/aws-sdk-go@v1.44.321",
           "properties": [
             {
@@ -2895,10 +2895,6 @@
             {
               "name": "syft:package:metadataType",
               "value": "go-module-buildinfo-entry"
-            },
-            {
-              "name": "syft:cpe23",
-              "value": "cpe:2.3:a:aws:aws_sdk_go:v1.44.321:*:*:*:*:*:*:*"
             },
             {
               "name": "syft:location:0:layerID",
@@ -16203,7 +16199,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/golang.org/x/net@v0.17.0?package-id=40cd9696bae45ae3",
           "name": "golang.org/x/net",
           "version": "v0.17.0",
-          "cpe": "cpe:2.3:a:golang:x\\/net:v0.17.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:networking:v0.17.0:*:*:*:*:go:*:*",
           "purl": "pkg:golang/golang.org/x/net@v0.17.0",
           "properties": [
             {
@@ -16403,7 +16399,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/golang.org/x/text@v0.13.0?package-id=a2f0704a8777c25b",
           "name": "golang.org/x/text",
           "version": "v0.13.0",
-          "cpe": "cpe:2.3:a:golang:x\\/text:v0.13.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:text:v0.13.0:*:*:*:*:*:*:*",
           "purl": "pkg:golang/golang.org/x/text@v0.13.0",
           "properties": [
             {
@@ -17051,6 +17047,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo@2.3.0-ubi9:pkg:golang/gopkg.in/yaml.v3@v3.0.1?package-id=0ce3169dd97e5f50",
           "name": "gopkg.in/yaml.v3",
           "version": "v3.0.1",
+          "cpe": "cpe:2.3:a:yaml_project:yaml:v3.0.1:*:*:*:*:go:*:*",
           "purl": "pkg:golang/gopkg.in/yaml.v3@v3.0.1",
           "properties": [
             {
@@ -33131,7 +33128,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/golang.org/x/net@v0.17.0?package-id=cea98cd5a171f9a7",
           "name": "golang.org/x/net",
           "version": "v0.17.0",
-          "cpe": "cpe:2.3:a:golang:x\\/net:v0.17.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:networking:v0.17.0:*:*:*:*:go:*:*",
           "purl": "pkg:golang/golang.org/x/net@v0.17.0",
           "properties": [
             {
@@ -33181,7 +33178,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/golang.org/x/net@v0.20.0?package-id=8da20b3866e8ca89",
           "name": "golang.org/x/net",
           "version": "v0.20.0",
-          "cpe": "cpe:2.3:a:golang:x\\/net:v0.20.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:networking:v0.20.0:*:*:*:*:go:*:*",
           "purl": "pkg:golang/golang.org/x/net@v0.20.0",
           "properties": [
             {
@@ -33339,7 +33336,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/golang.org/x/text@v0.13.0?package-id=18e2a5495cd2501f",
           "name": "golang.org/x/text",
           "version": "v0.13.0",
-          "cpe": "cpe:2.3:a:golang:x\\/text:v0.13.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:text:v0.13.0:*:*:*:*:*:*:*",
           "purl": "pkg:golang/golang.org/x/text@v0.13.0",
           "properties": [
             {
@@ -33389,7 +33386,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/golang.org/x/text@v0.14.0?package-id=907291ba57e054ac",
           "name": "golang.org/x/text",
           "version": "v0.14.0",
-          "cpe": "cpe:2.3:a:golang:x\\/text:v0.14.0:*:*:*:*:*:*:*",
+          "cpe": "cpe:2.3:a:golang:text:v0.14.0:*:*:*:*:*:*:*",
           "purl": "pkg:golang/golang.org/x/text@v0.14.0",
           "properties": [
             {
@@ -33964,6 +33961,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/gopkg.in/yaml.v3@v3.0.1?package-id=85a6186eb8d0869b",
           "name": "gopkg.in/yaml.v3",
           "version": "v3.0.1",
+          "cpe": "cpe:2.3:a:yaml_project:yaml:v3.0.1:*:*:*:*:go:*:*",
           "purl": "pkg:golang/gopkg.in/yaml.v3@v3.0.1",
           "properties": [
             {
@@ -34017,6 +34015,7 @@
           "bom-ref": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query@2.3.1:pkg:golang/gopkg.in/yaml.v3@v3.0.1?package-id=77dbd0aac38f7ed8",
           "name": "gopkg.in/yaml.v3",
           "version": "v3.0.1",
+          "cpe": "cpe:2.3:a:yaml_project:yaml:v3.0.1:*:*:*:*:go:*:*",
           "purl": "pkg:golang/gopkg.in/yaml.v3@v3.0.1",
           "properties": [
             {
