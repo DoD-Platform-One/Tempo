@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.7.1-bb.7](https://img.shields.io/badge/Version-1.7.1--bb.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.1](https://img.shields.io/badge/AppVersion-2.3.1-informational?style=flat-square)
+![Version: 1.7.1-bb.8](https://img.shields.io/badge/Version-1.7.1--bb.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.3.1](https://img.shields.io/badge/AppVersion-2.3.1-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -49,7 +49,7 @@ helm install tempo chart/
 | tempo.resources.requests.memory | string | `"4Gi"` |  |
 | tempo.memBallastSizeMbs | int | `1024` |  |
 | tempo.multitenancyEnabled | bool | `false` |  |
-| tempo.reportingEnabled | bool | `true` | If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs |
+| tempo.reportingEnabled | bool | `false` | If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs |
 | tempo.metricsGenerator.enabled | bool | `false` | If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/) |
 | tempo.metricsGenerator.remoteWriteUrl | string | `"http://prometheus.monitoring:9090/api/v1/write"` |  |
 | tempo.ingester | object | `{"max_block_bytes":1000000,"max_block_duration":"5m","trace_idle_period":"10s"}` | Configuration options for the ingester |

@@ -40,7 +40,7 @@ tempo:
   memBallastSizeMbs: 1024
   multitenancyEnabled: false
   # -- If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs
-  reportingEnabled: true
+  reportingEnabled: false
   metricsGenerator:
     # -- If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/)
     enabled: false
