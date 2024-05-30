@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.8.0-bb.0] - 2024-05-29
+### Changed
+- Updated Tempo: 2.3.0 -> 2.4.2
+- Updated Tempo Query: 2.3.1 -> 2.4.2
+- Updated gluon: 0.4.7 -> 0.5.0
+
 ## [1.7.1-bb.8] - 2024-05-07
 ### Changed
 - Disable anonymous reporting to Grafana Labs

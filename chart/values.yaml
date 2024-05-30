@@ -17,7 +17,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.3.0-ubi9
+  tag: 2.4.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -73,7 +73,7 @@ tempo:
       # backend: s3
       # store traces in s3
       # s3:
-      #   bucket: tempo                                   # store traces in this bucket
+      #   bucket: <your s3 bucket>                        # store traces in this bucket
       #   endpoint: s3.dualstack.us-east-2.amazonaws.com  # api endpoint
       #   access_key: ...                                 # optional. access key when using static credentials.
       #   secret_key: ...                                 # optional. secret key when using static credentials.
@@ -167,7 +167,7 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.3.1
+  tag: 2.4.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.

@@ -261,7 +261,7 @@ You will want to install with:
 
 `overrides/tempo.yaml`
 ```yaml
-domain: bigbang.dev
+domain: dev.bigbang.mil
 
 flux:
   interval: 1m
@@ -288,6 +288,9 @@ loki:
   
 promtail:
   enabled: false
+
+grafana:
+  enabled: true
 
 tempo:
   enabled: true
