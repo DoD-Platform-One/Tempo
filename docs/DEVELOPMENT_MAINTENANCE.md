@@ -84,13 +84,13 @@ annotations:
 
 ```chart/values.yaml```
 
-- line 14, update `tempo.repository` to pull hardened images from registry1
+- line 18, update `tempo.repository` to pull hardened images from registry1
 ```yaml
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
 ```
 
-- line 29, ensure `tempo.resources` requests and limits are set
+- line 32, ensure `tempo.resources` requests and limits are set
 ```yaml
   resources:
     limits:
@@ -101,7 +101,7 @@ annotations:
       memory: 4Gi
 ```
 
-- line 46, ensure `tempo.ingester` values are set
+- line 49, ensure `tempo.ingester` values are set
 ```yaml
   ingester:
     trace_idle_period: 10s
@@ -109,18 +109,18 @@ annotations:
     max_block_duration: 5m
 ```
 
-- line 54, ensure `tempo.retention` is set to `336h`
+- line 57, ensure `tempo.retention` is set to `336h`
 ```yaml
   retention: 336h # 2 weeks retention
 ```
 
-- line 97, ensure `tempo.receivers` contains values for `zipkin`
+- line 100, ensure `tempo.receivers` contains values for `zipkin`
 ```yaml
     zipkin:
       endpoint: 0.0.0.0:9411
 ```
 
-- line 106, ensure `tempo.securityContext` is set
+- line 109, ensure `tempo.securityContext` is set
 ```yaml
   securityContext:
      capabilities:
@@ -128,22 +128,10 @@ annotations:
        - ALL
 ```
 
-- line 165, update `tempoQuery.repository` to pull hardened images from registry1
+- line 166, update `tempoQuery.repository` to pull hardened images from registry1
 ```yaml
   # -- Docker image repository
-  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
-```
-
-- line 180, ensure `tempoQuery.resources` requests and limits are set
-```yaml
-  # -- Resource for query container
-  resources:
-    limits:
-      cpu: 300m
-      memory: 256Mi
-    requests:
-      cpu: 300m
-      memory: 256Mi
+  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
 ```
 
 - line 181, ensure `tempoQuery.enabled` is true
@@ -155,9 +143,19 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
   enabled: true
 ```
 
+- line 227, ensure `tempoQuery.resources` requests and limits are set
+```yaml
+  # -- Resource for query container
+  resources:
+    limits:
+      cpu: 300m
+      memory: 256Mi
+    requests:
+      cpu: 300m
+      memory: 256Mi
+```
 
-
-- line 199, ensure `tempoQuery.securityContext` is set
+- line 245, ensure `tempoQuery.securityContext` is set
 ```yaml
   securityContext:
      capabilities:
@@ -165,7 +163,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
        - ALL
 ```
 
-- line 209, ensure `securityContext` for containers is set
+- line 256, ensure `securityContext` for containers is set
 ```yaml
 # -- securityContext for container
 securityContext:
@@ -175,14 +173,20 @@ securityContext:
   runAsUser: 1001
 ```
 
-- line 223, ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
+- line 269, ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
 ```yaml
   # -- Image pull secrets for the service account
   imagePullSecrets:
     - name: private-registry
 ```
 
-- line 245, ensure `persistence` is enabled and size is increased to `15Gi`
+- line 275, ensure `serviceAccount.automountServiceAccountToken` is set to `false`
+This helps maintain our NSA hardening guide-compliance
+```yaml
+  automountServiceAccountToken: false
+``` 
+
+- line 291, ensure `persistence` is enabled and size is increased to `15Gi`
 ```yaml
 persistence:
   enabled: true
@@ -192,17 +196,11 @@ persistence:
   size: 15Gi
 ```
 
-- line 253, ensure `podAnnotations` includes istio inbound ports
+- line 299, ensure `podAnnotations` includes istio inbound ports
 ```yaml
 podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
 ```
-
-- line 262, ensure `serviceAccount.automountServiceAccountToken` is set to `false`
-This helps maintain our NSA hardening guide-compliance
-```yaml
-  automountServiceAccountToken: false
-``` 
 
 - EOF, add default bigbang.dev hostname and addditional Big Bang values
 
@@ -232,7 +230,7 @@ Modified ports to match naming convention with `http-` prefix
 
 ```chart/templates/statefulset.yaml```
 
-- line 79-83, add in envFrom section to the tempo container
+- line 95-99, add in envFrom section to the tempo container
     ```yaml
     {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
     envFrom:
@@ -300,6 +298,27 @@ tempo:
 
 jaeger:
   enabled: false
+
+kyverno:
+  enabled: true
+
+kyvernoPolicies:
+  enabled: true
+kyvernoPolicies:
+  values:
+    exclude:
+      any:
+      # Allows k3d load balancer to bypass policies.
+      - resources:
+          namespaces:
+          - istio-system
+          names:
+          - svclb-*
+    policies:
+      restrict-host-path-mount-pv:
+        parameters:
+          allow:
+          - /var/lib/rancher/k3s/storage/pvc-*
 ```
 
 - Visit `https://tracing.bigbang.dev` 
