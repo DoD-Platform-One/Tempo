@@ -1,6 +1,6 @@
 # tempo
 
-![Version: 1.9.0-bb.0](https://img.shields.io/badge/Version-1.9.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
+![Version: 1.9.0-bb.1](https://img.shields.io/badge/Version-1.9.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -121,7 +121,7 @@ helm install tempo chart/
 | tolerations | list | `[]` | Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
 | affinity | object | `{}` | Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity |
 | priorityClassName | string | `nil` | The name of the PriorityClass |
-| domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services |
+| domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services |
 | istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY","tempo":{"enabled":false,"namespaces":["tempo"],"principals":["cluster.local/ns/tempo/sa/tempo-tempo"]}},"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
 | istio.hardened | object | `{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY","tempo":{"enabled":false,"namespaces":["tempo"],"principals":["cluster.local/ns/tempo/sa/tempo-tempo"]}}` | Default peer authentication values |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
