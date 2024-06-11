@@ -101,6 +101,11 @@ annotations:
       memory: 4Gi
 ```
 
+- line 43, ensure `tempo.reportingEnabled` is set to `false`
+```yaml
+  reportingEnabled: false
+```
+
 - line 49, ensure `tempo.ingester` values are set
 ```yaml
   ingester:
@@ -184,7 +189,19 @@ securityContext:
 This helps maintain our NSA hardening guide-compliance
 ```yaml
   automountServiceAccountToken: false
-``` 
+```
+
+- line 282, ensure `serviceAccount` has `scheme` and `tlsConfig` values shown below:
+```yaml
+serviceMonitor:
+  enabled: false
+  interval: ""
+  additionalLabels: {}
+  annotations: {}
+  scheme: ""
+  tlsConfig: {}
+  # scrapeTimeout: 10s
+```
 
 - line 291, ensure `persistence` is enabled and size is increased to `15Gi`
 ```yaml
@@ -202,8 +219,108 @@ podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
 ```
 
-- EOF, add default bigbang.dev hostname and addditional Big Bang values
+- EOF, add default dev.bigbang.mil hostname and addditional Big Bang values
 
+```yaml
+# -- Domain used for BigBang created exposed services
+domain: dev.bigbang.mil
+# -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
+istio:
+  enabled: false
+  # -- Default peer authentication values
+  hardened:
+    enabled: false
+    outboundTrafficPolicyMode: "REGISTRY_ONLY"
+    customServiceEntries: []
+      # - name: "allow-google"
+      #   enabled: true
+      #   spec:
+      #     hosts:
+      #       - google.com
+      #     location: MESH_EXTERNAL
+      #     ports:
+      #       - number: 443
+      #         protocol: TLS
+      #         name: https
+      #     resolution: DNS
+    customAuthorizationPolicies: []
+    # - name: "allow-nothing"
+    #   enabled: true
+    #   spec: {}
+    tempo:
+        enabled: false
+        namespaces:
+        - tempo
+        principals:
+        - cluster.local/ns/tempo/sa/tempo-tempo  
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+  # -- Tempo-Query specific VirtualService values
+  tempoQuery:
+    # -- Toggle VirtualService creation
+    enabled: true
+    annotations: {}
+    labels: {}
+    gateways:
+      - istio-system/main
+    hosts:
+      - tracing.{{ .Values.domain }}
+
+objectStorage:
+  # -- AWS access_key_id for External ObjectStorage configuration
+  access_key_id: ""
+  # -- AWS secret_access_key for External ObjectStorage configuration
+  secret_access_key: ""
+
+# -- Toggle for BigBang specific NetworkPolicies.
+# If disabled no NetworkPolicies will be installed with package
+# ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+networkPolicies:
+  enabled: false
+  # -- Istio IngressGateway labels for VirtualService external routing to app UI
+  ingressLabels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  # -- Use `kubectl cluster-info` and then resolve to IP for kube-api.
+  # Review value description in BigBang README.md
+  controlPlaneCidr: 0.0.0.0/0
+  additionalPolicies: []
+
+# -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
+monitoring:
+  enabled: false
+
+# -- SSO toggle. Intended to be controlled via BigBang passthrough, only affects network/auth policies.
+sso:
+  enabled: false
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_url: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
+      cypress_tempo_datasource: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
+      cypress_check_datasource: "false"
+      cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
+    resources:
+      requests:
+        cpu: "1"
+        memory: "1Gi"
+      limits:
+        cpu: "2"
+        memory: "2Gi"
+  scripts:
+    enabled: true
+    image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
+    envs:
+      TEMPO_METRICS_URL: 'http://{{ template "tempo.fullname" . }}.{{ .Release.Namespace }}.svc:3100'
+
+# -- Toggle or openshift specific config
+openshift: false
+```
 
 ```chart/templates/service.yaml```
 
@@ -226,7 +343,27 @@ Added protocols to each port name (i.e. tcp, http, etc)
 Modified ports to match naming convention with `http-` prefix
 
 - line 26, ensure `port` is `http-tempo-prom-metrics`
+- line 33-39, ensure this section is added for `http-tempo-prom-metrics`:
+    ```yaml
+          {{- if .Values.serviceMonitor.scheme }}
+          scheme: {{ .Values.serviceMonitor.scheme }}
+          {{- end }}
+          {{- if .Values.serviceMonitor.tlsConfig }}
+          tlsConfig:
+            {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
+          {{- end }}
+    ```
 - line 40, ensure `port` is `http-jaeger-metrics`
+- line 47-53, ensure this section is added for `http-jaeger-metrics`:
+    ```yaml
+          {{- if .Values.serviceMonitor.scheme }}
+          scheme: {{ .Values.serviceMonitor.scheme }}
+          {{- end }}
+          {{- if .Values.serviceMonitor.tlsConfig }}
+          tlsConfig:
+            {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
+          {{- end }}
+    ```
 
 ```chart/templates/statefulset.yaml```
 
@@ -238,6 +375,10 @@ Modified ports to match naming convention with `http-` prefix
         name: tempo-object-storage
     {{- end }}
     ```
+
+## chart/templates/authorization-policies/*
+
+- Add the Istio Authorization Policies
 
 ## chart/templates/bigbang/*
 

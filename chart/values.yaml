@@ -321,7 +321,7 @@ affinity: {}
 priorityClassName: null
 
 # -- Domain used for BigBang created exposed services
-domain: bigbang.dev
+domain: dev.bigbang.mil
 # -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
 istio:
   enabled: false
