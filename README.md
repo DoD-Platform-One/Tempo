@@ -5,11 +5,13 @@
 Grafana Tempo Single Binary Mode
 
 ## Upstream References
+
 * <https://grafana.net>
 
 * <https://github.com/grafana/tempo>
 
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -21,12 +23,13 @@ Grafana Tempo Single Binary Mode
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install tempo chart/
 ```
@@ -50,7 +53,7 @@ helm install tempo chart/
 | tempo.memBallastSizeMbs | int | `1024` |  |
 | tempo.multitenancyEnabled | bool | `false` |  |
 | tempo.reportingEnabled | bool | `false` | If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs |
-| tempo.metricsGenerator.enabled | bool | `false` | If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/) |
+| tempo.metricsGenerator.enabled | bool | `false` | If true, enables Tempo's metrics generator (<https://grafana.com/docs/tempo/next/metrics-generator/>) |
 | tempo.metricsGenerator.remoteWriteUrl | string | `"http://prometheus.monitoring:9090/api/v1/write"` |  |
 | tempo.ingester | object | `{"max_block_bytes":1000000,"max_block_duration":"5m","trace_idle_period":"10s"}` | Configuration options for the ingester |
 | tempo.querier | object | `{}` | Configuration options for the querier |
@@ -117,9 +120,9 @@ helm install tempo chart/
 | podLabels | object | `{}` | Pod (extra) Labels |
 | extraLabels | object | `{}` |  |
 | extraVolumes | list | `[]` | Volumes to add |
-| nodeSelector | object | `{}` | Node labels for pod assignment. See: https://kubernetes.io/docs/user-guide/node-selection/ |
-| tolerations | list | `[]` | Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
-| affinity | object | `{}` | Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity |
+| nodeSelector | object | `{}` | Node labels for pod assignment. See: <https://kubernetes.io/docs/user-guide/node-selection/> |
+| tolerations | list | `[]` | Tolerations for pod assignment. See: <https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/> |
+| affinity | object | `{}` | Affinity for pod assignment. See: <https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity> |
 | priorityClassName | string | `nil` | The name of the PriorityClass |
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services |
 | istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY","tempo":{"enabled":false,"namespaces":["tempo"],"principals":["cluster.local/ns/tempo/sa/tempo-tempo"]}},"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
@@ -129,7 +132,7 @@ helm install tempo chart/
 | istio.tempoQuery.enabled | bool | `true` | Toggle VirtualService creation |
 | objectStorage.access_key_id | string | `""` | AWS access_key_id for External ObjectStorage configuration |
 | objectStorage.secret_access_key | string | `""` | AWS secret_access_key for External ObjectStorage configuration |
-| networkPolicies | object | `{"additionalPolicies":[],"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
+| networkPolicies | object | `{"additionalPolicies":[],"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: <https://kubernetes.io/docs/concepts/services-networking/network-policies/> |
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio IngressGateway labels for VirtualService external routing to app UI |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Use `kubectl cluster-info` and then resolve to IP for kube-api. Review value description in BigBang README.md |
 | monitoring | object | `{"enabled":false}` | Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status |
