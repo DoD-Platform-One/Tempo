@@ -345,12 +345,6 @@ istio:
     # - name: "allow-nothing"
     #   enabled: true
     #   spec: {}
-    tempo:
-        enabled: false
-        namespaces:
-        - tempo
-        principals:
-        - cluster.local/ns/tempo/sa/tempo-tempo  
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic

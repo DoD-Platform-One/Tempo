@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.9.0-bb.2] - 2024-07-03
+
+### Updated
+
+- Set new default labels according to best practices
+
 ## [1.9.0-bb.1] - 2024-06-10
 
 ### Changed

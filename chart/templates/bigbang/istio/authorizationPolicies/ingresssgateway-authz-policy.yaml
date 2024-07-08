@@ -1,4 +1,5 @@
 {{- if and .Values.istio.enabled .Values.istio.hardened.enabled .Values.istio.tempoQuery.enabled -}}
+{{- $dot := . }}
 {{- range .Values.istio.tempoQuery.gateways -}}
 {{- $gatewayParts := split "/" . }}
 {{- $namespace := $gatewayParts._0 }}
@@ -11,7 +12,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: tempo
+      {{- include "tempo.selectorLabels" $dot | nindent 6 }}
   action: ALLOW
   rules:
   - from:
