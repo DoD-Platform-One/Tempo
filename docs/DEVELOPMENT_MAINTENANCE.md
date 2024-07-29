@@ -103,13 +103,13 @@ annotations:
 
 ```chart/values.yaml```
 
-- line 18, update `tempo.repository` to pull hardened images from registry1
+- line 21, update `tempo.repository` to pull hardened images from registry1
 ```yaml
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
 ```
 
-- line 32, ensure `tempo.resources` requests and limits are set
+- line 35, ensure `tempo.resources` requests and limits are set
 ```yaml
   resources:
     limits:
@@ -120,12 +120,12 @@ annotations:
       memory: 4Gi
 ```
 
-- line 43, ensure `tempo.reportingEnabled` is set to `false`
+- line 46, ensure `tempo.reportingEnabled` is set to `false`
 ```yaml
   reportingEnabled: false
 ```
 
-- line 49, ensure `tempo.ingester` values are set
+- line 52, ensure `tempo.ingester` values are set
 ```yaml
   ingester:
     trace_idle_period: 10s
@@ -133,18 +133,18 @@ annotations:
     max_block_duration: 5m
 ```
 
-- line 57, ensure `tempo.retention` is set to `336h`
+- line 60, ensure `tempo.retention` is set to `336h`
 ```yaml
   retention: 336h # 2 weeks retention
 ```
 
-- line 100, ensure `tempo.receivers` contains values for `zipkin`
+- line 103, ensure `tempo.receivers` contains values for `zipkin`
 ```yaml
     zipkin:
       endpoint: 0.0.0.0:9411
 ```
 
-- line 109, ensure `tempo.securityContext` is set
+- line 112, ensure `tempo.securityContext` is set
 ```yaml
   securityContext:
      capabilities:
@@ -152,13 +152,13 @@ annotations:
        - ALL
 ```
 
-- line 166, update `tempoQuery.repository` to pull hardened images from registry1
+- line 171, update `tempoQuery.repository` to pull hardened images from registry1
 ```yaml
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
 ```
 
-- line 181, ensure `tempoQuery.enabled` is true
+- line 184, ensure `tempoQuery.enabled` is true
 
 Note: [this](https://github.com/grafana/helm-charts/commit/4c77fa7b3a54977d094071b446ff8b5b86982858) upstream commit disabled `tempo-query` by default in the chart. Evidently this is because `tempo-query` was always meant as a shim between Tempo and Grafana, but it hasn't been necessary [since 7.5.0](https://github.com/grafana/tempo/issues/456#issuecomment-815813684), as Grafana is capable of querying Tempo directly now.
 
@@ -167,7 +167,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
   enabled: true
 ```
 
-- line 227, ensure `tempoQuery.resources` requests and limits are set
+- line 230, ensure `tempoQuery.resources` requests and limits are set
 ```yaml
   # -- Resource for query container
   resources:
@@ -179,7 +179,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
       memory: 256Mi
 ```
 
-- line 245, ensure `tempoQuery.securityContext` is set
+- line 248, ensure `tempoQuery.securityContext` is set
 ```yaml
   securityContext:
      capabilities:
@@ -187,7 +187,7 @@ Currently, Big Bang uses `tempo-query` for Cypress testing and users may expect 
        - ALL
 ```
 
-- line 256, ensure `securityContext` for containers is set
+- line 259, ensure `securityContext` for containers is set
 ```yaml
 # -- securityContext for container
 securityContext:
@@ -197,20 +197,20 @@ securityContext:
   runAsUser: 1001
 ```
 
-- line 269, ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
+- line 272, ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
 ```yaml
   # -- Image pull secrets for the service account
   imagePullSecrets:
     - name: private-registry
 ```
 
-- line 275, ensure `serviceAccount.automountServiceAccountToken` is set to `false`
+- line 278, ensure `serviceAccount.automountServiceAccountToken` is set to `false`
 This helps maintain our NSA hardening guide-compliance
 ```yaml
   automountServiceAccountToken: false
 ```
 
-- line 282, ensure `serviceAccount` has `scheme` and `tlsConfig` values shown below:
+- line 286, ensure `serviceAccount` has `scheme` and `tlsConfig` values shown below:
 ```yaml
 serviceMonitor:
   enabled: false
@@ -222,7 +222,7 @@ serviceMonitor:
   # scrapeTimeout: 10s
 ```
 
-- line 291, ensure `persistence` is enabled and size is increased to `15Gi`
+- line 295, ensure `persistence` is enabled and size is increased to `15Gi`
 ```yaml
 persistence:
   enabled: true
@@ -232,7 +232,7 @@ persistence:
   size: 15Gi
 ```
 
-- line 299, ensure `podAnnotations` includes istio inbound ports
+- line 303, ensure `podAnnotations` includes istio inbound ports
 ```yaml
 podAnnotations:
   traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
@@ -419,12 +419,13 @@ You will want to install with:
 
 `overrides/tempo.yaml`
 ```yaml
-domain: dev.bigbang.mil
-
 flux:
   interval: 1m
   rollback:
     cleanupOnFail: false
+
+istio:
+  enabled: true
 
 clusterAuditor:
   enabled: false
@@ -435,11 +436,13 @@ gatekeeper:
 istioOperator:
   enabled: true
 
-istio:
-  enabled: true
-
 monitoring:
   enabled: true
+  values:
+    istio:
+      enabled: true
+      hardened:
+        enabled: true
 
 loki:
   enabled: false
@@ -449,12 +452,23 @@ promtail:
 
 grafana:
   enabled: true
+  values:
+    istio:
+      enabled: true
+      hardened:
+        enabled: true
+  
 
 tempo:
   enabled: true
   git:
     tag: null
     branch: "renovate/ironbank"
+  values:
+    istio:
+      enabled: true
+      hardened:
+        enabled: true
 
 jaeger:
   enabled: false
@@ -481,10 +495,10 @@ kyvernoPolicies:
           - /var/lib/rancher/k3s/storage/pvc-*
 ```
 
-- Visit `https://tracing.bigbang.dev` 
+- Visit `https://tracing.dev.bigbang.mil` 
   - Ensure Services are listed and traces are being rendered
   - Check the logs for the tempo pod and container and ensure traceIDs are getting sent over from the istio mesh
-- Visit `https://grafana.bigbang.dev` and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Visit `https://grafana.dev.bigbang.mil` and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Search for Data Sources -> click Tempo -> click `Save & Test` datasource at the bottom
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.

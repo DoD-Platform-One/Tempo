@@ -1,6 +1,7 @@
+<!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.9.0-bb.2](https://img.shields.io/badge/Version-1.9.0--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
+![Version: 1.10.1-bb.0](https://img.shields.io/badge/Version-1.10.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -8,6 +9,17 @@ Grafana Tempo Single Binary Mode
 * <https://grafana.net>
 
 * <https://github.com/grafana/tempo>
+
+### Upstream Release Notes
+
+This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
+Example:
+```yaml
+annotations:
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find our upstream chart's CHANGELOG here](https://link-goes-here/CHANGELOG.md)
+    - [and our upstream application release notes here](https://another-link-here/RELEASE_NOTES.md)
+```
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -38,6 +50,7 @@ helm install tempo chart/
 | nameOverride | string | `""` | Overrides the chart's name |
 | fullnameOverride | string | `""` | Overrides the chart's computed fullname |
 | replicas | int | `1` | Define the amount of instances |
+| labels | object | `{}` | labels for tempo |
 | annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
 | tempo.tag | string | `"2.5.0"` | Docker image tag |
@@ -104,6 +117,7 @@ helm install tempo chart/
 | service.type | string | `"ClusterIP"` |  |
 | service.annotations | object | `{}` |  |
 | service.labels | object | `{}` |  |
+| service.targetPort | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` |  |
 | serviceMonitor.interval | string | `""` |  |
 | serviceMonitor.additionalLabels | object | `{}` |  |
@@ -121,6 +135,14 @@ helm install tempo chart/
 | tolerations | list | `[]` | Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
 | affinity | object | `{}` | Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity |
 | priorityClassName | string | `nil` | The name of the PriorityClass |
+| networkPolicy.enabled | bool | `false` |  |
+| networkPolicy.ingress | bool | `true` |  |
+| networkPolicy.allowExternal | bool | `true` |  |
+| networkPolicy.explicitNamespacesSelector | object | `{}` |  |
+| networkPolicy.egress.enabled | bool | `false` |  |
+| networkPolicy.egress.blockDNSResolution | bool | `false` |  |
+| networkPolicy.egress.ports | list | `[]` |  |
+| networkPolicy.egress.to | list | `[]` |  |
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services |
 | istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"},"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
 | istio.hardened | object | `{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |
@@ -152,3 +174,8 @@ helm install tempo chart/
 ## Contributing
 
 Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.
+
+---
+
+_This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
+
