@@ -25,6 +25,7 @@
         {
             "fileMatch": ["^chart/Chart\\.yaml$"],
             "matchStrings": [
+                "appVersion:[^\\S\\r\\n]+(?<currentValue>.+)",
                 "- Tempo:\\s*(?<currentValue>.+)"
             ],
             "depNameTemplate": "ironbank/opensource/grafana/tempo",
