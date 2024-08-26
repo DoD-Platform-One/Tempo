@@ -23,7 +23,7 @@ spec:
       labels:
         {{- include "tempo.selectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
-          {{- toYaml . | nindent 8 }}
+          {{- tpl (toYaml . | nindent 8) $ }}
         {{- end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap-tempo.yaml") . | sha256sum }}

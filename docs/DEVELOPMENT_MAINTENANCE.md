@@ -395,6 +395,11 @@ Modified ports to match naming convention with `http-` prefix
     {{- end }}
     ```
 
+- Line 26, Updated templating to include tpl for spec.template.metadata.labels
+    ```yaml
+    {{- tpl (toYaml . | nindent 8) $ }}
+    ```
+
 ## chart/templates/authorization-policies/*
 
 - Add the Istio Authorization Policies
