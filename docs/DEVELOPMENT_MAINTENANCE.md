@@ -431,6 +431,9 @@ flux:
 
 istio:
   enabled: true
+  values:
+    hardened:
+      enabled: true
 
 clusterAuditor:
   enabled: false
