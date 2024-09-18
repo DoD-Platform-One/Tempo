@@ -33,7 +33,7 @@ describe('Tempo Test', function () {
       cy.visit(`${Cypress.env('grafana_url')}/connections/datasources`);
 
       // Set constant for output options to save/test data source
-      const saveOutputOptions = ['Data source is working', 'Data source successfully connected']
+      const saveOutputOptions = ['Data source is working', 'Data source successfully connected', 'Successfully connected to']
       const saveOutput = new RegExp(`${saveOutputOptions.join('|')}`, 'g')
 
       // Enter 'tempo' in the search field and
