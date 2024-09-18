@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.10.3-bb.2] - 2024-09-16
+
+### Updated
+
+- Included ports 4317 and 4318 in the `includeInboundPorts` annotation on the tempo podspec
+  - Enables envoy-based mTLS for inbound OTLP traffic
+
 ## [1.10.3-bb.1] - 2024-09-12
 
 ### Added

@@ -301,7 +301,7 @@ persistence:
 
 # -- Pod Annotations
 podAnnotations:
-  traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100"
+  traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100,4317,4318"
 
 # -- Pod (extra) Labels
 podLabels: {}
