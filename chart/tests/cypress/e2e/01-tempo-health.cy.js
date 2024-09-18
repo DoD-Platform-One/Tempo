@@ -43,7 +43,7 @@ describe('Tempo Test', function () {
       // Click on the 'Save & test` button
       cy.get('button[type="submit"]').click();
       // Check to ensure the data source is working
-      cy.get('.p-t-2').contains(saveOutput, { timeout: 10000 });
+      cy.get('data-testid="data-testid Alert success"').contains(saveOutput, { timeout: 10000 });
     });
 
     after(function () {
