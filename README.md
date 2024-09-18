@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.10.3-bb.1](https://img.shields.io/badge/Version-1.10.3--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
+![Version: 1.10.3-bb.2](https://img.shields.io/badge/Version-1.10.3--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -127,7 +127,7 @@ helm install tempo chart/
 | persistence.enabled | bool | `true` |  |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.size | string | `"15Gi"` |  |
-| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"16687,16686,3100"}` | Pod Annotations |
+| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"16687,16686,3100,4317,4318"}` | Pod Annotations |
 | podLabels | object | `{}` | Pod (extra) Labels |
 | extraLabels | object | `{}` |  |
 | extraVolumes | list | `[]` | Volumes to add |
