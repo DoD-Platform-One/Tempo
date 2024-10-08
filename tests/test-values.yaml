@@ -9,18 +9,12 @@ istio:
     enabled: true
   # -- Tempo-Query specific VirtualService values
   tempoQuery:
-    # -- Toggle VirtualService creation
-    enabled: true
     gateways:
       - istio-system/main
       - istio-system/default
       - istio-system/public
 
 persistence:
-  enabled: true
-  # storageClassName: local-path
-  accessModes:
-    - ReadWriteOnce
   size: 5Gi
 
 tempo:
