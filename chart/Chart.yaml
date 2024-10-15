@@ -27,6 +27,9 @@ annotations:
   bigbang.dev/applicationVersions: |
     - Tempo: 2.5.0
     - Tempo Query: 2.5.0
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find upstream chart's release notes and CHANGELOG here](https://github.com/grafana/helm-charts/releases?q=tempo&expanded=true)
+    - [Find upstream applications's release notes and CHANGELOG here](https://grafana.com/docs/tempo/latest/release-notes/)
   helm.sh/images: |
     - name: tempo
       image: registry1.dso.mil/ironbank/opensource/grafana/tempo:2.5.0
