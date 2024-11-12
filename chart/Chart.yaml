@@ -2,7 +2,7 @@ apiVersion: v2
 name: tempo
 description: Grafana Tempo Single Binary Mode
 type: application
-version: 1.10.3-bb.6
+version: 1.11.0-bb.0
 appVersion: 2.5.0
 home: https://grafana.net
 icon: https://raw.githubusercontent.com/grafana/tempo/master/docs/tempo/website/logo_and_name.png
@@ -21,7 +21,7 @@ maintainers:
     email: sheikhabubaker761@gmail.com
 dependencies:
   - name: gluon
-    version: "0.5.3"
+    version: "0.5.9"
     repository: oci://registry1.dso.mil/bigbang
 annotations:
   bigbang.dev/applicationVersions: |
