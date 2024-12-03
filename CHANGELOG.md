@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Synchronized with upstream chart version 1.11.0
 - Update gluon: 0.5.3 > 0.5.9
+- Added the maintenance track annotation and badge
 
 ## [1.10.3-bb.6] - 2024-10-14
 

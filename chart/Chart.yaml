@@ -24,6 +24,7 @@ dependencies:
     version: "0.5.9"
     repository: oci://registry1.dso.mil/bigbang
 annotations:
+  bigbang.dev/maintenanceTrack: bb_integrated
   bigbang.dev/applicationVersions: |
     - Tempo: 2.5.0
     - Tempo Query: 2.5.0
