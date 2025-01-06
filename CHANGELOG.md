@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.11.0-bb.1] - 2024-12-18
+
+### Added
+- logic to install allow-tempo-ap.yaml if SSO is enabled
+
 ## [1.11.0-bb.0] - 2024-11-06
 
 ### Added
