@@ -1,4 +1,4 @@
-{{- if and .Values.networkPolicies.enabled .Values.istio.enabled }}
+{{- if and .Values.networkPolicies.enabled .Values.istio.enabled .Values.istio.tempoQuery.enabled }}
 # Allow traffic from the IngressGateway to the tempo query UI
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

@@ -4,6 +4,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.16.0-bb.0] - 2024-12-31
+
+### Updated
+
+- Updated gluon: `0.5.9` -> `0.5.12`
+- Updated tempo: `2.5.0` -> `2.6.1`
+- Updated tempo-query: `2.5.0` -> `2.6.1`
+
+### Changed
+
+- Disabled tempo-query to match upstream and avoid breaking changes
+
 ## [1.11.0-bb.1] - 2024-12-18
 
 ### Added

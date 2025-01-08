@@ -24,7 +24,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.5.0
+  tag: 2.6.1
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -72,6 +72,25 @@ tempo:
   server:
     # -- HTTP server listen port
     http_listen_port: 3100
+  # Readiness and Liveness Probe Configuration Options
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: 3100
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 3100
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
   storage:
     trace:
       # tempo storage backend
@@ -138,6 +157,8 @@ tempo:
 # -- Tempo configuration file contents
 # @default -- Dynamically generated tempo configmap
 config: |
+    memberlist:
+      cluster_label: "{{ .Release.Name }}.{{ .Release.Namespace }}"
     multitenancy_enabled: {{ .Values.tempo.multitenancyEnabled }}
     usage_report:
       reporting_enabled: {{ .Values.tempo.reportingEnabled }}
@@ -174,7 +195,7 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.5.0
+  tag: 2.6.1
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
@@ -185,7 +206,7 @@ tempoQuery:
   #   - myRegistryKeySecretName
 
   # -- if False the tempo-query container is not deployed
-  enabled: true
+  enabled: false
 
 
       
@@ -283,6 +304,12 @@ serviceAccount:
 
 service:
   type: ClusterIP
+  clusterIP: ""
+  # -- (string) IP address, in case of 'type: LoadBalancer'
+  loadBalancerIP:
+  # -- If service type is LoadBalancer, the exposed protocol can either be "UDP", "TCP" or "UDP,TCP"
+  protocol: "TCP"
+
   annotations: {}
   labels: {}
   targetPort: ""
@@ -298,6 +325,8 @@ serviceMonitor:
 
 persistence:
   enabled: true
+  # -- Enable StatefulSetAutoDeletePVC feature
+  enableStatefulSetAutoDeletePVC: true
   # storageClassName: local-path
   accessModes:
     - ReadWriteOnce
@@ -305,7 +334,7 @@ persistence:
 
 # -- Pod Annotations
 podAnnotations:
-  traffic.sidecar.istio.io/includeInboundPorts: "16687,16686,3100,4317,4318"
+  traffic.sidecar.istio.io/includeInboundPorts: "3100,4317,4318"
 
 # -- Pod (extra) Labels
 podLabels: {}
@@ -415,7 +444,7 @@ istio:
   # -- Tempo-Query specific VirtualService values
   tempoQuery:
     # -- Toggle VirtualService creation
-    enabled: true
+    enabled: false
     annotations: {}
     labels: {}
     gateways:

@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.11.0-bb.1](https://img.shields.io/badge/Version-1.11.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.5.0](https://img.shields.io/badge/AppVersion-2.5.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.16.0-bb.0](https://img.shields.io/badge/Version-1.16.0--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -50,7 +50,7 @@ helm install tempo chart/
 | labels | object | `{}` | labels for tempo |
 | annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"2.5.0"` | Docker image tag |
+| tempo.tag | string | `"2.6.1"` | Docker image tag |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
@@ -69,6 +69,20 @@ helm install tempo chart/
 | tempo.global_overrides.per_tenant_override_config | string | `"/conf/overrides.yaml"` |  |
 | tempo.overrides | object | `{}` |  |
 | tempo.server.http_listen_port | int | `3100` | HTTP server listen port |
+| tempo.livenessProbe.httpGet.path | string | `"/ready"` |  |
+| tempo.livenessProbe.httpGet.port | int | `3100` |  |
+| tempo.livenessProbe.initialDelaySeconds | int | `30` |  |
+| tempo.livenessProbe.periodSeconds | int | `10` |  |
+| tempo.livenessProbe.timeoutSeconds | int | `5` |  |
+| tempo.livenessProbe.failureThreshold | int | `3` |  |
+| tempo.livenessProbe.successThreshold | int | `1` |  |
+| tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
+| tempo.readinessProbe.httpGet.port | int | `3100` |  |
+| tempo.readinessProbe.initialDelaySeconds | int | `20` |  |
+| tempo.readinessProbe.periodSeconds | int | `10` |  |
+| tempo.readinessProbe.timeoutSeconds | int | `5` |  |
+| tempo.readinessProbe.failureThreshold | int | `3` |  |
+| tempo.readinessProbe.successThreshold | int | `1` |  |
 | tempo.storage.trace.backend | string | `"local"` |  |
 | tempo.storage.trace.local.path | string | `"/var/tempo/traces"` |  |
 | tempo.storage.trace.wal.path | string | `"/var/tempo/wal"` |  |
@@ -87,9 +101,9 @@ helm install tempo chart/
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"2.5.0"` | Docker image tag |
+| tempoQuery.tag | string | `"2.6.1"` | Docker image tag |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| tempoQuery.enabled | bool | `true` | if False the tempo-query container is not deployed |
+| tempoQuery.enabled | bool | `false` | if False the tempo-query container is not deployed |
 | tempoQuery.service.port | int | `16686` |  |
 | tempoQuery.ingress.enabled | bool | `false` |  |
 | tempoQuery.ingress.annotations | object | `{}` |  |
@@ -112,6 +126,9 @@ helm install tempo chart/
 | serviceAccount.labels | object | `{}` | Labels for the service account |
 | serviceAccount.automountServiceAccountToken | bool | `false` |  |
 | service.type | string | `"ClusterIP"` |  |
+| service.clusterIP | string | `""` |  |
+| service.loadBalancerIP | string | `nil` | IP address, in case of 'type: LoadBalancer' |
+| service.protocol | string | `"TCP"` | If service type is LoadBalancer, the exposed protocol can either be "UDP", "TCP" or "UDP,TCP" |
 | service.annotations | object | `{}` |  |
 | service.labels | object | `{}` |  |
 | service.targetPort | string | `""` |  |
@@ -122,9 +139,10 @@ helm install tempo chart/
 | serviceMonitor.scheme | string | `""` |  |
 | serviceMonitor.tlsConfig | object | `{}` |  |
 | persistence.enabled | bool | `true` |  |
+| persistence.enableStatefulSetAutoDeletePVC | bool | `true` | Enable StatefulSetAutoDeletePVC feature |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.size | string | `"15Gi"` |  |
-| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"16687,16686,3100,4317,4318"}` | Pod Annotations |
+| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"3100,4317,4318"}` | Pod Annotations |
 | podLabels | object | `{}` | Pod (extra) Labels |
 | extraLabels | object | `{}` |  |
 | extraVolumes | list | `[]` | Volumes to add |
@@ -141,11 +159,11 @@ helm install tempo chart/
 | networkPolicy.egress.ports | list | `[]` |  |
 | networkPolicy.egress.to | list | `[]` |  |
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services |
-| istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"},"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
+| istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"},"mtls":{"mode":"STRICT"},"tempoQuery":{"annotations":{},"enabled":false,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
 | istio.hardened | object | `{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
-| istio.tempoQuery | object | `{"annotations":{},"enabled":true,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}` | Tempo-Query specific VirtualService values |
-| istio.tempoQuery.enabled | bool | `true` | Toggle VirtualService creation |
+| istio.tempoQuery | object | `{"annotations":{},"enabled":false,"gateways":["istio-system/main"],"hosts":["tracing.{{ .Values.domain }}"],"labels":{}}` | Tempo-Query specific VirtualService values |
+| istio.tempoQuery.enabled | bool | `false` | Toggle VirtualService creation |
 | objectStorage.access_key_id | string | `""` | AWS access_key_id for External ObjectStorage configuration |
 | objectStorage.secret_access_key | string | `""` | AWS secret_access_key for External ObjectStorage configuration |
 | networkPolicies | object | `{"additionalPolicies":[],"controlPlaneCidr":"0.0.0.0/0","enabled":false,"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
