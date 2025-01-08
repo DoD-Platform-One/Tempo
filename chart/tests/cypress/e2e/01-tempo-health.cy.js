@@ -10,21 +10,6 @@ describe('Tempo Test', function () {
     return false;
   });
 
-  // Basic test that validates pages are accessible, basic error check
-  it('Check Tempo is accessible w/ services', function () {
-    cy.visit(Cypress.env('url'), { failOnStatusCode: false });
-    if (Cypress.env('keycloak_test_enable')) {
-      cy.performKeycloakLogin(Cypress.env('tnr_username'), Cypress.env('tnr_password'))
-    }
-    cy.title().should('contain', 'Jaeger UI');
-    // Check to ensure more than zero services are populated
-    cy.intercept('GET', '**/api/services').as('servicesLoaded')
-    cy.reload()
-    cy.wait('@servicesLoaded').then((interception) => {
-      expect(interception.response.statusCode).to.equal(200)
-    });
-  });
-
   if (Cypress.env('check_datasource')) {
     it('Check Tempo is available as a data source in grafana ', function () {
       cy.visit(Cypress.env('grafana_url'));
