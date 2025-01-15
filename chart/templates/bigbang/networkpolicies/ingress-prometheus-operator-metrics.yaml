@@ -21,8 +21,4 @@ spec:
     ports:
     - port: 3100
       protocol: TCP
-    {{- if .Values.tempoQuery.enabled }}
-    - port: 16687
-      protocol: TCP
-    {{- end }}
 {{- end }}

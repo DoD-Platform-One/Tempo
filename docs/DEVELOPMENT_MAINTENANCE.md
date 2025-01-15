@@ -102,6 +102,17 @@ annotations:
 
 ## Modifications made to upstream 
 
+### `chart/templates/_ports.tpl`
+
+- Update the port definition for `tempo-prom-metrics` by adding `appProtocol: http` .  This helps istio know how to proxy this port, since the port name doesn't contain `http`.
+```yaml
+- name: tempo-prom-metrics
+  port: 3100
+  protocol: TCP
+  targetPort: 3100
+  appProtocol: http
+```
+
 ### `chart/values.yaml`
 
 - Update `tempo.repository` to pull hardened images from registry1
@@ -338,48 +349,10 @@ bbtests:
 openshift: false
 ```
 
-### `chart/templates/service.yaml`
-
-Added protocols to each port name (i.e. tcp, http, etc)
-
-- Ensure `name` is `http-tempo-prom-metrics` for `port: 3100`
-- Ensure `name` is `http-jaeger-metrics` for `port: 16687`
-- Ensure `name` is `http-tempo-query-jaeger-ui` for `port: {{ .Values.tempoQuery.service.port }}`
-- Ensure `name` is `udp-tempo-jaeger-thrift-compact` for `port: 6831`
-- Ensure `name` is `udp-tempo-jaeger-thrift-binary` for `port: 6832`
-- Ensure `name` is `http-tempo-jaeger-thrift-http` for `port: 14268`
-- Ensure `name` is `tcp-tempo-zipkin` for `port: 9411`
-- Ensure `name` is `tcp-tempo-otlp-legacy` for `port: 55680`
-- Ensure `name` is `http-tempo-otlp-http-legacy` for `port: 55681`
-- Ensure `name` is `http-tempo-otlp-http` for `port: 4318`
-- Ensure `name` is `tcp-tempo-opencensus` for `port: 55678`
-
 ### `chart/templates/servicemonitor.yaml`
 
-Modified ports to match naming convention with `http-` prefix
+removed `port: jaeger-metrics` definition
 
-- Ensure `spec.endpoints` includes `port: http-tempo-prom-metrics`
-- Ensure this section is added for `http-tempo-prom-metrics`:
-    ```yaml
-          {{- if .Values.serviceMonitor.scheme }}
-          scheme: {{ .Values.serviceMonitor.scheme }}
-          {{- end }}
-          {{- if .Values.serviceMonitor.tlsConfig }}
-          tlsConfig:
-            {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
-          {{- end }}
-    ```
-- Ensure `spec.endpoints` includes `port: http-jaeger-metrics`
-- Ensure this section is added for `http-jaeger-metrics`:
-    ```yaml
-          {{- if .Values.serviceMonitor.scheme }}
-          scheme: {{ .Values.serviceMonitor.scheme }}
-          {{- end }}
-          {{- if .Values.serviceMonitor.tlsConfig }}
-          tlsConfig:
-            {{- toYaml .Values.serviceMonitor.tlsConfig | nindent 8 }}
-          {{- end }}
-    ```
 
 ### `chart/templates/statefulset.yaml`
 

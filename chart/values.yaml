@@ -441,16 +441,6 @@ istio:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
-  # -- Tempo-Query specific VirtualService values
-  tempoQuery:
-    # -- Toggle VirtualService creation
-    enabled: false
-    annotations: {}
-    labels: {}
-    gateways:
-      - istio-system/main
-    hosts:
-      - tracing.{{ .Values.domain }}
 
 objectStorage:
   # -- AWS access_key_id for External ObjectStorage configuration
