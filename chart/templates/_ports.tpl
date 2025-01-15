@@ -27,6 +27,7 @@
   port: 3100
   protocol: TCP
   targetPort: 3100
+  appProtocol: http
 {{- if .Values.tempoQuery.enabled }}
 - name: jaeger-metrics
   port: 16687
