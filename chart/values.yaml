@@ -24,7 +24,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.6.1
+  tag: 2.7.0
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -59,7 +59,9 @@ tempo:
     max_block_duration: 5m
   # -- Configuration options for the querier
   querier: {}
-  # -- Configuration options for the query-fronted
+  #  max_concurrent_queries: 20
+  # -- Configuration options for the query-fronted.
+  # Refers to: https://grafana.com/docs/tempo/latest/configuration/#query-frontend
   queryFrontend: {}
   retention: 336h # 2 weeks retention
   # Global overrides
@@ -67,8 +69,8 @@ tempo:
     per_tenant_override_config: /conf/overrides.yaml
   overrides: {}
 
-  # Tempo server configuration
-  # Refers to https://grafana.com/docs/tempo/latest/configuration/#server
+  # Tempo server configuration.
+  # Refers to: https://grafana.com/docs/tempo/latest/configuration/#server
   server:
     # -- HTTP server listen port
     http_listen_port: 3100
@@ -93,8 +95,8 @@ tempo:
     successThreshold: 1
   storage:
     trace:
-      # tempo storage backend
-      # refer https://grafana.com/docs/tempo/latest/configuration/
+      # tempo storage backend.
+      # Refers to: https://grafana.com/docs/tempo/latest/configuration/#storage
       ## Use s3 for example
       # backend: s3
       # store traces in s3
@@ -195,12 +197,12 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.6.1
+  tag: 2.7.0
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## Refers to: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # pullSecrets:
   #   - myRegistryKeySecretName
@@ -356,7 +358,11 @@ affinity: {}
 
 # -- The name of the PriorityClass
 priorityClassName: null
-
+# -- hostAliases to add
+hostAliases: []
+#  - ip: 1.2.3.4
+#    hostnames:
+#      - domain.tld
 networkPolicy:
   ## @param networkPolicy.enabled Enable creation of NetworkPolicy resources. Only Ingress traffic is filtered for now.
   ##
