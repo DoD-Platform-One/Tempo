@@ -1,13 +1,13 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.16.0-bb.1](https://img.shields.io/badge/Version-1.16.0--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.6.1](https://img.shields.io/badge/AppVersion-2.6.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.18.1-bb.0](https://img.shields.io/badge/Version-1.18.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.7.0](https://img.shields.io/badge/AppVersion-2.7.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
 ## Upstream References
-- <https://grafana.net>
 
+- <https://grafana.net>
 - <https://github.com/grafana/tempo>
 
 ## Upstream Release Notes
@@ -50,7 +50,7 @@ helm install tempo chart/
 | labels | object | `{}` | labels for tempo |
 | annotations | object | `{}` | Annotations for the StatefulSet |
 | tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"2.6.1"` | Docker image tag |
+| tempo.tag | string | `"2.7.0"` | Docker image tag |
 | tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempo.updateStrategy | string | `"RollingUpdate"` |  |
 | tempo.resources.limits.cpu | string | `"500m"` |  |
@@ -64,7 +64,7 @@ helm install tempo chart/
 | tempo.metricsGenerator.remoteWriteUrl | string | `"http://prometheus.monitoring:9090/api/v1/write"` |  |
 | tempo.ingester | object | `{"max_block_bytes":1000000,"max_block_duration":"5m","trace_idle_period":"10s"}` | Configuration options for the ingester |
 | tempo.querier | object | `{}` | Configuration options for the querier |
-| tempo.queryFrontend | object | `{}` | Configuration options for the query-fronted |
+| tempo.queryFrontend | object | `{}` | Configuration options for the query-fronted. Refers to: https://grafana.com/docs/tempo/latest/configuration/#query-frontend |
 | tempo.retention | string | `"336h"` |  |
 | tempo.global_overrides.per_tenant_override_config | string | `"/conf/overrides.yaml"` |  |
 | tempo.overrides | object | `{}` |  |
@@ -101,7 +101,7 @@ helm install tempo chart/
 | tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
 | config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
 | tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"2.6.1"` | Docker image tag |
+| tempoQuery.tag | string | `"2.7.0"` | Docker image tag |
 | tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
 | tempoQuery.enabled | bool | `false` | if False the tempo-query container is not deployed |
 | tempoQuery.service.port | int | `16686` |  |
@@ -150,6 +150,7 @@ helm install tempo chart/
 | tolerations | list | `[]` | Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
 | affinity | object | `{}` | Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity |
 | priorityClassName | string | `nil` | The name of the PriorityClass |
+| hostAliases | list | `[]` | hostAliases to add |
 | networkPolicy.enabled | bool | `false` |  |
 | networkPolicy.ingress | bool | `true` |  |
 | networkPolicy.allowExternal | bool | `true` |  |
