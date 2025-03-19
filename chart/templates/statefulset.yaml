@@ -125,7 +125,9 @@ spec:
           name: tmp
         {{- end }}
       {{- if .Values.tempoQuery.enabled }}
-      - args: []
+      - args:
+        - -config
+        - /conf/tempo-query.yaml
         {{- range $key, $value := .Values.tempoQuery.extraArgs }}
         - "-{{ $key }}{{ if $value }}={{ $value }}{{ end }}"
         {{- end }}
