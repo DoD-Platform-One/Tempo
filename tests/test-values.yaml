@@ -1,39 +1,43 @@
-networkPolicies:
+#########################
+# Disable Core Packages #
+#########################
+# monitoring:
+#   enabled: false
+# grafana:
+#   enabled: false
+kyvernoReporter:
+  enabled: false
+neuvector:
+  enabled: false
+loki:
+  enabled: false
+promtail:
+  enabled: false
+kiali:
+  enabled: false
+addons:
+  minioOperator:
+    enabled: false
+#########################
+# Required for package #
+########################
+grafana:
   enabled: true
-
-# Enables Istio AuthorizationPolicies in testing
-istio:
+  values:
+    bbtests:
+      enabled: False
+monitoring:
   enabled: true
-  # -- Default peer authentication values
-  hardened:
-    enabled: true
-  # -- Tempo-Query specific VirtualService values
-  tempoQuery:
-    gateways:
-      - istio-system/main
-      - istio-system/default
-      - istio-system/public
-
-persistence:
-  size: 5Gi
-
+  values:
+    bbtests:
+      enabled: False
 tempo:
-  resources:
-    limits:
-      cpu: 200m
-      memory: 128Mi
-    requests:
-      cpu: 200m
-      memory: 128Mi
- 
-tempoQuery:
-  resources:
-    limits:
-      cpu: 200m
-      memory: 128Mi
-    requests:
-      cpu: 200m
-      memory: 128Mi
-
-bbtests:
   enabled: true
+kyverno:
+  values:
+    bbtests:
+      enabled: false
+kyvernoPolicies:
+  values:
+    bbtests:
+      enabled: false
