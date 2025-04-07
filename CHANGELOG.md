@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.19.1-bb.0] - 2025-04-01
+### Updated
+
+- Updated tempo chart: `1.18.3` -> `1.19.0`
+- Updated gluon: `0.5.14` -> `0.5.15`
+
 ## [1.18.3-bb.0] - 2025-03-18
 ### Updated
 

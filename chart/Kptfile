@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: 99d0b6cb9499cfba149a23a470e85b03e48fbabb
+    commit: 725417dbaf00d4274b274f40c7d6a671ef719984
     repo: https://github.com/grafana/helm-charts
     directory: /charts/tempo
-    ref: tempo-1.18.3
+    ref: tempo-1.19.0
