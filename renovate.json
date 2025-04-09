@@ -4,71 +4,70 @@
     "dependencyDashboard": true,
     "dependencyDashboardTitle": "Renovate: Upgrade Tempo Package Dependencies",
     "draftPR": true,
-    "enabledManagers": ["helm-values","regex","helmv3"],
+    "enabledManagers": ["helm-values","custom.regex","helmv3"],
     "ignorePaths": ["chart/charts/**"],
-    "labels": ["tempo","renovate"],
+    "labels": ["tempo", "renovate", "kind::maintenance", "team::Observability"],
+    "postUpdateOptions": ["helmUpdateSubChartArchives"],
+    "separateMajorMinor": false,
     "packageRules": [
         {
-            "matchDatasources": ["docker"],
-            "groupName": "Ironbank"
-        }
-    ],
-    "regexManagers": [
-        {
-            "fileMatch": ["^chart/values\\.yaml$"],
-            "matchStrings": [
-                "repository:\\s*(?<depName>.+)\n.*\n\\s+tag:\\s*(?<currentValue>.+)"
-            ],
-            "datasourceTemplate": "docker"
-        },
-        {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "appVersion:[^\\S\\r\\n]+(?<currentValue>.+)",
-                "- Tempo:\\s*(?<currentValue>.+)"
-            ],
-            "depNameTemplate": "ironbank/opensource/grafana/tempo",
-            "datasourceTemplate": "docker",
-            "registryUrlTemplate": "https://registry1.dso.mil"
-        },
-        {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "- Tempo Query:\\s*(?<currentValue>.+)"
-            ],
-            "depNameTemplate": "ironbank/opensource/grafana/tempo-query",
-            "datasourceTemplate": "docker",
-            "registryUrlTemplate": "https://registry1.dso.mil"
-        },
-        {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "- OpenTelemetry Collector:\\s*(?<currentValue>.+)"
-            ],
-            "depNameTemplate": "ironbank/opensource/opentelemetry/opentelemetry-collector",
-            "datasourceTemplate": "docker",
-            "registryUrlTemplate": "https://registry1.dso.mil"
-        },
-        {
-            "fileMatch": ["^chart/Chart\\.yaml$"],
-            "matchStrings": [
-                "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
-            ],
-            "datasourceTemplate": "docker"
+            "matchDatasources": ["docker", "helm"],
+            "groupName": "Ironbank",
+            "postUpgradeTasks": {
+                "commands": [
+                    "regenerate-helm-docs",
+                    "bump-changelog '{{#each upgrades}}- {{depName}} {{currentVersion}} -> {{newVersion}}\\n{{/each}}'"
+                ],
+                "executionMode": "update",
+                "fileFilters": ["README.md", "CHANGELOG.md"]
+            }
         }
     ],
     "customManagers": [
         {
-          "customType": "regex",
-          "description": "Update chart version",
-          "fileMatch": ["^chart/Chart\\.yaml$"],
-          "matchStrings": ["version:\\s+(?<currentValue>.+)-bb\\.\\d+"],
-          "autoReplaceStringTemplate": "version: {{newValue}}-bb.0",
-          "depNameTemplate": "tempo",
-          "datasourceTemplate": "helm",
-          "registryUrlTemplate": "https://grafana.github.io/helm-charts"
+            "customType": "regex",
+            "description": "Update image versions in values.yaml",
+            "fileMatch": ["^chart/values\\.yaml$"],
+            "matchStrings": [
+                "repository:\\s+(?<depName>.+)[\\S\\s]+tag:\\s+(?<currentValue>.+)"
+            ],
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update app version chart annotations",
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": [
+                "- Tempo:\\s+(?<currentValue>.+)",
+                "appVersion:\\s+(?<currentValue>.+)"
+            ],
+            "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/tempo",
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update additional app version chart annotations",
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": ["- Tempo Query:\\s+(?<currentValue>.+)"],
+            "depNameTemplate": "registry1.dso.mil/ironbank/opensource/grafana/tempo-query",
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update docker image references",
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": ["image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"],
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update chart version",
+            "fileMatch": ["^chart/Chart\\.yaml$"],
+            "matchStrings": ["version:\\s+(?<currentValue>.+)-bb\\.\\d+"],
+            "autoReplaceStringTemplate": "version: {{newValue}}-bb.0",
+            "depNameTemplate": "tempo",
+            "datasourceTemplate": "helm",
+            "registryUrlTemplate": "https://grafana.github.io/helm-charts"
         }
-    ],
-    "separateMajorMinor": false,
-    "postUpdateOptions": ["helmUpdateSubChartArchives"]
+    ]
 }
