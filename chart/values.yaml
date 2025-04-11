@@ -24,7 +24,7 @@ tempo:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
   # -- Docker image tag
-  tag: 2.7.1
+  tag: 2.7.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
@@ -210,7 +210,7 @@ tempoQuery:
   # -- Docker image repository
   repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
   # -- Docker image tag
-  tag: 2.7.1
+  tag: 2.7.2
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
