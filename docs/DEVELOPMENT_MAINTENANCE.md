@@ -49,12 +49,12 @@
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
     - Add the `debug` label to the MR for more detailed information.
-    
+
     - Reach out to the CODEOWNERS if needed.
 
-9. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+9. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
-    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Tempo enabled (the below is a reference, actual changes could be more depending on what changes where made to Tempo in the pakcage MR).
+    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Tempo enabled (the below is a reference, actual changes could be more depending on what changes where made to Tempo in the package MR).
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
@@ -63,14 +63,13 @@ tempo:
   enabled: true
   git:
     tag: null
-    branch: <my-package-branch-that-needs-testing>
+    branch: "renovate/ironbank"
   values:
     istio:
       hardened:
         enabled: true
   ### Additional components of Tempo should be changed to reflect testing changes introduced in the package MR
 ```
- 
 
 10. Follow the `Testing new Tempo Version` section of this document for manual testing.
 
@@ -411,7 +410,7 @@ monitoring:
 
 loki:
   enabled: false
-  
+
 promtail:
   enabled: false
 
@@ -422,7 +421,6 @@ grafana:
       enabled: true
       hardened:
         enabled: true
-  
 
 tempo:
   enabled: true
@@ -458,10 +456,10 @@ kyvernoPolicies:
           allow:
           - /var/lib/rancher/k3s/storage/pvc-*
 ```
-- Visit `https://kiali.dev.bigbang.mil` and login with a [generated token](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Visit [Kiali](https://kiali.dev.bigbang.mil) and login with a [generated token](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Check the 'Applications', 'Workloads', and 'Services' views for Tempo resources (they should be healthy)
   - Note: if no resources are appearing, make sure the 'Tempo' namespace is selected in each view
-- Visit `https://grafana.dev.bigbang.mil` and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Visit [Grafana](https://grafana.dev.bigbang.mil) and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Search for Data Sources -> click Tempo -> click `Save & Test` datasource at the bottom
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.
