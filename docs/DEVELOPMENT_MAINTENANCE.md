@@ -460,6 +460,7 @@ kyvernoPolicies:
   - Check the 'Applications', 'Workloads', and 'Services' views for Tempo resources (they should be healthy)
   - Note: if no resources are appearing, make sure the 'Tempo' namespace is selected in each view
 - Visit [Grafana](https://grafana.dev.bigbang.mil) and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
-  - Search for Data Sources -> click Tempo -> click `Save & Test` datasource at the bottom
+  - `Connections` -> `Data Sources` -> click Tempo -> click `Save & Test` datasource at the bottom
+  - Navigate to `Explore` -> Select "Tempo" as the data source -> Enter a `TraceQL` query like `{resource.service.name="tempo-tempo.tempo"}` -> `Run query` 
 
 > When in doubt with any testing or upgrade steps, reach out to the CODEOWNERS for assistance.
