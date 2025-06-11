@@ -5,6 +5,8 @@
 #   enabled: false
 # grafana:
 #   enabled: false
+bbctl:
+  enabled: false
 kyvernoReporter:
   enabled: false
 neuvector:
