@@ -40,11 +40,13 @@
       helm registry logout https://registry1.dso.mil
       ```
 
-6. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+6. Update the dashboards in the `files/dashboards` directory manually by replacing them with the upstream dashboards [here](https://github.com/grafana/tempo/tree/main/operations/tempo-mixin-compiled/dashboards)
 
-7. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
 
-8. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+
+9. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
@@ -52,13 +54,16 @@
 
     - Reach out to the CODEOWNERS if needed.
 
-9. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+10. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Tempo enabled (the below is a reference, actual changes could be more depending on what changes where made to Tempo in the package MR).
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
 ```yaml
+sso:           
+  url: https://login.dso.mil/auth/realms/baby-yoda
+
 tempo:
   enabled: true
   git:
@@ -68,6 +73,57 @@ tempo:
     istio:
       hardened:
         enabled: true
+    ## Begin optional block for testing metrics_generator/dashboards:
+    tempo:
+      metricsGenerator:
+        enabled: true
+      values:
+    ## You have to overwrite the entire config to not break the templating of the configmap for
+    ## Tempo, just to add a few arguments to the metrics_generator.
+    ## NOTE: This is NOT necessary for a production deployment. This is simply for faster dev testing
+    ## of tempo metrics generation.
+    config: |
+        memberlist:
+          cluster_label: "{{ .Release.Name }}.{{ .Release.Namespace }}"
+        multitenancy_enabled: {{ .Values.tempo.multitenancyEnabled }}
+        usage_report:
+          reporting_enabled: {{ .Values.tempo.reportingEnabled }}
+        compactor:
+          compaction:
+            block_retention: {{ .Values.tempo.retention }}
+        distributor:
+          receivers:
+            {{- toYaml .Values.tempo.receivers | nindent 8 }}
+        ingester:
+          {{- toYaml .Values.tempo.ingester | nindent 6 }}
+        server:
+          {{- toYaml .Values.tempo.server | nindent 6 }}
+        storage:
+          {{- toYaml .Values.tempo.storage | nindent 6 }}
+        querier:
+          {{- toYaml .Values.tempo.querier | nindent 6 }}
+        query_frontend:
+          {{- toYaml .Values.tempo.queryFrontend | nindent 6 }}
+        overrides:
+          {{- toYaml .Values.tempo.overrides | nindent 6 }}
+          {{- if .Values.tempo.metricsGenerator.enabled }}
+        metrics_generator:
+              storage:
+                path: "/tmp/tempo"
+                remote_write:
+                  - url: {{ .Values.tempo.metricsGenerator.remoteWriteUrl }}
+                wal:
+                remote_write_flush_deadline: 6s
+                remote_write_add_org_id_header: true
+              traces_storage:
+                path: "/tmp/traces"
+              registry:
+                collection_interval: 3s
+                external_labels: {}
+                stale_duration: 15m
+          {{- end }}
+    ## End optional block for metrics generator testing
+
   ### Additional components of Tempo should be changed to reflect testing changes introduced in the package MR
 ```
 
@@ -385,76 +441,28 @@ flux:
   rollback:
     cleanupOnFail: false
 
-istio:
-  enabled: true
-  values:
-    hardened:
-      enabled: true
-
-clusterAuditor:
-  enabled: false
-
 gatekeeper:
   enabled: false
 
-istioOperator:
-  enabled: true
-
 monitoring:
   enabled: true
-  values:
-    istio:
-      enabled: true
-      hardened:
-        enabled: true
 
 loki:
-  enabled: false
+  enabled: true
 
-promtail:
-  enabled: false
+alloy:
+  enabled: true
+  alloyLogs:
+    enabled: true
 
 grafana:
   enabled: true
-  values:
-    istio:
-      enabled: true
-      hardened:
-        enabled: true
 
 tempo:
   enabled: true
   git:
     tag: null
-    branch: "renovate/ironbank"
-  values:
-    istio:
-      enabled: true
-      hardened:
-        enabled: true
-
-jaeger:
-  enabled: false
-
-kyverno:
-  enabled: true
-
-kyvernoPolicies:
-  enabled: true
-  values:
-    exclude:
-      any:
-      # Allows k3d load balancer to bypass policies.
-      - resources:
-          namespaces:
-          - istio-system
-          names:
-          - svclb-*
-    policies:
-      restrict-host-path-mount-pv:
-        parameters:
-          allow:
-          - /var/lib/rancher/k3s/storage/pvc-*
+    branch: <test-branch>
 ```
 - Visit [Kiali](https://kiali.dev.bigbang.mil) and login with a [generated token](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Check the 'Applications', 'Workloads', and 'Services' views for Tempo resources (they should be healthy)
