@@ -5,24 +5,9 @@
 
 2. Checkout the `renovate/ironbank` branch
 
-3. From the root of the repo run `kpt pkg update chart@<tag> --strategy alpha-git-patch`, where tag is found in step 1 (Tempo ref: `tempo-<tag>`)
+3. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream. See `Update main chart` section of this document.
 
-    - Run a KPT package update
-    ```shell
-    kpt pkg update chart@tempo-<tag> --strategy alpha-git-patch
-    ```
-
-    - Restore all BigBang added templates and tests:
-    ```shell
-    git checkout chart/templates/bigbang/
-    git checkout chart/tests/
-    git checkout chart/templates/tests
-    ```
-    - Follow the `Modifications made to upstream` section of this document for a list of changes per file to be aware of, for how Big Bang differs from upstream.
-
-4. Modify the version in `Chart.yaml` and append `-bb.0` to the chart version from upstream. See `Update main chart` section of this document.
-
-5. Update dependencies and binaries using `helm dependency update ./chart`
+4. Update dependencies and binaries using `helm dependency update ./chart`
 
     - If needed, log into registry1
       ```shell
@@ -40,13 +25,13 @@
       helm registry logout https://registry1.dso.mil
       ```
 
-6. Update the dashboards in the `files/dashboards` directory manually by replacing them with the upstream dashboards [here](https://github.com/grafana/tempo/tree/main/operations/tempo-mixin-compiled/dashboards)
+5. Update the dashboards in the `files/dashboards` directory manually by replacing them with the upstream dashboards [here](https://github.com/grafana/tempo/tree/main/operations/tempo-mixin-compiled/dashboards)
 
-7. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
+6. Update `CHANGELOG.md` adding an entry for the new version and noting all changes in a list (at minimum should include `- Updated <chart or dependency> to x.x.x`).
 
-8. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
+7. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md).
 
-9. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+8. Push up your changes, add upgrade notices if applicable, validate that CI passes.
 
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
 
@@ -54,78 +39,13 @@
 
     - Reach out to the CODEOWNERS if needed.
 
-10. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+9. (_Optional, only required if package changes are expected to have cascading effects on bigbang umbrella chart_) As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Tempo enabled (the below is a reference, actual changes could be more depending on what changes where made to Tempo in the package MR).
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
-```yaml
-sso:           
-  url: https://login.dso.mil/auth/realms/baby-yoda
-
-tempo:
-  enabled: true
-  git:
-    tag: null
-    branch: "renovate/ironbank"
-  values:
-    istio:
-      hardened:
-        enabled: true
-    ## Begin optional block for testing metrics_generator/dashboards:
-    tempo:
-      metricsGenerator:
-        enabled: true
-      values:
-    ## You have to overwrite the entire config to not break the templating of the configmap for
-    ## Tempo, just to add a few arguments to the metrics_generator.
-    ## NOTE: This is NOT necessary for a production deployment. This is simply for faster dev testing
-    ## of tempo metrics generation.
-    config: |
-        memberlist:
-          cluster_label: "{{ .Release.Name }}.{{ .Release.Namespace }}"
-        multitenancy_enabled: {{ .Values.tempo.multitenancyEnabled }}
-        usage_report:
-          reporting_enabled: {{ .Values.tempo.reportingEnabled }}
-        compactor:
-          compaction:
-            block_retention: {{ .Values.tempo.retention }}
-        distributor:
-          receivers:
-            {{- toYaml .Values.tempo.receivers | nindent 8 }}
-        ingester:
-          {{- toYaml .Values.tempo.ingester | nindent 6 }}
-        server:
-          {{- toYaml .Values.tempo.server | nindent 6 }}
-        storage:
-          {{- toYaml .Values.tempo.storage | nindent 6 }}
-        querier:
-          {{- toYaml .Values.tempo.querier | nindent 6 }}
-        query_frontend:
-          {{- toYaml .Values.tempo.queryFrontend | nindent 6 }}
-        overrides:
-          {{- toYaml .Values.tempo.overrides | nindent 6 }}
-          {{- if .Values.tempo.metricsGenerator.enabled }}
-        metrics_generator:
-              storage:
-                path: "/tmp/tempo"
-                remote_write:
-                  - url: {{ .Values.tempo.metricsGenerator.remoteWriteUrl }}
-                wal:
-                remote_write_flush_deadline: 6s
-                remote_write_add_org_id_header: true
-              traces_storage:
-                path: "/tmp/traces"
-              registry:
-                collection_interval: 3s
-                external_labels: {}
-                stale_duration: 15m
-          {{- end }}
-    ## End optional block for metrics generator testing
-
-  ### Additional components of Tempo should be changed to reflect testing changes introduced in the package MR
-```
+Refer to [docs/dev-overrides.yaml](https://repo1.dso.mil/big-bang/product/packages/tempo/-/blob/main/docs/dev-overrides.yaml) for YAML values to deploy against Big Bang.
 
 10. Follow the `Testing new Tempo Version` section of this document for manual testing.
 
@@ -156,156 +76,6 @@ annotations:
 ```
 
 ## Modifications made to upstream 
-
-### `chart/templates/_ports.tpl`
-
-- Update the port definition for `tempo-prom-metrics` by adding `appProtocol: http` .  This helps istio know how to proxy this port, since the port name doesn't contain `http`.
-```yaml
-- name: tempo-prom-metrics
-  port: 3100
-  protocol: TCP
-  targetPort: 3100
-  appProtocol: http
-```
-
-### `chart/values.yaml`
-
-- Update `tempo.repository` to pull hardened images from registry1
-```yaml
-  # -- Docker image repository
-  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
-```
-
-- Ensure `tempo.resources` requests and limits are set
-```yaml
-  resources:
-    limits:
-      cpu: 500m
-      memory: 4Gi
-    requests:
-      cpu: 500m
-      memory: 4Gi
-```
-
-- Ensure `tempo.reportingEnabled` is set to `false`
-```yaml
-  reportingEnabled: false
-```
-
-- Ensure `tempo.ingester` values are set
-```yaml
-  ingester:
-    trace_idle_period: 10s
-    max_block_bytes: 1_000_000
-    max_block_duration: 5m
-```
-
-- Ensure `tempo.retention` is set to `336h`
-```yaml
-  retention: 336h # 2 weeks retention
-```
-
-- Ensure `tempo.receivers` contains values for `zipkin`
-```yaml
-    zipkin:
-      endpoint: 0.0.0.0:9411
-```
-
-- Ensure `tempo.securityContext` is set
-```yaml
-  securityContext:
-     capabilities:
-       drop:
-       - ALL
-```
-
-- Update `tempoQuery.repository` to pull hardened images from registry1
-```yaml
-  # -- Docker image repository
-  repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
-```
-
-- Ensure `tempoQuery.enabled` is `false`
-
-Note: [this](https://github.com/grafana/helm-charts/commit/4c77fa7b3a54977d094071b446ff8b5b86982858) upstream commit disabled `tempo-query` by default in the chart. Evidently this is because `tempo-query` was always meant as a shim between Tempo and Grafana, but it hasn't been necessary [since 7.5.0](https://github.com/grafana/tempo/issues/456#issuecomment-815813684), as Grafana is capable of querying Tempo directly now.
-
-Previously, Big Bang used `tempo-query` for Cypress testing and to provide users a basic web interface for Tempo without Grafana (Tempo offers only an HTTP API natively). This was changed after breaking changes to the `tempo-query` deployment model were [introduced in version 2.6.0](https://grafana.com/docs/tempo/next/release-notes/v2-6/#other-breaking-changes). Other `tempoQuery` configuration settings remain below, in the event users wish to deploy it with the associated Iron Bank container image.
-```yaml
-  enabled: false
-```
-
-- Ensure `tempoQuery.resources` requests and limits are set
-```yaml
-  # -- Resource for query container
-  resources:
-    limits:
-      cpu: 300m
-      memory: 256Mi
-    requests:
-      cpu: 300m
-      memory: 256Mi
-```
-
-- Ensure `tempoQuery.securityContext` is set
-```yaml
-  securityContext:
-     capabilities:
-       drop:
-       - ALL
-```
-
-- Ensure `securityContext` for containers is set
-```yaml
-# -- securityContext for container
-securityContext:
-  fsGroup: 1001
-  runAsGroup: 1001
-  runAsNonRoot: true
-  runAsUser: 1001
-```
-
-- Ensure `serviceAccount.imagePullSecrets` contains `private-registry` pull secret for IronBank images
-```yaml
-  # -- Image pull secrets for the service account
-  imagePullSecrets:
-    - name: private-registry
-```
-
-- Ensure `serviceAccount.automountServiceAccountToken` is set to `false`
-This helps maintain our NSA hardening guide-compliance
-```yaml
-  automountServiceAccountToken: false
-```
-
-- Ensure `serviceMonitor` has `scheme` and `tlsConfig` values shown below:
-```yaml
-serviceMonitor:
-  enabled: false
-  interval: ""
-  additionalLabels: {}
-  annotations: {}
-  scheme: ""
-  tlsConfig: {}
-  # scrapeTimeout: 10s
-```
-
-- Ensure `persistence` is enabled and size is increased to `15Gi`
-```yaml
-persistence:
-  enabled: true
-  # -- Enable StatefulSetAutoDeletePVC feature
-  enableStatefulSetAutoDeletePVC: false
-  # storageClassName: local-path
-  accessModes:
-    - ReadWriteOnce
-  size: 15Gi
-```
-
-- Ensure `podAnnotations` includes istio inbound ports
-```yaml
-podAnnotations:
-  traffic.sidecar.istio.io/includeInboundPorts: "3100,4317,4318"
-```
 
 - EOF, add default dev.bigbang.mil hostname and additional Big Bang values
 
@@ -403,29 +173,6 @@ bbtests:
 # -- Toggle or openshift specific config
 openshift: false
 ```
-
-### `chart/templates/servicemonitor.yaml`
-
-removed `port: jaeger-metrics` definition
-
-
-### `chart/templates/statefulset.yaml`
-
-- Update templating to include tpl for `spec.template.metadata.labels`
-    ```yaml
-    {{- with .Values.podLabels }}
-      {{- tpl (toYaml . | nindent 8) $ }}
-    {{- end }}
-    ```
-
-- Add in `envFrom` section to the tempo container
-    ```yaml
-    {{- if and .Values.objectStorage.access_key_id .Values.objectStorage.secret_access_key }}
-    envFrom:
-    - secretRef:
-        name: tempo-object-storage
-    {{- end }}
-    ```
 
 ## Testing new Tempo Version
 > NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Tempo to your branch. For an upgrade do an install with Tempo pointing to the latest tag, then perform a helm upgrade with Tempo pointing to your branch.

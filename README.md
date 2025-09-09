@@ -1,14 +1,14 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.21.1-bb.2](https://img.shields.io/badge/Version-1.21.1--bb.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.7.2](https://img.shields.io/badge/AppVersion-2.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.21.1-bb.3](https://img.shields.io/badge/Version-1.21.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.7.2](https://img.shields.io/badge/AppVersion-2.7.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
 ## Upstream References
 
 - <https://grafana.net>
-- <https://github.com/grafana/tempo>
+- <https://github.com/grafana/helm-charts/tree/main/charts/tempo>
 
 ## Upstream Release Notes
 
@@ -43,124 +43,42 @@ helm install tempo chart/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| global.commonLabels | object | `{}` | Common labels for all object directly managed by this chart. |
-| nameOverride | string | `""` | Overrides the chart's name |
-| fullnameOverride | string | `""` | Overrides the chart's computed fullname |
-| replicas | int | `1` | Define the amount of instances |
-| labels | object | `{}` | labels for tempo |
-| annotations | object | `{}` | Annotations for the StatefulSet |
-| tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
-| tempo.tag | string | `"2.7.2"` | Docker image tag |
-| tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| tempo.updateStrategy | string | `"RollingUpdate"` |  |
-| tempo.resources.limits.cpu | string | `"500m"` |  |
-| tempo.resources.limits.memory | string | `"4Gi"` |  |
-| tempo.resources.requests.cpu | string | `"500m"` |  |
-| tempo.resources.requests.memory | string | `"4Gi"` |  |
-| tempo.memBallastSizeMbs | int | `1024` |  |
-| tempo.multitenancyEnabled | bool | `false` |  |
-| tempo.reportingEnabled | bool | `false` | If true, Tempo will report anonymous usage data about the shape of a deployment to Grafana Labs |
-| tempo.metricsGenerator.enabled | bool | `false` | If true, enables Tempo's metrics generator (https://grafana.com/docs/tempo/next/metrics-generator/) |
-| tempo.metricsGenerator.remoteWriteUrl | string | `"http://prometheus.monitoring:9090/api/v1/write"` |  |
-| tempo.ingester | object | `{"max_block_bytes":1000000,"max_block_duration":"5m","trace_idle_period":"10s"}` | Configuration options for the ingester |
-| tempo.querier | object | `{}` | Configuration options for the querier |
-| tempo.queryFrontend | object | `{}` | Configuration options for the query-fronted. Refers to: https://grafana.com/docs/tempo/latest/configuration/#query-frontend |
-| tempo.retention | string | `"336h"` |  |
-| tempo.overrides | object | `{"defaults":{},"per_tenant_override_config":"/conf/overrides.yaml"}` | The standard overrides configuration section. This can include a `defaults` object for applying to all tenants (not to be confused with the `global` property of the same name, which overrides `max_byte_per_trace` for all tenants). For an example on how to enable the metrics generator using the `overrides` object, see the 'Activate metrics generator' section below. Refer to [Standard overrides](https://grafana.com/docs/tempo/latest/configuration/#standard-overrides) for more details. |
-| tempo.overrides.defaults | object | `{}` | Default config values for all tenants, can be overridden by per-tenant overrides. If a tenant's specific overrides are not found in the `per_tenant_overrides` block, the values in this `default` block will be used. Configs inside this block should follow the new overrides indentation format |
-| tempo.overrides.per_tenant_override_config | string | `"/conf/overrides.yaml"` | Path to the per tenant override config file. The values of the `per_tenant_overrides` config below will be written to the default path `/conf/overrides.yaml`. Users can set tenant-specific overrides settings in a separate file and point per_tenant_override_config to it if not using the per_tenant_overrides block below. |
-| tempo.per_tenant_overrides | object | `{}` | The `per tenant` aka `tenant-specific` runtime overrides. This allows overriding values set in the configuration on a per-tenant basis. Note that *all* values must be given for each per-tenant configuration block. Refer to [Runtime overrides](https://grafana.com/docs/tempo/latest/configuration/#runtime-overrides) and [Tenant-Specific overrides](https://grafana.com/docs/tempo/latest/configuration/#tenant-specific-overrides) documentation for more details. |
-| tempo.server.http_listen_port | int | `3100` | HTTP server listen port |
-| tempo.livenessProbe.httpGet.path | string | `"/ready"` |  |
-| tempo.livenessProbe.httpGet.port | int | `3100` |  |
-| tempo.livenessProbe.initialDelaySeconds | int | `30` |  |
-| tempo.livenessProbe.periodSeconds | int | `10` |  |
-| tempo.livenessProbe.timeoutSeconds | int | `5` |  |
-| tempo.livenessProbe.failureThreshold | int | `3` |  |
-| tempo.livenessProbe.successThreshold | int | `1` |  |
-| tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
-| tempo.readinessProbe.httpGet.port | int | `3100` |  |
-| tempo.readinessProbe.initialDelaySeconds | int | `20` |  |
-| tempo.readinessProbe.periodSeconds | int | `10` |  |
-| tempo.readinessProbe.timeoutSeconds | int | `5` |  |
-| tempo.readinessProbe.failureThreshold | int | `3` |  |
-| tempo.readinessProbe.successThreshold | int | `1` |  |
-| tempo.storage.trace.backend | string | `"local"` |  |
-| tempo.storage.trace.local.path | string | `"/var/tempo/traces"` |  |
-| tempo.storage.trace.wal.path | string | `"/var/tempo/wal"` |  |
-| tempo.receivers.jaeger.protocols.grpc.endpoint | string | `"0.0.0.0:14250"` |  |
-| tempo.receivers.jaeger.protocols.thrift_binary.endpoint | string | `"0.0.0.0:6832"` |  |
-| tempo.receivers.jaeger.protocols.thrift_compact.endpoint | string | `"0.0.0.0:6831"` |  |
-| tempo.receivers.jaeger.protocols.thrift_http.endpoint | string | `"0.0.0.0:14268"` |  |
-| tempo.receivers.zipkin.endpoint | string | `"0.0.0.0:9411"` |  |
-| tempo.receivers.opencensus | string | `nil` |  |
-| tempo.receivers.otlp.protocols.grpc.endpoint | string | `"0.0.0.0:4317"` |  |
-| tempo.receivers.otlp.protocols.http.endpoint | string | `"0.0.0.0:4318"` |  |
-| tempo.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| tempo.extraArgs | object | `{}` |  |
-| tempo.extraEnv | list | `[]` | Environment variables to add |
-| tempo.extraEnvFrom | list | `[]` | Environment variables from secrets or configmaps to add to the ingester pods |
-| tempo.extraVolumeMounts | list | `[]` | Volume mounts to add |
-| config | string | Dynamically generated tempo configmap | Tempo configuration file contents |
-| tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| tempoQuery.tag | string | `"2.7.2"` | Docker image tag |
-| tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
-| tempoQuery.enabled | bool | `false` | if False the tempo-query container is not deployed |
-| tempoQuery.service.port | int | `16686` |  |
-| tempoQuery.ingress.enabled | bool | `false` |  |
-| tempoQuery.ingress.annotations | object | `{}` |  |
-| tempoQuery.ingress.labels | object | `{}` |  |
-| tempoQuery.ingress.path | string | `"/"` |  |
-| tempoQuery.ingress.pathType | string | `"Prefix"` |  |
-| tempoQuery.ingress.hosts[0] | string | `"query.tempo.example.com"` |  |
-| tempoQuery.ingress.extraPaths | list | `[]` |  |
-| tempoQuery.ingress.tls | list | `[]` |  |
-| tempoQuery.resources | object | `{"limits":{"cpu":"300m","memory":"256Mi"},"requests":{"cpu":"300m","memory":"256Mi"}}` | Resource for query container |
-| tempoQuery.extraArgs | object | `{}` |  |
-| tempoQuery.extraEnv | list | `[]` | Environment variables to add |
-| tempoQuery.extraVolumeMounts | list | `[]` | Volume mounts to add |
-| tempoQuery.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
-| securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for container |
-| serviceAccount.create | bool | `true` | Specifies whether a ServiceAccount should be created |
-| serviceAccount.name | string | `nil` | The name of the ServiceAccount to use. If not set and create is true, a name is generated using the fullname template |
-| serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
-| serviceAccount.annotations | object | `{}` | Annotations for the service account |
-| serviceAccount.labels | object | `{}` | Labels for the service account |
-| serviceAccount.automountServiceAccountToken | bool | `false` |  |
-| service.type | string | `"ClusterIP"` |  |
-| service.clusterIP | string | `""` |  |
-| service.loadBalancerIP | string | `nil` | IP address, in case of 'type: LoadBalancer' |
-| service.protocol | string | `"TCP"` | If service type is LoadBalancer, the exposed protocol can either be "UDP", "TCP" or "UDP,TCP" |
-| service.annotations | object | `{}` |  |
-| service.labels | object | `{}` |  |
-| service.targetPort | string | `""` |  |
-| serviceMonitor.enabled | bool | `false` |  |
-| serviceMonitor.interval | string | `""` |  |
-| serviceMonitor.additionalLabels | object | `{}` |  |
-| serviceMonitor.annotations | object | `{}` |  |
-| serviceMonitor.scheme | string | `""` |  |
-| serviceMonitor.tlsConfig | object | `{}` |  |
-| persistence.enabled | bool | `true` |  |
-| persistence.enableStatefulSetAutoDeletePVC | bool | `true` | Enable StatefulSetAutoDeletePVC feature |
-| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
-| persistence.size | string | `"15Gi"` |  |
-| podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"3100,4317,4318"}` | Pod Annotations |
-| podLabels | object | `{}` | Pod (extra) Labels |
-| extraLabels | object | `{}` |  |
-| extraVolumes | list | `[]` | Volumes to add |
-| nodeSelector | object | `{}` | Node labels for pod assignment. See: https://kubernetes.io/docs/user-guide/node-selection/ |
-| tolerations | list | `[]` | Tolerations for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/ |
-| affinity | object | `{}` | Affinity for pod assignment. See: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity |
-| priorityClassName | string | `nil` | The name of the PriorityClass |
-| hostAliases | list | `[]` | hostAliases to add |
-| networkPolicy.enabled | bool | `false` |  |
-| networkPolicy.ingress | bool | `true` |  |
-| networkPolicy.allowExternal | bool | `true` |  |
-| networkPolicy.explicitNamespacesSelector | object | `{}` |  |
-| networkPolicy.egress.enabled | bool | `false` |  |
-| networkPolicy.egress.blockDNSResolution | bool | `false` |  |
-| networkPolicy.egress.ports | list | `[]` |  |
-| networkPolicy.egress.to | list | `[]` |  |
+| upstream.fullnameOverride | string | `"tempo"` | Overrides the chart's computed fullname |
+| upstream.tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
+| upstream.tempo.tag | string | `"2.7.2"` | Docker image tag |
+| upstream.tempo.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| upstream.tempo.resources.limits.cpu | string | `"500m"` |  |
+| upstream.tempo.resources.limits.memory | string | `"4Gi"` |  |
+| upstream.tempo.resources.requests.cpu | string | `"500m"` |  |
+| upstream.tempo.resources.requests.memory | string | `"4Gi"` |  |
+| upstream.tempo.reportingEnabled | bool | `false` |  |
+| upstream.tempo.ingester.trace_idle_period | string | `"10s"` |  |
+| upstream.tempo.ingester.max_block_bytes | int | `1000000` |  |
+| upstream.tempo.ingester.max_block_duration | string | `"5m"` |  |
+| upstream.tempo.retention | string | `"336h"` |  |
+| upstream.tempo.server.http_listen_port | int | `3100` | HTTP server listen port |
+| upstream.tempo.livenessProbe.httpGet.path | string | `"/ready"` |  |
+| upstream.tempo.livenessProbe.httpGet.port | int | `3100` |  |
+| upstream.tempo.readinessProbe.httpGet.path | string | `"/ready"` |  |
+| upstream.tempo.readinessProbe.httpGet.port | int | `3100` |  |
+| upstream.tempo.receivers.zipkin.endpoint | string | `"0.0.0.0:9411"` |  |
+| upstream.tempo.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| upstream.tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
+| upstream.tempoQuery.tag | string | `"2.7.2"` | Docker image tag |
+| upstream.tempoQuery.pullPolicy | string | `"IfNotPresent"` | Docker image pull policy |
+| upstream.tempoQuery.resources.limits.cpu | string | `"300m"` |  |
+| upstream.tempoQuery.resources.limits.memory | string | `"256Mi"` |  |
+| upstream.tempoQuery.resources.requests.cpu | string | `"300m"` |  |
+| upstream.tempoQuery.resources.requests.memory | string | `"256Mi"` |  |
+| upstream.tempoQuery.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| upstream.securityContext | object | `{"automountServiceAccountToken":false,"fsGroup":1001,"imagePullSecrets":[{"name":"private-registry"}],"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for container |
+| upstream.securityContext.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
+| upstream.serviceMonitor.scheme | string | `""` |  |
+| upstream.serviceMonitor.tlsConfig | object | `{}` |  |
+| upstream.persistence.enabled | bool | `true` |  |
+| upstream.persistence.enableStatefulSetAutoDeletePVC | bool | `true` | Enable StatefulSetAutoDeletePVC feature |
+| upstream.persistence.size | string | `"15Gi"` |  |
+| upstream.podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"3100,4317,4318"}` | Pod Annotations |
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services |
 | istio | object | `{"enabled":false,"hardened":{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"},"mtls":{"mode":"STRICT"}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
 | istio.hardened | object | `{"customAuthorizationPolicies":[],"customServiceEntries":[],"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Default peer authentication values |

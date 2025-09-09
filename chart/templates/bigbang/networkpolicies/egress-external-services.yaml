@@ -1,4 +1,4 @@
-{{- if and .Values.networkPolicies.enabled (not (eq .Values.tempo.storage.backend "local")) }}
+{{- if and .Values.networkPolicies.enabled (not (eq .Values.upstream.tempo.storage.backend "local")) }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
