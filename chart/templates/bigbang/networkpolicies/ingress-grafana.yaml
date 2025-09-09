@@ -17,6 +17,6 @@ spec:
         matchLabels:
           app.kubernetes.io/name: grafana
     ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.upstream.service.port }}
       protocol: TCP
 {{- end }}

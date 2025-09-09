@@ -1,4 +1,4 @@
-{{- if or .Values.tempo.metricsGenerator.enabled }}
+{{- if or .Values.upstream.tempo.metricsGenerator.enabled }}
 {{- $files := .Files.Glob "files/dashboards/*.json" }}
 {{- if $files }}
 apiVersion: v1
@@ -9,12 +9,11 @@ items:
   - apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: {{ printf "%s-%s" (include "tempo.fullname" $) $dashboardName | trunc 63 | trimSuffix "-" }}
+      name: {{ printf "%s-%s" "tempo" $dashboardName | trunc 63 | trimSuffix "-" }}
       namespace: tempo
       labels:
         grafana_dashboard: "1"
         app: tempo
-{{ include "tempo.labels" $ | indent 8 }}
     data:
       {{ $dashboardName }}.json: |
 {{ printf "%s" ($.Files.Get $path) | indent 8 }}

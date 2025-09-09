@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.21.1-bb.3] (2025-07-28)
+### Changed
+- Refactor Chart to Passthrough Pattern
+- Added an upgrade job for automated upgrade
+- Added a configmap to help provide meta data on helm chart version
+
 ## [1.21.1-bb.2] (2025-07-08)
 ### Updated
 - Updated Alloy network policy pod selector
