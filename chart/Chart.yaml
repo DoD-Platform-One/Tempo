@@ -11,7 +11,7 @@ sources:
   - https://github.com/grafana/helm-charts/tree/main/charts/tempo
 dependencies:
   - name: gluon
-    version: "0.5.19"
+    version: "0.9.0"
     repository: oci://registry1.dso.mil/bigbang
   - name: tempo
     version: "1.21.1"
