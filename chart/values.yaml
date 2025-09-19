@@ -57,6 +57,7 @@ sso:
   enabled: false
 
 upgradeJob:
+  # -- Enable BigBang specific autoRollingUpgrade support
   enabled: true
   name: tempo-upgrade-job
   image:
@@ -92,8 +93,8 @@ bbtests:
 
 # -- Toggle or openshift specific config
 openshift: false
-
-# Ref: https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml
+# -- Values to pass to [the upstream tempo chart](https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml)
+# @default -- Upstream chart values
 upstream:
   # -- Overrides the chart's computed fullname
   fullnameOverride: "tempo-tempo"
