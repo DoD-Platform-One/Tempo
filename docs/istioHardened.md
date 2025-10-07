@@ -39,7 +39,7 @@ istio:
 
 This would result in the following ServiceEntry being created:
 ```yaml
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: allow-google

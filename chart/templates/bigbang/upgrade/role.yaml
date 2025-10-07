@@ -5,9 +5,9 @@ metadata:
   name: {{ .Values.upgradeJob.role }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": {{ dig "hook" "phase" "pre-upgrade" .Values.upgradeJob }}
     "helm.sh/hook-weight": "-10"
-    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+    "helm.sh/hook-delete-policy": {{ dig "hook" "deletePolicy" "hook-succeeded,before-hook-creation" .Values.upgradeJob | quote }}
 rules:
 - apiGroups: ["apps"]
   resources: ["statefulsets"]

@@ -28,12 +28,6 @@ istio:
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
 
-objectStorage:
-  # -- AWS access_key_id for External ObjectStorage configuration
-  access_key_id: ""
-  # -- AWS secret_access_key for External ObjectStorage configuration
-  secret_access_key: ""
-
 # -- Toggle for BigBang specific NetworkPolicies.
 # If disabled no NetworkPolicies will be installed with package
 # ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
@@ -63,8 +57,11 @@ upgradeJob:
   image:
     repository: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl
     tag: v1.32.7
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
     pullSecrets: private-registry
+  hook:
+    phase: pre-upgrade  # or post-upgrade, pre-install, post-install
+    deletePolicy: hook-succeeded,before-hook-creation
   serviceAccount: upgrade-job-svc-account
   role: upgrade-role
   roleBinding: upgrade-rolebinding
@@ -75,7 +72,7 @@ bbtests:
     artifacts: true
     envs:
       cypress_url: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
-      cypress_tempo_datasource: 'http://{{ .Release.Name . }}.{{ .Release.Namespace }}.svc:3100'
+      cypress_tempo_datasource: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100'
       cypress_check_datasource: "false"
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
     resources:
@@ -89,7 +86,7 @@ bbtests:
     enabled: true
     image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     envs:
-      TEMPO_METRICS_URL: 'http://{{ .Release.Name . }}.{{ .Release.Namespace }}.svc:3100'
+      TEMPO_METRICS_URL: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100'
 
 # -- Toggle or openshift specific config
 openshift: false
@@ -106,14 +103,11 @@ upstream:
     # -- Docker image repository
     repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
     # -- Docker image tag
-    tag: 2.7.2
+    tag: 2.8.2
     # -- Docker image pull policy
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
     resources:
-      limits:
-        cpu: 500m
-        memory: 4Gi
       requests:
         cpu: 500m
         memory: 4Gi
@@ -153,13 +147,10 @@ upstream:
     # -- Docker image repository
     repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
     # -- Docker image tag
-    tag: 2.7.2
+    tag: 2.8.2
     # -- Docker image pull policy
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     resources:
-      limits:
-        cpu: 300m
-        memory: 256Mi
       requests:
         cpu: 300m
         memory: 256Mi
@@ -181,16 +172,6 @@ upstream:
     imagePullSecrets:
       - name: private-registry
     automountServiceAccountToken: false
-
-  serviceMonitor:
-    scheme: ""
-    tlsConfig: {}
-
-  persistence:
-    enabled: true
-    # -- Enable StatefulSetAutoDeletePVC feature
-    enableStatefulSetAutoDeletePVC: true
-    size: 15Gi
 
   # -- Pod Annotations
   podAnnotations:
