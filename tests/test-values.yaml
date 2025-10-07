@@ -33,6 +33,7 @@ monitoring:
       enabled: False
 tempo:
   enabled: true
+
 kyverno:
   values:
     bbtests:
