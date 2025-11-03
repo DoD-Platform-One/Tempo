@@ -33,6 +33,7 @@ spec:
             echo "[ERROR] Failed to delete StatefulSet." >&2
             exit 1
           fi
+
         resources:
           requests:
             cpu: 100m

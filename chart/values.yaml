@@ -72,7 +72,7 @@ bbtests:
     artifacts: true
     envs:
       cypress_url: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
-      cypress_tempo_datasource: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100'
+      cypress_tempo_datasource: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3200'
       cypress_check_datasource: "false"
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
     resources:
@@ -86,7 +86,7 @@ bbtests:
     enabled: true
     image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     envs:
-      TEMPO_METRICS_URL: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100'
+      TEMPO_METRICS_URL: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3200'
 
 # -- Toggle or openshift specific config
 openshift: false
@@ -99,6 +99,11 @@ upstream:
   # -- Overrides the chart's computed name
   nameOverride: "tempo"
 
+  # --- Add writable runtime volume ---
+  extraVolumes:
+    - name: tempo-runtime
+      emptyDir: {}  # ephemeral, backed by node disk or memory
+
   tempo:
     # -- Docker image repository
     repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
@@ -106,6 +111,10 @@ upstream:
     tag: 2.8.2
     # -- Docker image pull policy
     pullPolicy: Always
+
+    extraVolumeMounts:
+      - name: tempo-runtime
+        mountPath: /var/tempo
 
     resources:
       requests:
@@ -123,17 +132,17 @@ upstream:
 
     server:
       # -- HTTP server listen port
-      http_listen_port: 3100
+      http_listen_port: 3200
 
     # Readiness and Liveness Probe Configuration Options
     livenessProbe:
       httpGet:
         path: /ready
-        port: 3100
+        port: 3200
     readinessProbe:
       httpGet:
         path: /ready
-        port: 3100
+        port: 3200
 
     receivers:
       zipkin:
@@ -175,4 +184,4 @@ upstream:
 
   # -- Pod Annotations
   podAnnotations:
-    traffic.sidecar.istio.io/includeInboundPorts: "3100,4317,4318"
+    traffic.sidecar.istio.io/excludeInboundPorts: "9411"
