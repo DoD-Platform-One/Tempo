@@ -19,6 +19,6 @@ spec:
         matchLabels:
           app: prometheus
     ports:
-    - port: 3100
+    - port: 3200
       protocol: TCP
 {{- end }}

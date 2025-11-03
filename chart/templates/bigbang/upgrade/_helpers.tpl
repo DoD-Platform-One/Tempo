@@ -1,38 +1,20 @@
 {{/*
-Prints "true" if:
-- .Values.upgradeJob.enabled is true
-- and existing StatefulSet's chart version is < 1.21.1-bb.3
-
-Otherwise prints "false".
+This helper determines if upgrading to 1.23.0-bb.0 which updates immutable fields requiring statefulset resources to be manually recreated
 */}}
 {{- define "tempo.shouldDeployUpgradeResources" -}}
+{{- $upgradeVersion := "1.23.0-bb.0" -}}
 
-  {{- $upgradeVersion := "1.21.1-bb.3" -}}
-
-  {{- $enabled := false -}}
-  {{- if hasKey .Values "upgradeJob" -}}
-    {{- if hasKey .Values.upgradeJob "enabled" -}}
-      {{- $enabled = .Values.upgradeJob.enabled -}}
-    {{- end -}}
-  {{- end -}}
-
-  {{- if not $enabled -}}
-    false
-  {{- else -}}
-    {{- $defaultName := printf "%s-upstream" .Release.Name -}}
-    {{- $name := .Values.upstream.fullnameOverride | default $defaultName -}}
-    {{- $st := lookup "apps/v1" "StatefulSet" .Release.Namespace $name -}}
-    {{- if $st -}}
-      {{- $label := dig "metadata" "labels" "helm.sh/chart" "" $st -}}
-      {{- $current := regexFind "[0-9]+\\.[0-9]+\\.[0-9A-Za-z.+-]+$" $label -}}
-      {{- if and $current (semverCompare (printf "< %s" $upgradeVersion) $current) -}}
-true
-      {{- else -}}
-false
+{{- if and .Values.upgradeJob.enabled .Release.IsUpgrade -}}
+  {{- $helmRelease := lookup "helm.toolkit.fluxcd.io/v2" "HelmRelease" "bigbang" "tempo" -}}
+  {{- if and $helmRelease (hasKey $helmRelease "status") (hasKey $helmRelease.status "history") -}}
+    {{- $history := $helmRelease.status.history -}}
+    {{- if and $history (gt (len $history) 0) -}}
+      {{- $currentVersion := index $history 0 "chartVersion" -}}
+      {{- if semverCompare (print "<" $upgradeVersion) $currentVersion -}}
+        true
       {{- end -}}
-    {{- else -}}
-false
     {{- end -}}
   {{- end -}}
+{{- end -}}
 
 {{- end -}}

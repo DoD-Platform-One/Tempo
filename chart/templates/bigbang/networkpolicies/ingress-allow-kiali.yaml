@@ -17,6 +17,6 @@ spec:
         matchLabels:
           app.kubernetes.io/name: kiali
     ports:
-      - port: 3100
+      - port: 3200
         protocol: TCP
 {{- end }}        

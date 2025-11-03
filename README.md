@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.21.1-bb.3](https://img.shields.io/badge/Version-1.21.1--bb.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.2](https://img.shields.io/badge/AppVersion-2.8.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.23.3-bb.0](https://img.shields.io/badge/Version-1.23.3--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.8.2](https://img.shields.io/badge/AppVersion-2.8.2-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -66,7 +66,7 @@ helm install tempo chart/
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |
 | bbtests.cypress.envs.cypress_url | string | `"http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:16686"` |  |
-| bbtests.cypress.envs.cypress_tempo_datasource | string | `"http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100"` |  |
+| bbtests.cypress.envs.cypress_tempo_datasource | string | `"http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3200"` |  |
 | bbtests.cypress.envs.cypress_check_datasource | string | `"false"` |  |
 | bbtests.cypress.envs.cypress_grafana_url | string | `"http://monitoring-grafana.monitoring.svc.cluster.local"` |  |
 | bbtests.cypress.resources.requests.cpu | string | `"1"` |  |
@@ -75,7 +75,7 @@ helm install tempo chart/
 | bbtests.cypress.resources.limits.memory | string | `"2Gi"` |  |
 | bbtests.scripts.enabled | bool | `true` |  |
 | bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:2.1.0"` |  |
-| bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3100"` |  |
+| bbtests.scripts.envs.TEMPO_METRICS_URL | string | `"http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3200"` |  |
 | openshift | bool | `false` | Toggle or openshift specific config |
 | upstream | object | Upstream chart values | Values to pass to [the upstream tempo chart](https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml) |
 | upstream.fullnameOverride | string | `"tempo-tempo"` | Overrides the chart's computed fullname |
@@ -83,13 +83,12 @@ helm install tempo chart/
 | upstream.tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
 | upstream.tempo.tag | string | `"2.8.2"` | Docker image tag |
 | upstream.tempo.pullPolicy | string | `"Always"` | Docker image pull policy |
-| upstream.tempo.server.http_listen_port | int | `3100` | HTTP server listen port |
+| upstream.tempo.server.http_listen_port | int | `3200` | HTTP server listen port |
 | upstream.tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
 | upstream.tempoQuery.tag | string | `"2.8.2"` | Docker image tag |
 | upstream.tempoQuery.pullPolicy | string | `"Always"` | Docker image pull policy |
 | upstream.securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for container |
 | upstream.serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
-| upstream.podAnnotations | object | `{"traffic.sidecar.istio.io/includeInboundPorts":"3100,4317,4318"}` | Pod Annotations |
 
 ## Contributing
 
