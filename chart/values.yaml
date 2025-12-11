@@ -1,30 +1,23 @@
-# -- Domain used for BigBang created exposed services
+# -- This value will be removed in a later release as Tempo no longer has a UI
 domain: dev.bigbang.mil
 # -- Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status
 istio:
   enabled: false
-  # -- Default peer authentication values
-  hardened:
+
+  sidecar:
     enabled: false
     outboundTrafficPolicyMode: "REGISTRY_ONLY"
-    customServiceEntries: []
-      # - name: "allow-google"
-      #   enabled: true
-      #   spec:
-      #     hosts:
-      #       - google.com
-      #     location: MESH_EXTERNAL
-      #     ports:
-      #       - number: 443
-      #         protocol: TLS
-      #         name: https
-      #     resolution: DNS
-    customAuthorizationPolicies: []
-    # - name: "allow-nothing"
-    #   enabled: true
-    #   spec: {}
+
+  serviceEntries:
+    custom: []
+
+  authorizationPolicies:
+    enabled: false
+    custom: []
+
+  # Default tempo peer authentication
   mtls:
-    # -- STRICT = Allow only mutual TLS traffic,
+    # STRICT = Allow only mutual TLS traffic
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
 
@@ -40,13 +33,36 @@ networkPolicies:
   # -- Use `kubectl cluster-info` and then resolve to IP for kube-api.
   # Review value description in BigBang README.md
   controlPlaneCidr: 0.0.0.0/0
+  ingress:
+    to:
+      tempo:3200:
+        from:
+          k8s:
+            kiali-service-account@kiali/kiali: true
+            monitoring-grafana@monitoring/grafana: true
+            monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
+      tempo:4317:
+        from:
+          k8s:
+            alloy-alloy-operator@alloy/alloy: true
+            alloy-alloy-logs@alloy/alloy-logs: true
+      tempo:9411:
+        from:
+          k8s:
+            "*/*": true
+  egress:
+    from:
+      tempo:
+        to:
+          k8s:
+            monitoring/prometheus:9090: true
   additionalPolicies: []
 
 # -- Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status
 monitoring:
   enabled: false
 
-# -- SSO toggle. Intended to be controlled via BigBang passthrough, only affects network/auth policies.
+# -- This value will be removed in a later release as Tempo no longer has a UI
 sso:
   enabled: false
 
@@ -71,7 +87,6 @@ bbtests:
   cypress:
     artifacts: true
     envs:
-      cypress_url: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:16686'
       cypress_tempo_datasource: 'http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc:3200'
       cypress_check_datasource: "false"
       cypress_grafana_url: "http://monitoring-grafana.monitoring.svc.cluster.local"
