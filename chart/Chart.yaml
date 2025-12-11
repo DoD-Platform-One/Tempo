@@ -2,7 +2,7 @@ apiVersion: v2
 name: tempo
 description: Grafana Tempo Single Binary Mode
 type: application
-version: 1.23.3-bb.0
+version: 1.23.3-bb.1
 appVersion: 2.8.2
 engine: gotpl
 home: https://grafana.net
@@ -11,8 +11,11 @@ sources:
   - https://github.com/grafana/helm-charts/tree/main/charts/tempo
 dependencies:
   - name: gluon
-    version: "0.9.2"
+    version: "0.9.7"
     repository: oci://registry1.dso.mil/bigbang
+  - name: bb-common
+    version: 0.11.1
+    repository: "oci://registry1.dso.mil/bigbang"
   - name: tempo
     version: "1.23.3"
     repository: https://grafana.github.io/helm-charts
