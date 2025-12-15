@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.23.3-bb.2] (2025-12-11)
+### Updated
+- Updated bb-common from 0.11.1 to 0.11.2 to address resolved bug
+
 ## [1.23.3-bb.1] (2025-12-10)
 ### Updated
 - Integrated bb-common and removed static resources for network policies, authorization policies, and peer authentications
