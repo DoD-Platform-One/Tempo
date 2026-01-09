@@ -2,8 +2,8 @@ apiVersion: v2
 name: tempo
 description: Grafana Tempo Single Binary Mode
 type: application
-version: 1.23.3-bb.2
-appVersion: 2.8.2
+version: 1.24.1-bb.0
+appVersion: 2.9.0
 engine: gotpl
 home: https://grafana.net
 icon: https://raw.githubusercontent.com/grafana/tempo/master/docs/tempo/website/logo_and_name.png
@@ -14,22 +14,22 @@ dependencies:
     version: "0.9.7"
     repository: oci://registry1.dso.mil/bigbang
   - name: bb-common
-    version: 0.11.2
+    version: 0.12.2
     repository: "oci://registry1.dso.mil/bigbang"
   - name: tempo
-    version: "1.23.3"
+    version: "1.24.1"
     repository: https://grafana.github.io/helm-charts
     alias: upstream
 annotations:
   bigbang.dev/maintenanceTrack: bb_integrated
   bigbang.dev/applicationVersions: |
-    - Tempo: 2.8.2
-    - Tempo Query: 2.8.2
+    - Tempo: 2.9.0
+    - Tempo Query: 2.9.0
   bigbang.dev/upstreamReleaseNotesMarkdown: |
     - [Find upstream chart's release notes and CHANGELOG here](https://github.com/grafana/helm-charts/releases?q=tempo&expanded=true)
     - [Find upstream applications's release notes and CHANGELOG here](https://grafana.com/docs/tempo/latest/release-notes/)
   helm.sh/images: |
     - name: tempo
-      image: registry1.dso.mil/ironbank/opensource/grafana/tempo:2.8.2
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo:2.9.0
     - name: tempo-query
-      image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:2.8.2
+      image: registry1.dso.mil/ironbank/opensource/grafana/tempo-query:2.9.0

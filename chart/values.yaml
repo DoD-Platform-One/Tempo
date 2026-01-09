@@ -72,7 +72,7 @@ upgradeJob:
   name: tempo-upgrade-job
   image:
     repository: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl
-    tag: v1.32.7
+    tag: v1.34.3
     imagePullPolicy: Always
     pullSecrets: private-registry
   hook:
@@ -120,8 +120,10 @@ upstream:
       emptyDir: {}  # ephemeral, backed by node disk or memory
 
   tempo:
+    # -- Docker image registry
+    registry: registry1.dso.mil
     # -- Docker image repository
-    repository: registry1.dso.mil/ironbank/opensource/grafana/tempo
+    repository: ironbank/opensource/grafana/tempo
     # -- Docker image tag
     tag: 2.8.2
     # -- Docker image pull policy
