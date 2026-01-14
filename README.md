@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.24.1-bb.0](https://img.shields.io/badge/Version-1.24.1--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.9.0](https://img.shields.io/badge/AppVersion-2.9.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.24.3-bb.0](https://img.shields.io/badge/Version-1.24.3--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.9.0](https://img.shields.io/badge/AppVersion-2.9.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -77,7 +77,8 @@ helm install tempo chart/
 | upstream | object | Upstream chart values | Values to pass to [the upstream tempo chart](https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml) |
 | upstream.fullnameOverride | string | `"tempo-tempo"` | Overrides the chart's computed fullname |
 | upstream.nameOverride | string | `"tempo"` | Overrides the chart's computed name |
-| upstream.tempo.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo"` | Docker image repository |
+| upstream.tempo.registry | string | `"registry1.dso.mil"` | Docker image registry |
+| upstream.tempo.repository | string | `"ironbank/opensource/grafana/tempo"` | Docker image repository |
 | upstream.tempo.tag | string | `"2.8.2"` | Docker image tag |
 | upstream.tempo.pullPolicy | string | `"Always"` | Docker image pull policy |
 | upstream.tempo.server.http_listen_port | int | `3200` | HTTP server listen port |
