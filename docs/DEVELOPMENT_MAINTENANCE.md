@@ -112,10 +112,10 @@ tempo:
     tag: null
     branch: <test-branch>
 ```
-- Visit [Kiali](https://kiali.dev.bigbang.mil) and login with a [generated token](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Visit Kiali and login with a [generated token](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - Check the 'Applications', 'Workloads', and 'Services' views for Tempo resources (they should be healthy)
   - Note: if no resources are appearing, make sure the 'Tempo' namespace is selected in each view
-- Visit [Grafana](https://grafana.dev.bigbang.mil) and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
+- Visit Grafana and login with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md)
   - `Connections` -> `Data Sources` -> click Tempo -> click `Save & Test` datasource at the bottom
   - Navigate to `Explore` -> Select "Tempo" as the data source -> Enter a `TraceQL` query like `{resource.service.name="tempo-tempo.tempo"}` -> `Run query` 
 
