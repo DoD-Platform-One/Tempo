@@ -125,7 +125,7 @@ upstream:
     # -- Docker image repository
     repository: ironbank/opensource/grafana/tempo
     # -- Docker image tag
-    tag: 2.8.2
+    tag: 2.10.0
     # -- Docker image pull policy
     pullPolicy: Always
 
@@ -173,7 +173,7 @@ upstream:
     # -- Docker image repository
     repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
     # -- Docker image tag
-    tag: 2.8.2
+    tag: 2.10.0
     # -- Docker image pull policy
     pullPolicy: Always
     resources:

@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.24.4-bb.0] (2026-01-30)
+### Changed
+- bb-common 0.13.0 -> 0.14.0
+- registry1.dso.mil/ironbank/opensource/grafana/tempo 2.9.1 -> 2.10.0
+- registry1.dso.mil/ironbank/opensource/grafana/tempo-query 2.9.1 -> 2.10.0
+- tempo chart 1.24.3 -> 1.24.4
+
 ## [1.24.3-bb.1] (2026-01-27)
 ### Changed
 - updated bb-common from 0.12.3 to 0.13.0
