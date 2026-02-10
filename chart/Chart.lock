@@ -4,9 +4,9 @@ dependencies:
   version: 0.9.7
 - name: bb-common
   repository: oci://registry1.dso.mil/bigbang
-  version: 0.13.0
+  version: 0.14.0
 - name: tempo
   repository: https://grafana.github.io/helm-charts
-  version: 1.24.3
-digest: sha256:a4017e54a5e1ca55b5b936c4964d51bd81d8453d857d4c291143d5bccbcea98e
-generated: "2026-01-21T07:21:10.863973331Z"
+  version: 1.24.4
+digest: sha256:9fd39828a5f748383a56811a9bb72b0a3b8726cb062536eddb94f95d5116ccf6
+generated: "2026-01-30T07:22:31.779381271Z"

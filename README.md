@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.24.3-bb.1](https://img.shields.io/badge/Version-1.24.3--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.9.1](https://img.shields.io/badge/AppVersion-2.9.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.24.4-bb.0](https://img.shields.io/badge/Version-1.24.4--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.10.0](https://img.shields.io/badge/AppVersion-2.10.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -79,11 +79,11 @@ helm install tempo chart/
 | upstream.nameOverride | string | `"tempo"` | Overrides the chart's computed name |
 | upstream.tempo.registry | string | `"registry1.dso.mil"` | Docker image registry |
 | upstream.tempo.repository | string | `"ironbank/opensource/grafana/tempo"` | Docker image repository |
-| upstream.tempo.tag | string | `"2.8.2"` | Docker image tag |
+| upstream.tempo.tag | string | `"2.10.0"` | Docker image tag |
 | upstream.tempo.pullPolicy | string | `"Always"` | Docker image pull policy |
 | upstream.tempo.server.http_listen_port | int | `3200` | HTTP server listen port |
 | upstream.tempoQuery.repository | string | `"registry1.dso.mil/ironbank/opensource/grafana/tempo-query"` | Docker image repository |
-| upstream.tempoQuery.tag | string | `"2.8.2"` | Docker image tag |
+| upstream.tempoQuery.tag | string | `"2.10.0"` | Docker image tag |
 | upstream.tempoQuery.pullPolicy | string | `"Always"` | Docker image pull policy |
 | upstream.securityContext | object | `{"fsGroup":1001,"runAsGroup":1001,"runAsNonRoot":true,"runAsUser":1001}` | securityContext for container |
 | upstream.serviceAccount.imagePullSecrets | list | `[{"name":"private-registry"}]` | Image pull secrets for the service account |
