@@ -26,6 +26,18 @@
     "separateMajorMinor": false,
     "packageRules": [
         {
+            "matchManagers": [
+                "helmv3",
+                "helm-values",
+                "regex"
+            ],
+            "matchFileNames": [
+                "chart/Chart.yaml",
+                "chart/values.yaml"
+            ],
+            "groupName": "Tempo chart: subcharts + images"
+        },
+        {
             "matchDatasources": [
                 "docker",
                 "helm"
@@ -47,12 +59,12 @@
     "customManagers": [
         {
             "customType": "regex",
-            "description": "Update image versions in values.yaml",
+            "description": "Update image versions in values.yaml (repository + tag)",
             "managerFilePatterns": [
                 "/^chart/values\\.yaml$/"
             ],
             "matchStrings": [
-                "repository:\\s+(?<depName>.+)[\\S\\s]+tag:\\s+(?<currentValue>.+)"
+                "repository:\\s*[\"']?(?<depName>[^\\s\"']+)[\"']?\\s*\\n\\s*tag:\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?"
             ],
             "datasourceTemplate": "docker"
         },
