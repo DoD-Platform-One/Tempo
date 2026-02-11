@@ -3,6 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.24.4-bb.1] (2026-02-10)
+### Changed
+- Added tempo-query virtual service
 
 ## [1.24.4-bb.0] (2026-01-30)
 ### Changed

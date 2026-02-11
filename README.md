@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # tempo
 
-![Version: 1.24.4-bb.0](https://img.shields.io/badge/Version-1.24.4--bb.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.10.0](https://img.shields.io/badge/AppVersion-2.10.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.24.4-bb.1](https://img.shields.io/badge/Version-1.24.4--bb.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.10.0](https://img.shields.io/badge/AppVersion-2.10.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Grafana Tempo Single Binary Mode
 
@@ -45,7 +45,12 @@ helm install tempo chart/
 |-----|------|---------|-------------|
 | domain | string | `"dev.bigbang.mil"` | This value will be removed in a later release as Tempo no longer has a UI |
 | istio | object | `{"authorizationPolicies":{"custom":[],"enabled":false},"enabled":false,"mtls":{"mode":"STRICT"},"serviceEntries":{"custom":[]},"sidecar":{"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}}` | Toggle istio integration. Intended to be controlled via BigBang passthrough of istio package status |
-| networkPolicies | object | `{"additionalPolicies":[],"controlPlaneCidr":"0.0.0.0/0","egress":{"from":{"tempo":{"to":{"k8s":{"monitoring/prometheus:9090":true}}}}},"enabled":false,"ingress":{"to":{"tempo:3200":{"from":{"k8s":{"kiali-service-account@kiali/kiali":true,"monitoring-grafana@monitoring/grafana":true,"monitoring-monitoring-kube-prometheus@monitoring/prometheus":true}}},"tempo:4317":{"from":{"k8s":{"alloy-alloy-logs@alloy/alloy-logs":true,"alloy-alloy-operator@alloy/alloy":true}}},"tempo:9411":{"from":{"k8s":{"*/*":true}}}}},"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
+| routes.inbound.tempo-query.enabled | bool | `false` |  |
+| routes.inbound.tempo-query.gateways[0] | string | `"istio-gateway/public-ingressgateway"` |  |
+| routes.inbound.tempo-query.hosts[0] | string | `"tempo.{{ .Values.domain }}"` |  |
+| routes.inbound.tempo-query.service | string | `"tempo-tempo"` |  |
+| routes.inbound.tempo-query.port | int | `3200` |  |
+| networkPolicies | object | `{"additionalPolicies":[],"controlPlaneCidr":"0.0.0.0/0","egress":{"from":{"tempo":{"to":{"k8s":{"monitoring/prometheus:9090":true}}}}},"enabled":false,"ingress":{"to":{"tempo:3200":{"from":{"k8s":{"kiali-service-account@kiali/kiali":true,"monitoring-grafana@monitoring/grafana":true,"monitoring-monitoring-kube-prometheus@monitoring/prometheus":true,"public-ingressgateway-ingressgateway-service-account@istio-gateway/public-ingressgateway":true}}},"tempo:4317":{"from":{"k8s":{"alloy-alloy-logs@alloy/alloy-logs":true,"alloy-alloy-operator@alloy/alloy":true}}},"tempo:9411":{"from":{"k8s":{"*/*":true}}}}},"ingressLabels":{"app":"istio-ingressgateway","istio":"ingressgateway"}}` | Toggle for BigBang specific NetworkPolicies. If disabled no NetworkPolicies will be installed with package ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/ |
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio IngressGateway labels for VirtualService external routing to app UI |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | Use `kubectl cluster-info` and then resolve to IP for kube-api. Review value description in BigBang README.md |
 | monitoring | object | `{"enabled":false}` | Toggle monitoring integration. Intended to be controlled via BigBang passthrough of monitoring package status |
