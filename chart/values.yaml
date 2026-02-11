@@ -20,6 +20,19 @@ istio:
     # STRICT = Allow only mutual TLS traffic
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
+    
+
+
+routes:
+  inbound:
+    tempo-query:
+      enabled: false   
+      gateways:
+        - istio-gateway/public-ingressgateway
+      hosts:
+        - tempo.{{ .Values.domain }}
+      service: tempo-tempo    
+      port: 3200
 
 # -- Toggle for BigBang specific NetworkPolicies.
 # If disabled no NetworkPolicies will be installed with package
@@ -38,6 +51,7 @@ networkPolicies:
       tempo:3200:
         from:
           k8s:
+            public-ingressgateway-ingressgateway-service-account@istio-gateway/public-ingressgateway: true
             kiali-service-account@kiali/kiali: true
             monitoring-grafana@monitoring/grafana: true
             monitoring-monitoring-kube-prometheus@monitoring/prometheus: true
