@@ -29,7 +29,7 @@
             "matchManagers": [
                 "helmv3",
                 "helm-values",
-                "regex"
+                "custom.regex"
             ],
             "matchFileNames": [
                 "chart/Chart.yaml",
