@@ -26,7 +26,7 @@ tempo:
     # Unencoded string data. This should be placed in the secret values and then encrypted
     accessSecret: "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
-    # -- Bucket Names for Loki as a comma delimited list.
+    # -- Bucket Name for Tempo.
     # examples: "tempo-traces"
     bucket: "bucket1"
 ```
@@ -51,7 +51,7 @@ tempo:
     # Unencoded string data. This should be placed in the secret values and then encrypted
     accessSecret: "minio-password"
 
-    # -- Bucket Names for Loki as a comma delimited list.
+    # -- Bucket Name for Tempo.
     # examples: "tempo-traces"
     bucket: "bucket1"
 

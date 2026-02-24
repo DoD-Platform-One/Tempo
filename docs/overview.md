@@ -6,7 +6,7 @@ This package contains an extensible and configurable installation of Grafana Tem
 
 ## Grafana Tempo
 
-[Tempo](https://grafana.com/docs/tempo/latest/) is an open source, easy-to-use, and high-scale distributed tracing backend. With Tempo, the only dependencyis object storage (e.g., S3, Azure Blob, etc.). Tempo can ingest common open source tracing protocols, including Jaeger, Zipkin, and OpenTelemetry.
+[Tempo](https://grafana.com/docs/tempo/latest/) is an open source, easy-to-use, and high-scale distributed tracing backend. With Tempo, the only dependency is object storage (e.g., S3, Azure Blob, etc.). Tempo can ingest common open source tracing protocols, including Jaeger, Zipkin, and OpenTelemetry.
 
 ## How it works
 
