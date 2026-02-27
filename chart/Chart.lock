@@ -1,12 +1,12 @@
 dependencies:
 - name: gluon
   repository: oci://registry1.dso.mil/bigbang
-  version: 0.9.7
+  version: 0.9.8
 - name: bb-common
   repository: oci://registry1.dso.mil/bigbang
-  version: 0.14.0
+  version: 0.14.1
 - name: tempo
-  repository: https://grafana.github.io/helm-charts
-  version: 1.24.4
-digest: sha256:9fd39828a5f748383a56811a9bb72b0a3b8726cb062536eddb94f95d5116ccf6
-generated: "2026-01-30T07:22:31.779381271Z"
+  repository: https://grafana-community.github.io/helm-charts
+  version: 1.26.5
+digest: sha256:1832000557d4297cd3cc46d5adda34cb111227ebcb7774dce90555fa619e0767
+generated: "2026-02-25T15:45:13.894458-05:00"
