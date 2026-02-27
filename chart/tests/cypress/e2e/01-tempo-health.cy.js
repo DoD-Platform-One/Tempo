@@ -10,12 +10,16 @@ describe('Tempo Test', function () {
     return false;
   });
 
-  if (Cypress.env('check_datasource')) {
-    it('Check Tempo is available as a data source in grafana ', function () {
-      cy.visit(Cypress.env('grafana_url'));
+  it('Check Tempo is available as a data source in grafana ', function () {
+    cy.env(['check_datasource', 'grafana_url']).then(({ check_datasource, grafana_url }) => {
+      if (!check_datasource) {
+        this.skip();
+      }
+
+      cy.visit(grafana_url);
       cy.performGrafanaLogin('admin', 'prom-operator')
       // Visit the datasources page
-      cy.visit(`${Cypress.env('grafana_url')}/connections/datasources`);
+      cy.visit(`${grafana_url}/connections/datasources`);
 
       // Set constant for output options to save/test data source
       const saveOutputOptions = ['Data source is working', 'Data source successfully connected', 'Successfully connected to']
@@ -30,9 +34,9 @@ describe('Tempo Test', function () {
       // Check to ensure the data source is working
       cy.get('[data-testid="data-testid Alert success"]').contains(saveOutput, { timeout: 10000 });
     });
+  });
 
-    after(function () {
-      cy.clearCookies();
-    });
-  }
+  after(function () {
+    cy.clearCookies();
+  });
 });

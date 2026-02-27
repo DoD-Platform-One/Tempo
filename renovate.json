@@ -64,7 +64,18 @@
                 "/^chart/values\\.yaml$/"
             ],
             "matchStrings": [
-                "repository:\\s*[\"']?(?<depName>[^\\s\"']+)[\"']?\\s*\\n\\s*tag:\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?"
+                "repository:\\s*[\"']?(?<depName>[^\\s\"']+)[\"']?\\s*\\n(?:\\s*#[^\\n]*\\n)*\\s*tag:\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?"
+            ],
+            "datasourceTemplate": "docker"
+        },
+        {
+            "customType": "regex",
+            "description": "Update tempo image in values.yaml (split registry/repository)",
+            "managerFilePatterns": [
+                "/^chart/values\\.yaml$/"
+            ],
+            "matchStrings": [
+                "registry:\\s*(?<registryUrl>[^\\s]+)\\s*\\n(?:\\s*#[^\\n]*\\n)*\\s*repository:\\s*(?<depName>[^\\s]+)\\s*\\n(?:\\s*#[^\\n]*\\n)*\\s*tag:\\s*[\"']?(?<currentValue>[^\\s\"']+)[\"']?"
             ],
             "datasourceTemplate": "docker"
         },
@@ -116,7 +127,7 @@
             "autoReplaceStringTemplate": "version: {{newValue}}-bb.0",
             "depNameTemplate": "tempo",
             "datasourceTemplate": "helm",
-            "registryUrlTemplate": "https://grafana.github.io/helm-charts"
+            "registryUrlTemplate": "https://grafana-community.github.io/helm-charts"
         }
     ]
 }

@@ -86,7 +86,7 @@ upgradeJob:
   name: tempo-upgrade-job
   image:
     repository: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl
-    tag: v1.34.3
+    tag: v1.34.4
     imagePullPolicy: Always
     pullSecrets: private-registry
   hook:
@@ -119,7 +119,7 @@ bbtests:
 
 # -- Toggle or openshift specific config
 openshift: false
-# -- Values to pass to [the upstream tempo chart](https://github.com/grafana/helm-charts/blob/main/charts/tempo/values.yaml)
+# -- Values to pass to [the upstream tempo chart](https://github.com/grafana/helm-charts/tree/main/charts/tempo/values.yaml)
 # @default -- Upstream chart values
 upstream:
   # -- Overrides the chart's computed fullname
@@ -139,7 +139,7 @@ upstream:
     # -- Docker image repository
     repository: ironbank/opensource/grafana/tempo
     # -- Docker image tag
-    tag: 2.10.0
+    tag: 2.10.1
     # -- Docker image pull policy
     pullPolicy: Always
 
@@ -187,7 +187,7 @@ upstream:
     # -- Docker image repository
     repository: registry1.dso.mil/ironbank/opensource/grafana/tempo-query
     # -- Docker image tag
-    tag: 2.10.0
+    tag: 2.10.1
     # -- Docker image pull policy
     pullPolicy: Always
     resources:

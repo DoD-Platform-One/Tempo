@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.26.5-bb.0] (2026-02-25)
+### Changed
+- bb-common 0.14.0 -> 0.14.1
+- gluon 0.9.7 -> 0.9.8
+- tempo chart 1.24.4 -> 1.26.5
+- registry1.dso.mil/ironbank/opensource/grafana/tempo 2.10.0 -> 2.10.1
+- registry1.dso.mil/ironbank/opensource/grafana/tempo-query 2.10.0 -> 2.10.1
+- registry1.dso.mil/ironbank/opensource/kubernetes/kubectl v1.34.3 -> v1.34.4
+
 ## [1.24.4-bb.1] (2026-02-10)
 ### Changed
 - Added tempo-query virtual service
